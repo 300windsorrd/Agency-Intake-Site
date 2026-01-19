@@ -22,7 +22,7 @@ const DarkVeil = dynamic(() => import('@/Backgrounds/DarkVeil/DarkVeil.jsx'), { 
 export default function Hero() {
   const { setCurrentBackground, getButtonColor, getButtonTextColor } = useBackground()
   const textRef = useRef<HTMLSpanElement>(null)
-  
+
   type BackgroundTextColors = {
     primary: string
     secondary: string
@@ -40,11 +40,11 @@ export default function Hero() {
   }
 
   const backgrounds: ReadonlyArray<BackgroundItem> = [
-    { 
-      key: 'orb', 
-      label: 'Orb', 
-      word: 'Fantastic', 
-      Component: Orb, 
+    {
+      key: 'orb',
+      label: 'Orb',
+      word: 'Fantastic',
+      Component: Orb,
       props: {},
       textColors: {
         primary: 'text-gray-900',
@@ -52,11 +52,11 @@ export default function Hero() {
         accent: 'text-blue-600'
       }
     },
-    { 
-      key: 'galaxy', 
-      label: 'Galaxy', 
+    {
+      key: 'galaxy',
+      label: 'Galaxy',
       word: 'Revolutionary',
-      Component: Galaxy, 
+      Component: Galaxy,
       props: {
         mouseInteraction: true,
         mouseRepulsion: true,
@@ -78,11 +78,11 @@ export default function Hero() {
         accent: 'text-gray-300'
       }
     },
-    { 
-      key: 'liquid', 
-      label: 'Liquid Chrome', 
-      word: 'Game-Changing', 
-      Component: LiquidChrome, 
+    {
+      key: 'liquid',
+      label: 'Liquid Chrome',
+      word: 'Game-Changing',
+      Component: LiquidChrome,
       props: {},
       textColors: {
         primary: 'text-black',
@@ -95,9 +95,9 @@ export default function Hero() {
       label: 'Threads',
       word: 'Customizable',
       Component: Threads,
-      props: { 
-        color: [0.2, 0.45, 1], 
-        amplitude: 2, 
+      props: {
+        color: [0.2, 0.45, 1],
+        amplitude: 2,
         distance: 0.5,
         className: 'w-full h-[220vh] -translate-y-[40vh] md:h-full md:translate-y-0'
       },
@@ -151,13 +151,13 @@ export default function Hero() {
       }
     },
   ]
-  const [bgIndex, setBgIndex] = useState(0)
+  const [bgIndex, setBgIndex] = useState(5)
   const SelectedBg = backgrounds[bgIndex].Component
   const isWhitePricing = ['galaxy', 'liquid', 'prism', 'darkveil'].includes(backgrounds[bgIndex].key)
 
   // Use the text monitoring hook to prevent periods
   useTextMonitor([bgIndex], textRef)
-  
+
   // Validate background words for periods
   useEffect(() => {
     const currentWord = backgrounds[bgIndex]?.word
@@ -174,7 +174,7 @@ export default function Hero() {
   return (
     <section className="relative py-20 lg:py-32 overflow-hidden bg-gradient-to-br from-gray-50 to-white">
       <TextCleaningStyles />
-      
+
       {/* Dynamic Background */}
       <div className="absolute inset-0 z-0 pointer-events-none" aria-hidden="true">
         {/* Defer mounting animated background until idle to improve LCP */}
@@ -204,7 +204,7 @@ export default function Hero() {
               </span>
             </h1>
             <p className={`text-xl lg:text-2xl ${backgrounds[bgIndex].textColors.secondary} max-w-3xl mx-auto leading-relaxed`}>
-              Get a custom website that converts visitors into customers. Modern, responsive designs 
+              Get a custom website that converts visitors into customers. Modern, responsive designs
               that perfectly represent your brand and drive real business results.
             </p>
           </motion.div>
@@ -213,7 +213,7 @@ export default function Hero() {
             <a
               href="#start-project"
               className="inline-flex items-center justify-center px-8 py-4 font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
-              style={({ 
+              style={({
                 backgroundColor: getButtonColor(),
                 color: getButtonTextColor(),
                 ['--tw-shadow-color' as any]: getButtonColor(),
@@ -225,11 +225,10 @@ export default function Hero() {
             </a>
             <a
               href="/pricing"
-              className={`inline-flex items-center justify-center px-8 py-4 font-semibold rounded-lg transition-all duration-200 ${
-                isWhitePricing
+              className={`inline-flex items-center justify-center px-8 py-4 font-semibold rounded-lg transition-all duration-200 ${isWhitePricing
                   ? 'bg-white text-black border border-gray-200 hover:bg-white/90 shadow-sm'
                   : 'border-2 border-gray-300 text-gray-700 hover:border-gray-400 hover:bg-gray-50'
-              }`}
+                }`}
             >
               View Pricing
             </a>
@@ -251,7 +250,7 @@ export default function Hero() {
             />
           </motion.div>
 
-          
+
         </div>
       </div>
 
@@ -269,7 +268,7 @@ function IdleBackground({ component: Component, props }: { component: any; props
   const [ready, setReady] = useState(false)
   useEffect(() => {
     if ('requestIdleCallback' in window) {
-      ;(window as any).requestIdleCallback(() => setReady(true), { timeout: 1200 })
+      ; (window as any).requestIdleCallback(() => setReady(true), { timeout: 1200 })
     } else {
       const t = setTimeout(() => setReady(true), 600)
       return () => clearTimeout(t)

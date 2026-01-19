@@ -14,7 +14,7 @@ interface BackgroundContextType {
 const BackgroundContext = createContext<BackgroundContextType | undefined>(undefined)
 
 export function BackgroundProvider({ children }: { children: ReactNode }) {
-  const [currentBackground, setCurrentBackground] = useState('orb')
+  const [currentBackground, setCurrentBackground] = useState('darkveil')
 
   const getButtonColor = () => {
     switch (currentBackground) {
