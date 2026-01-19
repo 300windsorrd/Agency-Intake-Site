@@ -1,5 +1,6 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useMotionValue, useSpring } from "motion/react";
+import Image from "next/image";
 import "./TiltedCard.css";
 
 const springValues = {
@@ -56,6 +57,30 @@ export default function TiltedCard({
   });
 
   const [lastY, setLastY] = useState(0);
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    if (!videoSrc || !videoRef.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            videoRef.current.play().catch(() => { });
+          } else {
+            videoRef.current.pause();
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    observer.observe(videoRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [videoSrc]);
 
   function handleMouse(e) {
     if (!ref.current) return;
@@ -121,26 +146,24 @@ export default function TiltedCard({
       >
         {videoSrc ? (
           <motion.video
+            ref={videoRef}
             src={videoSrc}
             className="tilted-card-img object-cover"
             style={{
               width: imageWidth,
               height: imageHeight,
             }}
-            autoPlay
             loop
             muted
             playsInline
           />
         ) : (
-          <motion.img
+          <Image
             src={imageSrc}
             alt={altText}
-            className="tilted-card-img"
-            style={{
-              width: imageWidth,
-              height: imageHeight,
-            }}
+            fill
+            className="tilted-card-img object-cover"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         )}
 
