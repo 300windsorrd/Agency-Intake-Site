@@ -1,7 +1,3 @@
-/*
-	Installed from https://reactbits.dev/default/
-*/
-
 import { useRef, useState } from "react";
 import { motion, useMotionValue, useSpring } from "motion/react";
 import "./TiltedCard.css";
@@ -14,6 +10,7 @@ const springValues = {
 
 export default function TiltedCard({
   imageSrc,
+  videoSrc,
   altText = "Tilted card image",
   captionText = "",
   containerHeight = "300px",
@@ -105,15 +102,30 @@ export default function TiltedCard({
           scale,
         }}
       >
-        <motion.img
-          src={imageSrc}
-          alt={altText}
-          className="tilted-card-img"
-          style={{
-            width: imageWidth,
-            height: imageHeight,
-          }}
-        />
+        {videoSrc ? (
+          <motion.video
+            src={videoSrc}
+            className="tilted-card-img object-cover"
+            style={{
+              width: imageWidth,
+              height: imageHeight,
+            }}
+            autoPlay
+            loop
+            muted
+            playsInline
+          />
+        ) : (
+          <motion.img
+            src={imageSrc}
+            alt={altText}
+            className="tilted-card-img"
+            style={{
+              width: imageWidth,
+              height: imageHeight,
+            }}
+          />
+        )}
 
         {displayOverlayContent && overlayContent && (
           <motion.div className="tilted-card-overlay">
