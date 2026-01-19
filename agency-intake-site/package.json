@@ -16,7 +16,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lighthouse": "lighthouse http://localhost:3000 --output=html --output-path=./lighthouse-report.html",
-    "pages:build": "npx @cloudflare/next-on-pages"
+    "pages:build": "next-on-pages"
   },
   "dependencies": {
     "@chakra-ui/react": "^3.24.2",
