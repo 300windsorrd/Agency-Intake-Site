@@ -15,8 +15,8 @@
     "test:e2e:ui": "playwright test --ui",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "pages:build": "npx @cloudflare/next-on-pages@1",
-    "lighthouse": "lighthouse http://localhost:3000 --output=html --output-path=./lighthouse-report.html"
+    "lighthouse": "lighthouse http://localhost:3000 --output=html --output-path=./lighthouse-report.html",
+    "pages:build": "npx @cloudflare/next-on-pages"
   },
   "dependencies": {
     "@chakra-ui/react": "^3.24.2",
@@ -51,6 +51,7 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
+    "@cloudflare/next-on-pages": "^1.13.16",
     "@playwright/test": "^1.42.1",
     "@testing-library/jest-dom": "^6.7.0",
     "@testing-library/react": "^16.3.0",
