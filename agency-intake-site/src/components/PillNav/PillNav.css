@@ -3,15 +3,25 @@
 */
 
 /* z-index tokens */
-:root { 
-  --z-background: 0; 
-  --z-nav: 100000; /* Increased z-index to ensure navigation is above all content */
-  --z-overlay: 9999; 
-  --z-modal: 10000; 
-  --z-mobile-nav: 200001; /* Higher than desktop nav */
+:root {
+  --z-background: 0;
+  --z-nav: 100000;
+  /* Increased z-index to ensure navigation is above all content */
+  --z-overlay: 9999;
+  --z-modal: 10000;
+  --z-mobile-nav: 200001;
+  /* Higher than desktop nav */
 }
-:root[data-theme="light"] { --hamburger-bg: #000; --hamburger-fg: #fff; }
-:root[data-theme="dark"] { --hamburger-bg: #fff; --hamburger-fg: #000; }
+
+:root[data-theme="light"] {
+  --hamburger-bg: #000;
+  --hamburger-fg: #fff;
+}
+
+:root[data-theme="dark"] {
+  --hamburger-bg: #fff;
+  --hamburger-fg: #000;
+}
 
 .pill-nav-container {
   position: fixed;
@@ -25,83 +35,7 @@
   isolation: isolate;
 }
 
-@media (max-width: 768px) {
-  .pill-nav-container {
-    width: 100%;
-    left: 0;
-    transform: none;
-    /* Ensure full width on mobile */
-    padding: 0 1rem;
-    box-sizing: border-box;
-  }
-  
-  .pill-nav {
-    left: auto;
-    transform: none;
-    width: 100%;
-    justify-content: center;
-    padding: 0 1rem;
-    background: transparent;
-    /* Ensure proper mobile layout */
-    max-width: 100%;
-    overflow: visible;
-  }
-  
-  .pill-nav-mobile { 
-    display: flex; 
-    align-items: center; 
-    z-index: var(--z-mobile-nav); /* Ensure high z-index on mobile */
-    /* Ensure mobile navigation is always visible and accessible */
-    visibility: visible !important;
-    opacity: 1 !important;
-    pointer-events: auto !important;
-  }
-  
-  .pill-hamburger { 
-    display: flex; 
-    /* Ensure hamburger button is always clickable */
-    position: relative;
-    z-index: var(--z-mobile-nav);
-  }
-  
-  .pill-mobile-menu { 
-    top: calc(var(--nav-h, 42px) + 23px); 
-    z-index: var(--z-mobile-nav); /* Ensure high z-index on mobile */
-    /* Ensure mobile menu is properly positioned and accessible */
-    left: 50%;
-    transform: translateX(-50%);
-    max-width: calc(100vw - 2rem);
-  }
-  
-  /* Force hide desktop navigation elements on mobile */
-  .pill-nav .pill-logo, 
-  .pill-nav .nav-actions,
-  .pill-nav .pill-list {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
-  }
-  
-  /* Ensure mobile navigation is always visible on mobile */
-  .pill-nav-mobile {
-    display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    pointer-events: auto !important;
-  }
-}
-
-/* Prevent any desktop navigation from showing on mobile */
-@media (max-width: 768px) {
-  .pill-nav .pill-list,
-  .pill-nav .pill-logo,
-  .pill-nav .nav-actions {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-  }
-}
+/* Cleaned up legacy media queries */
 
 .pill-nav {
   --nav-h: 46px;
@@ -132,7 +66,8 @@
   height: var(--nav-h);
   background: transparent;
   border-radius: 9999px;
-  overflow: visible; /* allow inline selector to overflow */
+  overflow: visible;
+  /* allow inline selector to overflow */
 }
 
 /* Slight vertical nudge for right actions (Customize) to align with hamburger */
@@ -151,7 +86,7 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  transition: all var(--t-med, 220ms) var(--ease, cubic-bezier(.2,.6,.2,1));
+  transition: all var(--t-med, 220ms) var(--ease, cubic-bezier(.2, .6, .2, 1));
 }
 
 .pill-logo img {
@@ -168,35 +103,66 @@
   height: 100%;
   display: block;
 }
+
 .pill-logo .logo-text {
   display: block;
   width: 100%;
   height: 100%;
 }
+
 .pill-logo .logo-img {
   position: absolute;
   inset: 0;
   opacity: 0;
   display: none;
-  transition: opacity var(--t-med, 220ms) var(--ease, cubic-bezier(.2,.6,.2,1));
+  transition: opacity var(--t-med, 220ms) var(--ease, cubic-bezier(.2, .6, .2, 1));
 }
+
 /* Theme filtering */
-:root[data-theme="dark"] .pill-logo .logo-img.is-dark { display: block; }
-:root[data-theme="dark"] .pill-logo .logo-img.is-light { display: none; }
-:root[data-theme="light"] .pill-logo .logo-img.is-dark { display: none; }
-:root[data-theme="light"] .pill-logo .logo-img.is-light { display: block; }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) .pill-logo .logo-img.is-dark { display: block; }
-  :root:not([data-theme]) .pill-logo .logo-img.is-light { display: none; }
+:root[data-theme="dark"] .pill-logo .logo-img.is-dark {
+  display: block;
 }
+
+:root[data-theme="dark"] .pill-logo .logo-img.is-light {
+  display: none;
+}
+
+:root[data-theme="light"] .pill-logo .logo-img.is-dark {
+  display: none;
+}
+
+:root[data-theme="light"] .pill-logo .logo-img.is-light {
+  display: block;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .pill-logo .logo-img.is-dark {
+    display: block;
+  }
+
+  :root:not([data-theme]) .pill-logo .logo-img.is-light {
+    display: none;
+  }
+}
+
 @media (prefers-color-scheme: light) {
-  :root:not([data-theme]) .pill-logo .logo-img.is-dark { display: none; }
-  :root:not([data-theme]) .pill-logo .logo-img.is-light { display: block; }
+  :root:not([data-theme]) .pill-logo .logo-img.is-dark {
+    display: none;
+  }
+
+  :root:not([data-theme]) .pill-logo .logo-img.is-light {
+    display: block;
+  }
 }
 
 /* Default to normal state visible */
-.pill-logo .logo-img.state-normal { opacity: 1; }
-.pill-logo .logo-img.state-hover { opacity: 0; }
+.pill-logo .logo-img.state-normal {
+  opacity: 1;
+}
+
+.pill-logo .logo-img.state-hover {
+  opacity: 0;
+}
 
 /* Hover: expand, morph, and swap image */
 .pill-logo:hover {
@@ -204,8 +170,14 @@
   height: calc(var(--nav-h) + 10px);
   border-radius: 20px;
 }
-.pill-logo:hover .logo-img.state-normal { opacity: 0; }
-.pill-logo:hover .logo-img.state-hover { opacity: 1; }
+
+.pill-logo:hover .logo-img.state-normal {
+  opacity: 0;
+}
+
+.pill-logo:hover .logo-img.state-hover {
+  opacity: 1;
+}
 
 .pill-list {
   list-style: none;
@@ -215,7 +187,8 @@
   margin: 0;
   padding: 3px;
   height: 100%;
-  overflow: visible; /* allow inline selector to overflow */
+  overflow: visible;
+  /* allow inline selector to overflow */
 }
 
 /* Left slot container for theme toggle */
@@ -225,10 +198,11 @@
   margin-left: 8px;
   margin-right: 8px;
   position: relative;
-  top: 4px; /* nudge down to align with hamburger */
+  top: 4px;
+  /* nudge down to align with hamburger */
 }
 
-.pill-list > li {
+.pill-list>li {
   display: flex;
   height: 100%;
 }
@@ -402,17 +376,19 @@
 }
 
 /* PillNavNext mobile aliases (ensure mobile menu appears on small screens) */
-.pill-nav-mobile { 
-  display: none; 
-  position: fixed; 
-  top: 10px; 
-  left: 50%; 
-  transform: translateX(-50%); 
-  z-index: var(--z-mobile-nav); /* Use higher z-index than desktop nav */
+.pill-nav-mobile {
+  display: none;
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: var(--z-mobile-nav);
+  /* Use higher z-index than desktop nav */
   /* Ensure mobile navigation is always accessible */
   pointer-events: auto;
   isolation: isolate;
 }
+
 .pill-hamburger {
   width: var(--nav-h);
   height: var(--nav-h);
@@ -430,15 +406,18 @@
   position: relative;
   z-index: var(--z-mobile-nav);
 }
-.pill-hamburger:focus-visible { 
-  outline: 2px solid currentColor; 
-  outline-offset: 2px; 
+
+.pill-hamburger:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
 }
+
 .pill-hamburger:hover {
   /* Ensure hover state is visible */
   opacity: 0.8;
   transform: scale(1.05);
 }
+
 .pill-mobile-menu {
   position: fixed;
   top: calc(var(--nav-h, 42px) + 8px);
@@ -447,7 +426,8 @@
   background: transparent;
   border-radius: 9999px;
   box-shadow: none;
-  z-index: var(--z-mobile-nav); /* Use higher z-index than desktop nav */
+  z-index: var(--z-mobile-nav);
+  /* Use higher z-index than desktop nav */
   width: max-content;
   max-width: calc(100vw - 20px);
   overflow: hidden;
@@ -456,6 +436,7 @@
   pointer-events: auto;
   isolation: isolate;
 }
+
 .pill-mobile-list {
   list-style: none;
   margin: 0;
@@ -465,6 +446,7 @@
   align-items: center;
   gap: 3px;
 }
+
 .pill-mobile-link {
   display: inline-flex;
   align-items: center;
@@ -478,145 +460,124 @@
   border-radius: 9999px;
   transition: all 0.2s ease;
 }
+
 .pill-mobile-link:hover {
   cursor: pointer;
   background-color: var(--base);
   color: var(--hover-text, #fff);
 }
+
+/* Mobile & Tablet Styles (<= 768px) */
 @media (max-width: 768px) {
-  .pill-nav-mobile { 
-    display: flex; 
-    align-items: center; 
-    z-index: var(--z-mobile-nav); /* Ensure high z-index on mobile */
-  }
-  .pill-hamburger { display: flex; }
-  .pill-mobile-menu { 
-    top: calc(var(--nav-h, 42px) + 23px); 
-    z-index: var(--z-mobile-nav); /* Ensure high z-index on mobile */
-  }
-  
-  /* Force hide desktop navigation elements on mobile */
-  .pill-nav .pill-logo, 
-  .pill-nav .nav-actions,
-  .pill-nav .pill-list {
-    display: none !important;
-  }
-  
-  /* Ensure mobile navigation is always visible on mobile */
-  .pill-nav-mobile {
-    display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-  }
-}
 
-/* Ensure all navigation elements are clickable and accessible */
-.pill-nav * {
-  pointer-events: auto;
-}
-
-.pill-nav a,
-.pill-nav button,
-.pill-nav .pill-logo {
-  cursor: pointer;
-  position: relative;
-  z-index: 1;
-}
-
-/* Ensure pill navigation items are always clickable */
-.pill {
-  position: relative;
-  z-index: 1;
-  cursor: pointer;
-  /* Ensure proper touch targets on mobile */
-  min-height: 44px;
-  min-width: 44px;
-}
-
-/* Ensure mobile navigation elements are always accessible */
-.pill-nav-mobile * {
-  pointer-events: auto;
-}
-
-.pill-mobile-link {
-  /* Ensure proper touch targets on mobile */
-  min-height: 44px;
-  min-width: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* Ensure links are always clickable */
-  position: relative;
-  z-index: 1;
-  cursor: pointer;
-}
-
-/* Ensure focus states are visible for accessibility */
-.pill:focus-visible,
-.pill-hamburger:focus-visible,
-.pill-mobile-link:focus-visible {
-  outline: 2px solid var(--focus, #005fcc);
-  outline-offset: 2px;
-  border-radius: inherit;
-}
-
-/* Ensure hover states work properly */
-.pill:hover,
-.pill-mobile-link:hover {
-  transform: translateY(-1px);
-  transition: transform 0.2s ease;
-}
-
-/* Ensure navigation is always visible and accessible */
-.pill-nav-container {
-  /* Prevent any hiding or interference */
-  visibility: visible !important;
-  opacity: 1 !important;
-  display: block !important;
-  /* Ensure proper stacking context */
-  transform-style: preserve-3d;
-  /* Prevent any clipping */
-  overflow: visible;
-}
-
-/* Ensure navigation elements are never hidden */
-.pill-nav,
-.pill-nav-mobile {
-  visibility: visible !important;
-  opacity: 1 !important;
-  display: flex !important;
-  /* Ensure proper stacking context */
-  transform-style: preserve-3d;
-  /* Prevent any clipping */
-  overflow: visible;
-}
-
-/* Ensure mobile navigation is always accessible on mobile */
-@media (max-width: 768px) {
+  /* 1. Container & Positioning */
   .pill-nav-container {
-    /* Force visibility on mobile */
-    visibility: visible !important;
-    opacity: 1 !important;
-    display: block !important;
-    /* Ensure proper mobile positioning */
-    position: fixed !important;
-    top: 10px !important;
+    width: 100% !important;
     left: 0 !important;
     right: 0 !important;
     transform: none !important;
-    width: 100% !important;
+    padding: 0 1rem;
+    box-sizing: border-box;
+    position: fixed !important;
+    top: 10px !important;
     z-index: var(--z-mobile-nav) !important;
+    pointer-events: none;
+    /* Let clicks pass through container to body by default */
   }
-  
+
+  .pill-nav {
+    width: 100%;
+    justify-content: center;
+    padding: 0;
+    background: transparent;
+    max-width: 100%;
+    border-radius: 0;
+    pointer-events: none;
+  }
+
+  /* 2. Strict Hiding of Desktop Elements */
+  .pill-nav .pill-logo,
+  .pill-nav .nav-actions,
+  .pill-nav .pill-list,
+  .pill-nav-items,
+  .desktop-only {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
+
+  /* 3. Mobile Navigation Visibility */
   .pill-nav-mobile {
-    /* Force visibility on mobile */
+    display: flex !important;
     visibility: visible !important;
     opacity: 1 !important;
-    display: flex !important;
-    /* Ensure proper mobile positioning */
-    position: relative !important;
-    width: 100% !important;
-    justify-content: center !important;
     z-index: var(--z-mobile-nav) !important;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    pointer-events: auto;
+    /* Re-enable pointer events for the mobile nav */
+  }
+
+  /* 4. Hamburger Button */
+  .pill-hamburger {
+    display: flex !important;
+    visibility: visible !important;
+    position: relative;
+    /* Keep it in flow of flex container */
+    pointer-events: auto;
+    background: var(--hamburger-bg, var(--base, #000));
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  /* 5. Mobile Menu (The Popup) */
+  .pill-mobile-menu {
+    display: flex !important;
+    /* Ensure it can be shown */
+    visibility: hidden;
+    /* Hidden by default until toggled via JS/GSAP */
+    position: fixed;
+    top: calc(var(--nav-h, 42px) + 20px);
+    left: 50%;
+    transform: translateX(-50%) scale(0.96);
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    width: max-content;
+    max-width: calc(100vw - 32px);
+    /* Safety margin */
+    pointer-events: auto;
+    z-index: var(--z-mobile-nav);
+  }
+
+  /* 6. Mobile List (The items inside) */
+  .pill-mobile-list {
+    display: flex;
+    flex-wrap: wrap;
+    /* WRAP items if they overflow */
+    justify-content: center;
+    /* Center the wrapped items */
+    gap: 6px;
+    /* Slightly larger gap for touch targets */
+    padding: 4px;
+    width: 100%;
+  }
+
+  /* 7. Mobile Links */
+  .pill-mobile-link {
+    white-space: nowrap;
+    flex: 0 0 auto;
+    /* Don't shrink */
+    font-size: 14px;
+    /* Slightly smaller font to fit more */
+    padding: 8px 14px;
+    min-height: 40px;
+    /* Comfortable touch target */
   }
 }

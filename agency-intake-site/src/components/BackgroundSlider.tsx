@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useMemo, useEffect, useState } from 'react'
 import { useBackground } from '@/contexts/BackgroundContext'
 import GradientText from '@/TextAnimations/GradientText/GradientText'
@@ -28,18 +28,17 @@ interface BackgroundSliderProps {
   }
 }
 
-export default function BackgroundSlider({ 
-  value, 
-  onChange, 
-  max, 
-  labels, 
-  textColors 
+export default function BackgroundSlider({
+  value,
+  onChange,
+  max,
+  labels,
+  textColors
 }: BackgroundSliderProps) {
   const { getButtonColor, getButtonTextColor } = useBackground()
 
   const buttonColor = getButtonColor()
   const buttonTextColor = getButtonTextColor()
-  const inactiveClass = 'text-gray-700'
 
   // Important: don't read from document during initial render to avoid SSR/CSR mismatch
   const [isDark, setIsDark] = useState<boolean>(false)
@@ -61,43 +60,91 @@ export default function BackgroundSlider({
   }, [value, max])
 
   return (
-    <div className="w-full max-w-2xl mx-auto">
-      <div className="relative rounded-2xl bg-white/95 shadow-2xl ring-1 ring-black/5 p-5" data-background-customization="true">
-        {/* Theme toggle in top-right of the box */}
-        <div className="absolute right-3 top-3">
+    <div className="w-full max-w-3xl mx-auto px-4">
+      <motion.div
+        className="relative rounded-3xl backdrop-blur-xl border border-white/20 shadow-2xl overflow-hidden"
+        style={{
+          backgroundColor: isDark ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.6)',
+        }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+      >
+        {/* Decorative background glow */}
+        <div
+          className="absolute inset-0 pointer-events-none opacity-20"
+          style={{
+            background: `radial-gradient(circle at 50% 0%, ${buttonColor}, transparent 70%)`
+          }}
+        />
+
+        {/* Theme toggle in top-right */}
+        <div className="absolute right-4 top-4 z-10">
           <ThemeToggle />
         </div>
-        <div className="flex items-center justify-center mb-4">
-          <div className={`${fredoka.className} text-xl sm:text-2xl font-extrabold ${textColors.slider || textColors.secondary} text-center`}>
-            <GradientText animationSpeed={6}>Customize Background</GradientText>
+
+        <div className="relative p-6 sm:p-8">
+          <div className="flex flex-col items-center justify-center mb-8">
+            <div className={`${fredoka.className} text-2xl sm:text-3xl font-extrabold mb-2 text-center`}>
+              <GradientText animationSpeed={6}>Customize Background</GradientText>
+            </div>
+            <p className={`text-sm sm:text-base font-medium opacity-80 ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+              Choose the perfect atmosphere
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+            {labels.map((label, index) => {
+              const isActive = index === clampedValue
+              return (
+                <motion.button
+                  key={index}
+                  type="button"
+                  onClick={() => onChange(index)}
+                  className="relative group overflow-hidden rounded-xl p-3 text-sm font-semibold transition-all duration-300"
+                  style={{
+                    backgroundColor: isActive
+                      ? (isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)')
+                      : 'transparent',
+                    color: isDark ? '#fff' : '#1f2937'
+                  }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  {/* Active Background Fill with Gradient */}
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeBackground"
+                      className="absolute inset-0 opacity-100"
+                      style={{ backgroundColor: buttonColor }}
+                      initial={false}
+                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    />
+                  )}
+
+                  {/* Border for inactive items */}
+                  {!isActive && (
+                    <div className={`absolute inset-0 border-2 border-transparent group-hover:border-gray-300/50 rounded-xl transition-colors ${isDark ? 'group-hover:border-white/20' : ''}`} />
+                  )}
+
+                  <span className="relative z-10 flex items-center justify-center gap-2"
+                    style={{ color: isActive ? buttonTextColor : 'inherit' }}
+                  >
+                    {label}
+                    {isActive && (
+                      <motion.span
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        className="w-1.5 h-1.5 rounded-full bg-current"
+                      />
+                    )}
+                  </span>
+                </motion.button>
+              )
+            })}
           </div>
         </div>
-
-        <div className="flex flex-wrap gap-2 justify-center">
-          {labels.map((label, index) => {
-            const isActive = index === clampedValue
-            return (
-              <motion.button
-                key={index}
-                type="button"
-                onClick={() => onChange(index)}
-                className={`px-3.5 py-2 rounded-full text-sm font-medium border transition-all duration-200 ${isActive ? 'shadow-lg' : 'hover:shadow'} ${isActive ? '' : 'border-gray-300'}`}
-                style={isActive ? (isDark 
-                  ? { backgroundColor: '#000', color: '#fff', borderColor: '#000' } 
-                  : { backgroundColor: buttonColor, color: buttonTextColor, borderColor: buttonColor }
-                ) : {}}
-                aria-pressed={isActive}
-                data-background-customization="true"
-                data-background={label.toLowerCase().replace(/\s+/g, '-')}
-                whileHover={isActive ? { scale: 1.03 } : { scale: 1.05, y: -1 }}
-                whileTap={{ scale: 0.97 }}
-              >
-                <span className={isActive ? '' : `${inactiveClass}`}>{label}</span>
-              </motion.button>
-            )
-          })}
-        </div>
-      </div>
+      </motion.div>
     </div>
   )
 }

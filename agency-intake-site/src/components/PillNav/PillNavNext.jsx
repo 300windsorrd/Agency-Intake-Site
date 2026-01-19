@@ -1,5 +1,5 @@
 /*
-	Modified from https://reactbits.dev/default/ for Next.js compatibility
+  Modified from https://reactbits.dev/default/ for Next.js compatibility
 */
 
 import { useEffect, useRef, useState } from "react";
@@ -150,7 +150,7 @@ const PillNav = ({
     window.addEventListener("resize", onResize);
 
     if (document.fonts?.ready) {
-      document.fonts.ready.then(layout).catch(() => {});
+      document.fonts.ready.then(layout).catch(() => { });
     }
 
     const menu = mobileMenuRef.current;
@@ -186,18 +186,18 @@ const PillNav = ({
 
   useEffect(() => {
     setIsMounted(true);
-    
+
     // Detect mobile viewport
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 768);
     };
-    
+
     // Initial check
     checkMobile();
-    
+
     // Listen for resize events
     window.addEventListener('resize', checkMobile);
-    
+
     return () => {
       window.removeEventListener('resize', checkMobile);
     };
@@ -241,17 +241,17 @@ const PillNav = ({
     const handleClickOutside = (event) => {
       const hamburger = hamburgerRef.current;
       const menu = mobileMenuRef.current;
-      
+
       // Don't close if clicking on the hamburger button itself
       if (hamburger && hamburger.contains(event.target)) {
         return;
       }
-      
+
       // Don't close if clicking inside the mobile menu
       if (menu && menu.contains(event.target)) {
         return;
       }
-      
+
       // Close the menu if clicking outside
       setIsMobileMenuOpen(false);
     };
@@ -280,7 +280,7 @@ const PillNav = ({
     };
 
     document.addEventListener('keydown', handleEscapeKey);
-    
+
     return () => {
       document.removeEventListener('keydown', handleEscapeKey);
     };
@@ -294,11 +294,11 @@ const PillNav = ({
       // Check if the click is on a background customization element
       const target = event.target;
       const isBackgroundButton = target.closest('[data-background-customization]') ||
-                                target.closest('.background-slider') ||
-                                target.closest('[data-background]') ||
-                                target.closest('.style-selector') ||
-                                target.closest('.theme-toggle');
-      
+        target.closest('.background-slider') ||
+        target.closest('[data-background]') ||
+        target.closest('.style-selector') ||
+        target.closest('.theme-toggle');
+
       if (isBackgroundButton) {
         // Close the mobile menu when background customization is clicked
         forceCloseMobileMenu();
@@ -319,9 +319,9 @@ const PillNav = ({
   // Force close mobile menu function for external use
   const forceCloseMobileMenu = () => {
     if (!isMobileMenuOpen) return;
-    
+
     setIsMobileMenuOpen(false);
-    
+
     // Reset hamburger button state
     const hamburger = hamburgerRef.current;
     if (hamburger) {
@@ -333,7 +333,7 @@ const PillNav = ({
         gsap.set(lines[1], { rotation: 0, y: 0 });
       }
     }
-    
+
     // Reset menu state
     const menu = mobileMenuRef.current;
     if (menu) {
@@ -377,13 +377,14 @@ const PillNav = ({
     });
   };
 
+  // [Modified] Toggle animation for wrapped menu
   const toggleMobileMenu = () => {
     const newState = !isMobileMenuOpen;
-    
+
     // Prevent rapid toggling that could cause state inconsistencies
     if (newState && isMobileMenuOpen) return;
     if (!newState && !isMobileMenuOpen) return;
-    
+
     setIsMobileMenuOpen(newState);
 
     const hamburger = hamburgerRef.current;
@@ -393,11 +394,10 @@ const PillNav = ({
     if (hamburger) {
       const lines = hamburger.querySelectorAll(".hamburger-line");
       if (!lines || lines.length < 2) return;
-      
-      // Kill any existing animations to prevent conflicts
+
       gsap.killTweensOf(lines[0]);
       gsap.killTweensOf(lines[1]);
-      
+
       if (newState) {
         gsap.to(lines[0], { rotation: 45, y: 3, duration: 0.3, ease, overwrite: "auto" });
         gsap.to(lines[1], { rotation: -45, y: -3, duration: 0.3, ease, overwrite: "auto" });
@@ -409,56 +409,37 @@ const PillNav = ({
 
     if (menu) {
       if (newState) {
-        gsap.set(menu, { visibility: "visible", scale: 0.9, opacity: 0, transformOrigin: "center center" });
-        gsap.to(menu, { opacity: 1, scale: 1, duration: 0.22, ease, overwrite: "auto" });
+        // Prepare state
+        gsap.set(menu, { visibility: "visible", scale: 0.92, opacity: 0, transformOrigin: "top center" });
+        gsap.to(menu, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(1.2)", overwrite: "auto" });
 
-        // Animate links from center out
+        // Stagger in links
         if (list) {
           const links = list.querySelectorAll(".pill-mobile-link");
           if (links && links.length) {
-            gsap.set(links, { opacity: 0, y: 8, scale: 0.96 });
-            const centerIndex = Math.floor(links.length / 2);
-            links.forEach((el, i) => {
-              gsap.to(el, {
-                opacity: 1,
-                y: 0,
-                scale: 1,
-                duration: 0.24,
-                ease,
-                delay: Math.abs(i - centerIndex) * 0.045,
-                overwrite: "auto",
-              });
+            gsap.set(links, { opacity: 0, y: 5, scale: 0.95 });
+            gsap.to(links, {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.25,
+              stagger: 0.03, // Simple stagger for wrapped items
+              ease: "power2.out",
+              overwrite: "auto",
             });
           }
         }
       } else {
-        // Animate links center-out on close, then fade the menu
-        if (list) {
-          const links = list.querySelectorAll(".pill-mobile-link");
-          if (links && links.length) {
-            const centerIndex = Math.floor(links.length / 2);
-            links.forEach((el, i) => {
-              gsap.to(el, {
-                opacity: 0,
-                y: 8,
-                scale: 0.96,
-                duration: 0.16,
-                ease,
-                delay: Math.abs(i - centerIndex) * 0.03,
-                overwrite: "auto",
-              });
-            });
-          }
-        }
+        // Animate out
         gsap.to(menu, {
           opacity: 0,
-          scale: 0.96,
-          duration: 0.18,
-          ease,
-          transformOrigin: "center center",
+          scale: 0.92,
+          duration: 0.2,
+          ease: "power2.in",
           onComplete: () => {
             gsap.set(menu, { visibility: "hidden" });
           },
+          overwrite: "auto"
         });
       }
     }
@@ -484,23 +465,23 @@ const PillNav = ({
   };
 
   const containerStyle = sticky
-    ? { 
-        position: 'fixed',
-        top: `${topOffset}px`,
-        left: '50%',
-        transform: 'translateX(-50%)',
-        zIndex: 'var(--z-nav)',
-        width: 'max-content'
-      }
-    : { 
-        position: 'static', 
-        top: 'auto', 
-        left: 'auto', 
-        transform: 'none', 
-        margin: '0 auto', 
-        width: 'max-content', 
-        marginTop: `${topOffset}px` 
-      }
+    ? {
+      position: 'fixed',
+      top: `${topOffset}px`,
+      left: '50%',
+      transform: 'translateX(-50%)',
+      zIndex: 'var(--z-nav)',
+      width: 'max-content'
+    }
+    : {
+      position: 'static',
+      top: 'auto',
+      left: 'auto',
+      transform: 'none',
+      margin: '0 auto',
+      width: 'max-content',
+      marginTop: `${topOffset}px`
+    }
 
   return (
     <div className={`pill-nav-container${isMobileMenuOpen ? " menu-open" : ""}`} style={containerStyle}>
@@ -579,7 +560,7 @@ const PillNav = ({
                       onMouseEnter={() => handleEnter(i)}
                       onMouseLeave={() => handleLeave(i)}
                       tabIndex={0}
-                      style={activeHref === item.href ? { 
+                      style={activeHref === item.href ? {
                         backgroundColor: getButtonColor(),
                         color: '#ffffff'
                       } : {}}
@@ -608,7 +589,7 @@ const PillNav = ({
                       onMouseEnter={() => handleEnter(i)}
                       onMouseLeave={() => handleLeave(i)}
                       tabIndex={0}
-                      style={activeHref === item.href ? { 
+                      style={activeHref === item.href ? {
                         backgroundColor: getButtonColor(),
                         color: '#ffffff'
                       } : {}}
@@ -673,9 +654,8 @@ const PillNav = ({
                       {isRouterLink(item.href) ? (
                         <Link
                           href={item.href}
-                          className={`pill-mobile-link${
-                            activeHref === item.href ? " is-active" : ""
-                          }`}
+                          className={`pill-mobile-link${activeHref === item.href ? " is-active" : ""
+                            }`}
                           aria-label={item.ariaLabel || item.label}
                           aria-current={activeHref === item.href ? "page" : undefined}
                           role="menuitem"
@@ -687,9 +667,8 @@ const PillNav = ({
                       ) : (
                         <a
                           href={item.href}
-                          className={`pill-mobile-link${
-                            activeHref === item.href ? " is-active" : ""
-                          }`}
+                          className={`pill-mobile-link${activeHref === item.href ? " is-active" : ""
+                            }`}
                           aria-label={item.ariaLabel || item.label}
                           aria-current={activeHref === item.href ? "page" : undefined}
                           role="menuitem"

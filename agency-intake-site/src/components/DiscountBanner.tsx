@@ -35,7 +35,7 @@ export default function DiscountBanner({ config }: { config: DiscountBannerConfi
     try {
       const v = localStorage.getItem(storageKey)
       if (v === '1') setVisible(false)
-    } catch {}
+    } catch { }
   }, [config.dismissible])
 
   useEffect(() => {
@@ -61,9 +61,10 @@ export default function DiscountBanner({ config }: { config: DiscountBannerConfi
       <div
         className="relative overflow-hidden rounded-xl mt-4 mb-6"
         style={{
-          background: `linear-gradient(120deg, ${bg}, ${bg}cc)`,
-          color: txt,
-          boxShadow: '0 10px 30px rgba(0,0,0,.12)'
+          background: `linear-gradient(135deg, #18181b 0%, #09090b 100%)`,
+          color: '#ffffff',
+          boxShadow: '0 10px 30px rgba(0,0,0,0.15)',
+          border: '1px solid rgba(255,255,255,0.1)'
         }}
         role="region"
         aria-label="Discount banner"
@@ -94,7 +95,7 @@ export default function DiscountBanner({ config }: { config: DiscountBannerConfi
               <a
                 href={config.ctaHref || '/start'}
                 className="inline-flex items-center px-4 py-2 rounded-lg font-semibold whitespace-nowrap ring-1 ring-white/40 hover:ring-white/60 transition"
-                style={{ color: txt, backgroundColor: 'transparent' }}
+                style={{ color: '#fff', backgroundColor: 'rgba(255,255,255,0.1)' }}
               >
                 {config.ctaLabel || 'Claim Discount'}
                 <ArrowRight className="w-4 h-4 ml-2" aria-hidden="true" />
@@ -106,9 +107,9 @@ export default function DiscountBanner({ config }: { config: DiscountBannerConfi
                   className="p-2 rounded-md hover:bg-white/10 transition"
                   onClick={() => {
                     setVisible(false)
-                    try { localStorage.setItem(storageKey, '1') } catch {}
+                    try { localStorage.setItem(storageKey, '1') } catch { }
                   }}
-                  style={{ color: txt }}
+                  style={{ color: '#fff' }}
                 >
                   <X className="w-4 h-4" aria-hidden="true" />
                 </button>

@@ -5,11 +5,16 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { simpleIntakeSchema, type SimpleIntake } from '@/lib/simple-intake.schema'
 import { submitSimpleIntake } from '@/lib/supabase'
+import { motion } from 'framer-motion'
+import { useBackground } from '@/contexts/BackgroundContext'
 
 export default function SimpleIntakeForm() {
 	const [isSubmitting, setIsSubmitting] = useState(false)
 	const [message, setMessage] = useState<string | null>(null)
 	const tokenRef = useRef<string>('')
+	const { getButtonColor, getButtonTextColor } = useBackground()
+	const buttonColor = getButtonColor()
+	const buttonTextColor = getButtonTextColor()
 
 	const { register, handleSubmit, formState: { errors, isValid }, setValue, watch, trigger } = useForm<SimpleIntake>({
 		resolver: zodResolver(simpleIntakeSchema),
@@ -37,10 +42,10 @@ export default function SimpleIntakeForm() {
 			await new Promise<void>((resolve) => {
 				const container = document.getElementById('turnstile-container')
 				if (!container) return resolve()
-				;(window as any).turnstile.render('#turnstile-container', {
-					sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
-					callback: (t: string) => { tokenRef.current = t; resolve() }
-				})
+					; (window as any).turnstile.render('#turnstile-container', {
+						sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
+						callback: (t: string) => { tokenRef.current = t; resolve() }
+					})
 			})
 			token = tokenRef.current
 		}
@@ -84,7 +89,7 @@ export default function SimpleIntakeForm() {
 				<div>
 					<span className="block text-sm font-medium text-gray-700 mb-2">My role there is*</span>
 					<div className="flex flex-wrap gap-2">
-						{(['owner','manager','employee','investor','other'] as const).map(v => (
+						{(['owner', 'manager', 'employee', 'investor', 'other'] as const).map(v => (
 							<button type="button" key={v} onClick={() => setValue('role', v, { shouldValidate: true })}
 								className={pill(role === v)}>{v[0].toUpperCase() + v.slice(1)}</button>
 						))}
@@ -93,33 +98,33 @@ export default function SimpleIntakeForm() {
 
 				<div>
 					<label className="block text-sm font-medium text-gray-700">Feel free to contact me at*</label>
-					<input 
+					<input
 						{...register('email', {
 							onBlur: () => trigger('email')
-						})} 
-						type="email" 
-						className="mt-2 w-full rounded-md border-gray-300 focus:ring-2 focus:ring-gray-900" 
-						placeholder="jane@acme.com" 
+						})}
+						type="email"
+						className="mt-2 w-full rounded-md border-gray-300 focus:ring-2 focus:ring-gray-900"
+						placeholder="jane@acme.com"
 					/>
 					{errors.email && <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>}
 				</div>
 
 				<div>
 					<label className="block text-sm font-medium text-gray-700">Phone number*</label>
-					<input 
+					<input
 						{...register('phone', {
 							onBlur: () => trigger('phone')
-						})} 
-						type="tel" 
-						className="mt-2 w-full rounded-md border-gray-300 focus:ring-2 focus:ring-gray-900" 
-						placeholder="(555) 123-4567" 
+						})}
+						type="tel"
+						className="mt-2 w-full rounded-md border-gray-300 focus:ring-2 focus:ring-gray-900"
+						placeholder="(555) 123-4567"
 					/>
 					{errors.phone && <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>}
 				</div>
 
 				<div>
 					<span className="block text-sm font-medium text-gray-700 mb-2">I would like to get an answer*</span>
-					<div className="flex gap-2">
+					<div className="flex flex-wrap gap-2">
 						<button type="button" onClick={() => setValue('urgency', 'soon', { shouldValidate: true })} className={pill(urgency === 'soon')}>Soon</button>
 						<button type="button" onClick={() => setValue('urgency', 'no_rush', { shouldValidate: true })} className={pill(urgency === 'no_rush')}>No Rush</button>
 					</div>
@@ -127,10 +132,32 @@ export default function SimpleIntakeForm() {
 
 				<div id="turnstile-container" className="hidden" />
 
-				<button type="submit" disabled={!isValid || isSubmitting}
-					className="w-full inline-flex items-center justify-center rounded-md bg-gray-900 px-4 py-2 text-white font-medium hover:bg-black disabled:opacity-50">
-					{isSubmitting ? 'Submitting…' : 'Submit'}
-				</button>
+				<motion.button
+					type="submit"
+					disabled={!isValid || isSubmitting}
+					className="w-full inline-flex items-center justify-center rounded-xl px-6 py-4 text-lg font-bold shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+					style={{
+						backgroundColor: buttonColor,
+						color: buttonTextColor,
+					}}
+					whileHover={{ scale: 1.02, filter: 'brightness(1.1)' }}
+					whileTap={{ scale: 0.98 }}
+					initial={{ opacity: 0.9 }}
+					animate={{
+						opacity: 1,
+						boxShadow: `0 10px 30px -10px ${buttonColor}` // Glow effect based on theme
+					}}
+				>
+					{isSubmitting ? (
+						<span className="flex items-center gap-2">
+							<svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+								<circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle>
+								<path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+							</svg>
+							Submitting...
+						</span>
+					) : 'Get Started Now'}
+				</motion.button>
 
 				<p className="text-xs text-gray-500">By submitting, you agree to be contacted about your inquiry.</p>
 				{message && <p className="text-sm mt-2">{message}</p>}
