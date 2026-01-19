@@ -12,7 +12,7 @@
   justify-content: center;
   border-radius: 1.25rem;
   font-weight: 500;
-  backdrop-filter: blur(10px);
+  background-color: transparent;
   transition: box-shadow 0.5s ease-out;
   overflow: hidden;
   cursor: pointer;
