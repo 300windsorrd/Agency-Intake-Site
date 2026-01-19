@@ -25,7 +25,6 @@ interface LayoutPickerProps {
 const COLLAPSE_AFTER_MS = 2000 // Increased slightly to allow user to admire selection
 
 export default function LayoutPicker({ current, onPick }: LayoutPickerProps) {
-	console.log('LayoutPicker render:', current)
 	const { getButtonColor, getButtonTextColor } = useBackground()
 	const [expanded, setExpanded] = useState(false)
 	const collapseTimerRef = useRef<number | null>(null)
@@ -126,7 +125,7 @@ export default function LayoutPicker({ current, onPick }: LayoutPickerProps) {
 								</p>
 							</div>
 
-							<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+							<div key={current} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 								{options.map((opt) => {
 									const isActive = opt.value === current
 									const Icon = opt.Icon
@@ -141,10 +140,11 @@ export default function LayoutPicker({ current, onPick }: LayoutPickerProps) {
 										>
 											{isActive && (
 												<motion.div
-													layoutId="activeLayoutBorder"
 													className="absolute inset-0 rounded-2xl border-2"
 													style={{ borderColor: buttonColor }}
-													transition={{ type: "spring", stiffness: 300, damping: 30 }}
+													initial={{ opacity: 0 }}
+													animate={{ opacity: 1 }}
+													transition={{ duration: 0.2 }}
 												/>
 											)}
 
