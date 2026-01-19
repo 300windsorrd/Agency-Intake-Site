@@ -1,4 +1,4 @@
- 'use client'
+'use client'
 
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
@@ -26,7 +26,7 @@ const Navigation = ({ className = '' }: NavigationProps) => {
   // Navigation items
   const navItems = [
     { href: '/', label: 'Home' },
-    { href: '/about', label: 'About Us' },
+    { href: '/test-portfolio', label: 'Portfolio' },
     { href: '/pricing', label: 'Pricing' },
     { href: '/start', label: 'Get Started' }
   ]
@@ -84,7 +84,7 @@ const Navigation = ({ className = '' }: NavigationProps) => {
     <LayoutGroup id="nav-customize">
       <PillNav
         logo={(<LogoSwap />) as unknown as string}
-        logoHref="/about"
+        logoHref="/"
         items={navItems.map(item => ({
           href: item.href,
           label: item.label
@@ -95,7 +95,7 @@ const Navigation = ({ className = '' }: NavigationProps) => {
         pillTextColor={getNavigationTextColor()}
         hoveredPillTextColor="#1f2937"
         className={className}
-        onMobileMenuClick={() => {}}
+        onMobileMenuClick={() => { }}
         slotItem={null}
         slotIndex={undefined}
         leftSlot={null}
