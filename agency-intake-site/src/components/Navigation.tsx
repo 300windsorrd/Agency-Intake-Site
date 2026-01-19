@@ -26,7 +26,7 @@ const Navigation = ({ className = '' }: NavigationProps) => {
   // Navigation items
   const navItems = [
     { href: '/', label: 'Home' },
-    { href: '/test-portfolio', label: 'Portfolio' },
+    { href: '/portfolio', label: 'Portfolio' },
     { href: '/pricing', label: 'Pricing' },
     { href: '/start', label: 'Get Started' }
   ]
