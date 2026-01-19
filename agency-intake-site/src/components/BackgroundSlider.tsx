@@ -60,7 +60,7 @@ export default function BackgroundSlider({
   }, [value, max])
 
   return (
-    <div className="w-full max-w-3xl mx-auto px-4">
+    <div className="w-full max-w-sm sm:max-w-2xl lg:max-w-4xl xl:max-w-7xl mx-auto px-4">
       <motion.div
         className="relative rounded-3xl backdrop-blur-xl border border-white/20 shadow-2xl overflow-hidden"
         style={{
@@ -93,7 +93,7 @@ export default function BackgroundSlider({
             </p>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3">
             {labels.map((label, index) => {
               const isActive = index === clampedValue
               return (

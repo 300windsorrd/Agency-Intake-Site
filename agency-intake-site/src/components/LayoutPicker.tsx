@@ -25,6 +25,7 @@ interface LayoutPickerProps {
 const COLLAPSE_AFTER_MS = 2000 // Increased slightly to allow user to admire selection
 
 export default function LayoutPicker({ current, onPick }: LayoutPickerProps) {
+	console.log('LayoutPicker render:', current)
 	const { getButtonColor, getButtonTextColor } = useBackground()
 	const [expanded, setExpanded] = useState(false)
 	const collapseTimerRef = useRef<number | null>(null)
