@@ -56,7 +56,7 @@ const mockProjects: PortfolioProject[] = [
 
 export default function TestPortfolioPage() {
     return (
-        <main className="min-h-screen bg-white">
+        <main className="min-h-screen bg-white dark:bg-gray-900">
             <PortfolioShowcase projects={mockProjects} />
         </main>
     )
