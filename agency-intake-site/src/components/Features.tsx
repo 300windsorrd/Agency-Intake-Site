@@ -186,7 +186,7 @@ export default function Features() {
           transition={{ duration: 0.6, delay: 0.6 }}
           className="text-center mt-16"
         >
-          <div className="bg-gradient-to-r from-primary to-accent p-8 rounded-2xl text-white">
+          <div className="bg-gradient-to-r from-amber-200 via-emerald-200 to-sky-200 p-8 rounded-2xl text-slate-900 dark:from-emerald-800 dark:via-slate-900 dark:to-cyan-800 dark:text-white">
             <h3 className="text-2xl font-bold mb-4">
               Ready to Transform Your Online Presence?
             </h3>
@@ -195,7 +195,7 @@ export default function Features() {
             </p>
             <a
               href="#start-project"
-              className="inline-flex items-center px-8 py-3 bg-white text-primary font-semibold rounded-lg hover:bg-gray-100 transition-colors"
+              className="inline-flex items-center px-8 py-3 bg-slate-900 text-white font-semibold rounded-lg hover:bg-slate-800 transition-colors dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100"
             >
               Start Your Project
             </a>
