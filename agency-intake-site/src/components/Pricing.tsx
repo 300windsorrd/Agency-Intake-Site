@@ -83,7 +83,7 @@ const plans = [
 
 export default function Pricing() {
   const { getButtonColor, getButtonTextColor } = useBackground()
-  
+
   return (
     <section id="pricing" className="py-20 bg-white">
       <div className="container mx-auto px-4">
@@ -98,7 +98,7 @@ export default function Pricing() {
             Transparent Pricing
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Choose the plan that best fits your business needs and budget. 
+            Choose the plan that best fits your business needs and budget.
             All plans include custom design, mobile optimization, and ongoing support.
           </p>
           <div className="mt-6">
@@ -128,12 +128,12 @@ export default function Pricing() {
                 <li className="inline-flex items-center text-gray-700"><Check className="w-5 h-5 text-green-500 mr-2" /> Social Media Management</li>
               </ul>
               <a
-                href="https://calendar.app.google/wt5eP9xbkrrAVoYU7"
+                href="https://calendar.app.google/bKKKvGWBSgvV8rodA"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center px-5 py-3 rounded-lg font-semibold whitespace-nowrap"
-                style={({ 
-                  backgroundColor: getButtonColor(), 
+                style={({
+                  backgroundColor: getButtonColor(),
                   color: getButtonTextColor(),
                   ['--tw-shadow-color' as any]: getButtonColor(),
                   ['--tw-shadow' as any]: `0 4px 6px -1px ${getButtonColor()}40, 0 2px 4px -1px ${getButtonColor()}40`
@@ -153,16 +153,15 @@ export default function Pricing() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              className={`relative p-8 rounded-2xl border-2 ${plan.color} ${
-                plan.popular 
-                  ? 'bg-primary/5 shadow-xl scale-105' 
+              className={`relative p-8 rounded-2xl border-2 ${plan.color} ${plan.popular
+                  ? 'bg-primary/5 shadow-xl scale-105'
                   : 'bg-white shadow-lg hover:shadow-xl'
-              } transition-all duration-300`}
+                } transition-all duration-300`}
             >
               {plan.popular && (
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                   <div className="text-white px-4 py-2 rounded-full text-sm font-semibold flex items-center whitespace-nowrap"
-                       style={{ backgroundColor: getButtonColor() }}>
+                    style={{ backgroundColor: getButtonColor() }}>
                     <Star className="w-4 h-4 mr-1" />
                     Most Popular
                   </div>
@@ -217,7 +216,7 @@ export default function Pricing() {
               Need Something Custom?
             </h3>
             <p className="text-lg text-gray-600 mb-6">
-              Every business is unique. If you need a custom solution that doesn't fit our standard plans, 
+              Every business is unique. If you need a custom solution that doesn't fit our standard plans,
               let's discuss your specific requirements and create a tailored proposal.
             </p>
             <a
@@ -225,7 +224,7 @@ export default function Pricing() {
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center px-8 py-3 text-white font-semibold rounded-lg transition-colors"
-              style={({ 
+              style={({
                 backgroundColor: getButtonColor(),
                 color: getButtonTextColor(),
                 ['--tw-shadow-color' as any]: getButtonColor(),
