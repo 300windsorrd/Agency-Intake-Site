@@ -10,6 +10,7 @@ type WebhookResponse = {
   intakeId?: string
   error?: string
   message?: string
+  success?: boolean
 }
 
 function normalizeUrlOrUndefined(input?: string): string | undefined {
@@ -74,6 +75,17 @@ async function postWebhook(url: string, payload: unknown): Promise<{ id?: string
 
   return {
     id: result?.id || result?.submissionId || result?.intakeId
+  }
+}
+
+async function parseJsonResponse(response: Response): Promise<WebhookResponse | null> {
+  try {
+    const text = await response.text()
+    if (!text.trim()) return null
+    const parsed: unknown = JSON.parse(text)
+    return parsed && typeof parsed === 'object' ? (parsed as WebhookResponse) : null
+  } catch {
+    return null
   }
 }
 
@@ -224,9 +236,9 @@ export async function submitIntake(intake: IntakeFormData, turnstileToken: strin
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ turnstileToken, ...intake })
       })
-      const result = await response.json()
-      if (!response.ok || !result.success) {
-        throw new Error(result.error || 'Failed to submit intake')
+      const result = await parseJsonResponse(response)
+      if (!response.ok || !result?.success) {
+        throw new Error(result?.error || result?.message || 'Failed to submit intake')
       }
       return { success: true, id: result.id }
     } catch (error) {
@@ -272,12 +284,12 @@ export async function submitSimpleIntake(intake: SimpleIntake, turnstileToken: s
       body: JSON.stringify({ ...intake, turnstileToken })
     })
 
-    const result = await response.json()
-    if (!response.ok || !result.success) {
-      throw new Error(result.error || result.message || 'Failed to submit lead')
+    const result = await parseJsonResponse(response)
+    if (!response.ok || !result?.success) {
+      throw new Error(result?.error || result?.message || 'Failed to submit lead')
     }
 
-    return { success: true, id: result.id }
+    return { success: true, id: result?.id }
   } catch (error) {
     console.error('Error submitting simple intake:', error)
     return {

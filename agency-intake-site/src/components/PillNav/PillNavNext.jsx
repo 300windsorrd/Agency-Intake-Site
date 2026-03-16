@@ -81,6 +81,7 @@ const PillNav = ({
   const logoImgRef = useRef(null);
   const logoTweenRef = useRef(null);
   const hamburgerRef = useRef(null);
+  const mobileOverlayRef = useRef(null);
   const mobileMenuRef = useRef(null);
   const mobileListRef = useRef(null);
   const navItemsRef = useRef(null);
@@ -160,8 +161,12 @@ const PillNav = ({
     }
 
     const menu = mobileMenuRef.current;
+    const overlay = mobileOverlayRef.current;
+    if (overlay) {
+      gsap.set(overlay, { visibility: "hidden", opacity: 0 });
+    }
     if (menu) {
-      gsap.set(menu, { visibility: "hidden", opacity: 0, scaleY: 1 });
+      gsap.set(menu, { xPercent: 100, opacity: 1 });
     }
 
     if (initialLoadAnimation) {
@@ -183,6 +188,12 @@ const PillNav = ({
           width: "auto",
           duration: 0.6,
           ease,
+          onComplete: () => {
+            gsap.set(navItems, { clearProps: "width,overflow" });
+          },
+          onInterrupt: () => {
+            gsap.set(navItems, { clearProps: "width,overflow" });
+          },
         });
       }
     }
@@ -263,7 +274,7 @@ const PillNav = ({
       }
 
       // Close the menu if clicking outside
-      setIsMobileMenuOpen(false);
+      forceCloseMobileMenu();
     };
 
     // Use a small delay to prevent immediate closure from the same click that opened the menu
@@ -311,7 +322,7 @@ const PillNav = ({
 
     const handleEscapeKey = (event) => {
       if (event.key === 'Escape') {
-        setIsMobileMenuOpen(false);
+        forceCloseMobileMenu();
       }
     };
 
@@ -371,9 +382,14 @@ const PillNav = ({
 
     // Reset menu state
     const menu = mobileMenuRef.current;
+    const overlay = mobileOverlayRef.current;
     if (menu) {
       gsap.killTweensOf(menu);
-      gsap.set(menu, { visibility: "hidden", opacity: 0, scale: 0.96 });
+      gsap.set(menu, { xPercent: 100, opacity: 1 });
+    }
+    if (overlay) {
+      gsap.killTweensOf(overlay);
+      gsap.set(overlay, { visibility: "hidden", opacity: 0 });
     }
   };
 
@@ -423,6 +439,7 @@ const PillNav = ({
     setIsMobileMenuOpen(newState);
 
     const hamburger = hamburgerRef.current;
+    const overlay = mobileOverlayRef.current;
     const menu = mobileMenuRef.current;
     const list = mobileListRef.current;
 
@@ -442,40 +459,47 @@ const PillNav = ({
       }
     }
 
-    if (menu) {
+    if (overlay && menu) {
       if (newState) {
-        // Prepare state
-        gsap.set(menu, { visibility: "visible", scale: 0.92, opacity: 0, transformOrigin: "top center" });
-        gsap.to(menu, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(1.2)", overwrite: "auto" });
+        gsap.killTweensOf(overlay);
+        gsap.killTweensOf(menu);
+        gsap.set(overlay, { visibility: "visible", opacity: 0 });
+        gsap.set(menu, { xPercent: 100, opacity: 1 });
 
-        // Stagger in links
+        const tl = gsap.timeline({ defaults: { overwrite: "auto" } });
+        tl.to(overlay, { opacity: 1, duration: 0.28, ease: "power2.out" }, 0);
+        tl.to(menu, { xPercent: 0, duration: 0.42, ease: "power3.out" }, 0);
+
         if (list) {
           const links = list.querySelectorAll(".pill-mobile-link, .pill-mobile-sublink");
           if (links && links.length) {
-            gsap.set(links, { opacity: 0, y: 5, scale: 0.95 });
-            gsap.to(links, {
+            gsap.set(links, { opacity: 0, x: 24 });
+            tl.to(links, {
               opacity: 1,
-              y: 0,
-              scale: 1,
-              duration: 0.25,
-              stagger: 0.03, // Simple stagger for wrapped items
+              x: 0,
+              duration: 0.3,
+              stagger: 0.04,
               ease: "power2.out",
-              overwrite: "auto",
-            });
+            }, 0.1);
           }
         }
       } else {
-        // Animate out
-        gsap.to(menu, {
+        gsap.killTweensOf(overlay);
+        gsap.killTweensOf(menu);
+        const tl = gsap.timeline({ defaults: { overwrite: "auto" } });
+        tl.to(menu, {
+          xPercent: 100,
+          duration: 0.24,
+          ease: "power2.in"
+        }, 0);
+        tl.to(overlay, {
           opacity: 0,
-          scale: 0.92,
           duration: 0.2,
-          ease: "power2.in",
+          ease: "power2.out",
           onComplete: () => {
-            gsap.set(menu, { visibility: "hidden" });
-          },
-          overwrite: "auto"
-        });
+            gsap.set(overlay, { visibility: "hidden" });
+          }
+        }, 0.04);
       }
     }
 
@@ -499,10 +523,6 @@ const PillNav = ({
     if (isItemCurrent(item)) return true;
     if (item.href !== "/" && activeHref?.startsWith(`${item.href}/`)) return true;
     return item.children?.some((child) => isItemActive(child)) ?? false;
-  };
-
-  const toggleDropdown = (href) => {
-    setOpenDropdownHref((currentHref) => (currentHref === href ? null : href));
   };
 
   const renderPillLabel = (item, i, showCaret = false) => (
@@ -626,24 +646,55 @@ const PillNav = ({
                     data-pill-dropdown={item.href}
                   >
                     {item.children?.length ? (
-                      <button
-                        type="button"
-                        role="menuitem"
-                        className={`pill pill-dropdown-trigger${isItemActive(item) ? " is-active" : ""}`}
-                        onMouseEnter={() => handleEnter(i)}
-                        onMouseLeave={() => handleLeave(i)}
-                        onClick={() => toggleDropdown(item.href)}
-                        aria-label={item.ariaLabel || `${item.label} menu`}
-                        aria-haspopup="menu"
-                        aria-expanded={openDropdownHref === item.href}
-                        aria-controls={`${submenuBaseId}-${i}`}
-                        style={isItemActive(item) ? {
-                          backgroundColor: getButtonColor(),
-                          color: '#ffffff'
-                        } : {}}
-                      >
-                        {renderPillLabel(item, i, true)}
-                      </button>
+                      isRouterLink(item.href) ? (
+                        <Link
+                          role="menuitem"
+                          href={item.href}
+                          className={`pill pill-dropdown-trigger${isItemActive(item) ? " is-active" : ""}`}
+                          onMouseEnter={() => {
+                            handleEnter(i);
+                            setOpenDropdownHref(item.href);
+                          }}
+                          onMouseLeave={() => {
+                            handleLeave(i);
+                            setOpenDropdownHref(null);
+                          }}
+                          aria-label={item.ariaLabel || item.label}
+                          aria-haspopup="menu"
+                          aria-expanded={openDropdownHref === item.href}
+                          aria-controls={`${submenuBaseId}-${i}`}
+                          style={isItemActive(item) ? {
+                            backgroundColor: getButtonColor(),
+                            color: '#ffffff'
+                          } : {}}
+                        >
+                          {renderPillLabel(item, i, true)}
+                        </Link>
+                      ) : (
+                        <a
+                          role="menuitem"
+                          href={item.href}
+                          className={`pill pill-dropdown-trigger${isItemActive(item) ? " is-active" : ""}`}
+                          onMouseEnter={() => {
+                            handleEnter(i);
+                            setOpenDropdownHref(item.href);
+                          }}
+                          onMouseLeave={() => {
+                            handleLeave(i);
+                            setOpenDropdownHref(null);
+                          }}
+                          aria-label={item.ariaLabel || item.label}
+                          aria-haspopup="menu"
+                          aria-expanded={openDropdownHref === item.href}
+                          aria-controls={`${submenuBaseId}-${i}`}
+                          style={isItemActive(item) ? {
+                            backgroundColor: getButtonColor(),
+                            color: '#ffffff'
+                          } : {}}
+                        >
+                          {renderPillLabel(item, i, true)}
+                        </a>
+                      )
                     ) : isRouterLink(item.href) ? (
                       <Link
                         role="menuitem"
@@ -763,75 +814,83 @@ const PillNav = ({
 
             {isMounted && createPortal(
               <div
-                className="pill-mobile-menu"
-                ref={mobileMenuRef}
+                className={`pill-mobile-overlay${isMobileMenuOpen ? " is-open" : ""}`}
+                ref={mobileOverlayRef}
                 aria-hidden={!isMobileMenuOpen}
-                id="mobile-navigation-menu"
-                role="menu"
-                style={cssVars}
+                onClick={forceCloseMobileMenu}
               >
-                <ul className="pill-mobile-list" ref={mobileListRef}>
-                  {items.map((item, i) => (
-                    <li key={item.href || `mobile-item-${i}`} role="none" className={`pill-mobile-item${item.children?.length ? " has-children" : ""}`}>
-                      {isRouterLink(item.href) ? (
-                        <Link
-                          href={item.href}
-                          className={`pill-mobile-link${isItemActive(item) ? " is-active" : ""
-                            }`}
-                          aria-label={item.ariaLabel || item.label}
-                          aria-current={isItemCurrent(item) ? "page" : undefined}
-                          role="menuitem"
-                          tabIndex={0}
-                          onClick={() => setIsMobileMenuOpen(false)}
-                        >
-                          {item.label}
-                        </Link>
-                      ) : (
-                        <a
-                          href={item.href}
-                          className={`pill-mobile-link${isItemActive(item) ? " is-active" : ""
-                            }`}
-                          aria-label={item.ariaLabel || item.label}
-                          aria-current={isItemCurrent(item) ? "page" : undefined}
-                          role="menuitem"
-                          tabIndex={0}
-                          onClick={() => setIsMobileMenuOpen(false)}
-                        >
-                          {item.label}
-                        </a>
-                      )}
-                      {item.children?.length ? (
-                        <div className="pill-mobile-submenu" role="group" aria-label={`${item.label} links`}>
-                          {item.children.map((child) =>
-                            isRouterLink(child.href) ? (
-                              <Link
-                                key={child.href}
-                                href={child.href}
-                                className={`pill-mobile-sublink${isItemActive(child) ? " is-active" : ""}`}
-                                role="menuitem"
-                                tabIndex={0}
-                                onClick={() => setIsMobileMenuOpen(false)}
-                              >
-                                {child.label}
-                              </Link>
-                            ) : (
-                              <a
-                                key={child.href}
-                                href={child.href}
-                                className={`pill-mobile-sublink${isItemActive(child) ? " is-active" : ""}`}
-                                role="menuitem"
-                                tabIndex={0}
-                                onClick={() => setIsMobileMenuOpen(false)}
-                              >
-                                {child.label}
-                              </a>
-                            )
-                          )}
-                        </div>
-                      ) : null}
-                    </li>
-                  ))}
-                </ul>
+                <div
+                  className={`pill-mobile-menu${isMobileMenuOpen ? " is-open" : ""}`}
+                  ref={mobileMenuRef}
+                  id="mobile-navigation-menu"
+                  role="menu"
+                  aria-hidden={!isMobileMenuOpen}
+                  style={cssVars}
+                  onClick={(event) => event.stopPropagation()}
+                >
+                  <ul className="pill-mobile-list" ref={mobileListRef}>
+                    {items.map((item, i) => (
+                      <li key={item.href || `mobile-item-${i}`} role="none" className={`pill-mobile-item${item.children?.length ? " has-children" : ""}`}>
+                        {isRouterLink(item.href) ? (
+                          <Link
+                            href={item.href}
+                            className={`pill-mobile-link${isItemActive(item) ? " is-active" : ""
+                              }`}
+                            aria-label={item.ariaLabel || item.label}
+                            aria-current={isItemCurrent(item) ? "page" : undefined}
+                            role="menuitem"
+                            tabIndex={0}
+                            onClick={forceCloseMobileMenu}
+                          >
+                            {item.label}
+                          </Link>
+                        ) : (
+                          <a
+                            href={item.href}
+                            className={`pill-mobile-link${isItemActive(item) ? " is-active" : ""
+                              }`}
+                            aria-label={item.ariaLabel || item.label}
+                            aria-current={isItemCurrent(item) ? "page" : undefined}
+                            role="menuitem"
+                            tabIndex={0}
+                            onClick={forceCloseMobileMenu}
+                          >
+                            {item.label}
+                          </a>
+                        )}
+                        {item.children?.length ? (
+                          <div className="pill-mobile-submenu" role="group" aria-label={`${item.label} links`}>
+                            {item.children.map((child) =>
+                              isRouterLink(child.href) ? (
+                                <Link
+                                  key={child.href}
+                                  href={child.href}
+                                  className={`pill-mobile-sublink${isItemActive(child) ? " is-active" : ""}`}
+                                  role="menuitem"
+                                  tabIndex={0}
+                                  onClick={forceCloseMobileMenu}
+                                >
+                                  {child.label}
+                                </Link>
+                              ) : (
+                                <a
+                                  key={child.href}
+                                  href={child.href}
+                                  className={`pill-mobile-sublink${isItemActive(child) ? " is-active" : ""}`}
+                                  role="menuitem"
+                                  tabIndex={0}
+                                  onClick={forceCloseMobileMenu}
+                                >
+                                  {child.label}
+                                </a>
+                              )
+                            )}
+                          </div>
+                        ) : null}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>,
               document.body
             )}

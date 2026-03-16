@@ -19,6 +19,23 @@ test.describe('Navigation Accessibility', () => {
       await expect(pills.first()).toHaveAttribute('role', 'menuitem')
     })
 
+    test('should open the Services submenu on first desktop load', async ({ page }) => {
+      await page.setViewportSize({ width: 1200, height: 800 })
+      await page.goto('/')
+
+      const navItems = page.locator('.pill-nav-items')
+      await expect(navItems).toBeVisible()
+      await expect(navItems).toHaveCSS('overflow', 'visible')
+
+      const servicesDropdown = page.locator('[data-pill-dropdown="/services"]')
+      const servicesTrigger = servicesDropdown.locator('.pill-dropdown-trigger')
+      const submenu = servicesDropdown.locator('.pill-submenu')
+
+      await servicesTrigger.hover()
+      await expect(submenu).toBeVisible()
+      await expect(submenu.getByRole('menuitem', { name: 'All Services' })).toBeVisible()
+    })
+
     test('should support keyboard navigation', async ({ page }) => {
       await page.setViewportSize({ width: 1200, height: 800 })
       await page.goto('/')
