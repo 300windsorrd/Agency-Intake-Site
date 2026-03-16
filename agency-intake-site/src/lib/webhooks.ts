@@ -49,13 +49,14 @@ async function postWebhook(url: string, payload: unknown): Promise<{ id?: string
 
   let result: any = null
   try {
-    result = await response.json()
+    const text = await response.text()
+    result = text ? JSON.parse(text) : null
   } catch {
     result = null
   }
 
   if (!response.ok) {
-    throw new Error(result?.error || `Webhook request failed with status ${response.status}`)
+    throw new Error(result?.error || result?.message || `Webhook request failed with status ${response.status}`)
   }
 
   return {
@@ -239,7 +240,7 @@ export async function submitSimpleIntake(intake: SimpleIntake, turnstileToken: s
 
     const result = await response.json()
     if (!response.ok || !result.success) {
-      throw new Error(result.error || 'Failed to submit lead')
+      throw new Error(result.error || result.message || 'Failed to submit lead')
     }
 
     return { success: true, id: result.id }

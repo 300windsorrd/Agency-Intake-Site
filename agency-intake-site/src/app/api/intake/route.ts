@@ -42,14 +42,15 @@ export async function POST(request: NextRequest) {
 
     let result: any = null
     try {
-      result = await response.json()
+      const text = await response.text()
+      result = text ? JSON.parse(text) : null
     } catch {
       result = null
     }
 
     if (!response.ok) {
       return NextResponse.json(
-        { success: false, error: result?.error || 'Webhook request failed' },
+        { success: false, error: result?.error || result?.message || `Webhook request failed with status ${response.status}` },
         { status: 500 }
       )
     }
