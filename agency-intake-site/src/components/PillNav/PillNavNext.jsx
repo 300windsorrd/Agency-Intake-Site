@@ -6,7 +6,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { gsap } from "gsap";
-import { useBackground } from '@/contexts/BackgroundContext';
+import { useBackground } from "@/contexts/BackgroundContext";
 import "./PillNav.css";
 
 /**
@@ -46,7 +46,6 @@ import "./PillNav.css";
 /** @param {PillNavProps} props */
 const PillNav = ({
   logo,
-  logoAlt = "Logo",
   items,
   desktopItems,
   activeHref,
@@ -78,8 +77,6 @@ const PillNav = ({
   const circleRefs = useRef([]);
   const tlRefs = useRef([]);
   const activeTweenRefs = useRef([]);
-  const logoImgRef = useRef(null);
-  const logoTweenRef = useRef(null);
   const hamburgerRef = useRef(null);
   const mobileOverlayRef = useRef(null);
   const mobileMenuRef = useRef(null);
@@ -157,7 +154,7 @@ const PillNav = ({
     window.addEventListener("resize", onResize);
 
     if (document.fonts?.ready) {
-      document.fonts.ready.then(layout).catch(() => { });
+      document.fonts.ready.then(layout).catch(() => {});
     }
 
     const menu = mobileMenuRef.current;
@@ -213,20 +210,20 @@ const PillNav = ({
     checkMobile();
 
     // Listen for resize events
-    window.addEventListener('resize', checkMobile);
+    window.addEventListener("resize", checkMobile);
 
     return () => {
-      window.removeEventListener('resize', checkMobile);
+      window.removeEventListener("resize", checkMobile);
     };
   }, []);
 
   // Lock/unlock body scroll when pill mobile menu opens/closes
   useEffect(() => {
-    if (typeof document === 'undefined') return;
+    if (typeof document === "undefined") return;
     const body = document.body;
     const previousOverflow = body.style.overflow;
     if (isMobileMenuOpen) {
-      body.style.overflow = 'hidden';
+      body.style.overflow = "hidden";
     }
     return () => {
       body.style.overflow = previousOverflow;
@@ -243,17 +240,6 @@ const PillNav = ({
   useEffect(() => {
     setOpenDropdownHref(null);
   }, [activeHref, isMobile]);
-
-  // Ensure hamburger animation resets whenever menu closes (e.g., link click or route change)
-  useEffect(() => {
-    if (isMobileMenuOpen) return;
-    const hamburger = hamburgerRef.current;
-    if (!hamburger) return;
-    const lines = hamburger.querySelectorAll('.hamburger-line');
-    if (!lines || lines.length < 2) return;
-    gsap.to(lines[0], { rotation: 0, y: 0, duration: 0.3, ease });
-    gsap.to(lines[1], { rotation: 0, y: 0, duration: 0.3, ease });
-  }, [isMobileMenuOpen]);
 
   // Add click outside handler to close mobile menu
   useEffect(() => {
@@ -279,14 +265,16 @@ const PillNav = ({
 
     // Use a small delay to prevent immediate closure from the same click that opened the menu
     const timeoutId = setTimeout(() => {
-      document.addEventListener('click', handleClickOutside, { passive: true });
-      document.addEventListener('touchstart', handleClickOutside, { passive: true });
+      document.addEventListener("click", handleClickOutside, { passive: true });
+      document.addEventListener("touchstart", handleClickOutside, {
+        passive: true,
+      });
     }, 100);
 
     return () => {
       clearTimeout(timeoutId);
-      document.removeEventListener('click', handleClickOutside);
-      document.removeEventListener('touchstart', handleClickOutside);
+      document.removeEventListener("click", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
     };
   }, [isMobileMenuOpen, isMounted]);
 
@@ -295,24 +283,24 @@ const PillNav = ({
 
     const handlePointerDown = (event) => {
       const target = event.target;
-      if (target.closest('[data-pill-dropdown]')) {
+      if (target.closest("[data-pill-dropdown]")) {
         return;
       }
       setOpenDropdownHref(null);
     };
 
     const handleEscapeKey = (event) => {
-      if (event.key === 'Escape') {
+      if (event.key === "Escape") {
         setOpenDropdownHref(null);
       }
     };
 
-    document.addEventListener('mousedown', handlePointerDown);
-    document.addEventListener('keydown', handleEscapeKey);
+    document.addEventListener("mousedown", handlePointerDown);
+    document.addEventListener("keydown", handleEscapeKey);
 
     return () => {
-      document.removeEventListener('mousedown', handlePointerDown);
-      document.removeEventListener('keydown', handleEscapeKey);
+      document.removeEventListener("mousedown", handlePointerDown);
+      document.removeEventListener("keydown", handleEscapeKey);
     };
   }, [openDropdownHref, isMobile, isMounted]);
 
@@ -321,15 +309,15 @@ const PillNav = ({
     if (!isMobileMenuOpen || !isMounted) return;
 
     const handleEscapeKey = (event) => {
-      if (event.key === 'Escape') {
+      if (event.key === "Escape") {
         forceCloseMobileMenu();
       }
     };
 
-    document.addEventListener('keydown', handleEscapeKey);
+    document.addEventListener("keydown", handleEscapeKey);
 
     return () => {
-      document.removeEventListener('keydown', handleEscapeKey);
+      document.removeEventListener("keydown", handleEscapeKey);
     };
   }, [isMobileMenuOpen, isMounted]);
 
@@ -340,10 +328,11 @@ const PillNav = ({
     const handleBackgroundCustomizationClick = (event) => {
       // Check if the click is on a background customization element
       const target = event.target;
-      const isBackgroundButton = target.closest('[data-background-customization]') ||
-        target.closest('.background-slider') ||
-        target.closest('[data-background]') ||
-        target.closest('.style-selector');
+      const isBackgroundButton =
+        target.closest("[data-background-customization]") ||
+        target.closest(".background-slider") ||
+        target.closest("[data-background]") ||
+        target.closest(".style-selector");
 
       if (isBackgroundButton) {
         // Close the mobile menu when background customization is clicked
@@ -353,12 +342,14 @@ const PillNav = ({
 
     // Use a small delay to ensure the event listener is added after the current click event
     const timeoutId = setTimeout(() => {
-      document.addEventListener('click', handleBackgroundCustomizationClick, { passive: true });
+      document.addEventListener("click", handleBackgroundCustomizationClick, {
+        passive: true,
+      });
     }, 50);
 
     return () => {
       clearTimeout(timeoutId);
-      document.removeEventListener('click', handleBackgroundCustomizationClick);
+      document.removeEventListener("click", handleBackgroundCustomizationClick);
     };
   }, [isMobileMenuOpen, isMounted]);
 
@@ -367,18 +358,6 @@ const PillNav = ({
     if (!isMobileMenuOpen) return;
 
     setIsMobileMenuOpen(false);
-
-    // Reset hamburger button state
-    const hamburger = hamburgerRef.current;
-    if (hamburger) {
-      const lines = hamburger.querySelectorAll('.hamburger-line');
-      if (lines && lines.length >= 2) {
-        gsap.killTweensOf(lines[0]);
-        gsap.killTweensOf(lines[1]);
-        gsap.set(lines[0], { rotation: 0, y: 0 });
-        gsap.set(lines[1], { rotation: 0, y: 0 });
-      }
-    }
 
     // Reset menu state
     const menu = mobileMenuRef.current;
@@ -415,19 +394,6 @@ const PillNav = ({
     });
   };
 
-  const handleLogoEnter = () => {
-    const img = logoImgRef.current;
-    if (!img) return;
-    logoTweenRef.current?.kill();
-    gsap.set(img, { rotate: 0 });
-    logoTweenRef.current = gsap.to(img, {
-      rotate: 360,
-      duration: 0.2,
-      ease,
-      overwrite: "auto",
-    });
-  };
-
   // [Modified] Toggle animation for wrapped menu
   const toggleMobileMenu = () => {
     const newState = !isMobileMenuOpen;
@@ -438,26 +404,9 @@ const PillNav = ({
 
     setIsMobileMenuOpen(newState);
 
-    const hamburger = hamburgerRef.current;
     const overlay = mobileOverlayRef.current;
     const menu = mobileMenuRef.current;
     const list = mobileListRef.current;
-
-    if (hamburger) {
-      const lines = hamburger.querySelectorAll(".hamburger-line");
-      if (!lines || lines.length < 2) return;
-
-      gsap.killTweensOf(lines[0]);
-      gsap.killTweensOf(lines[1]);
-
-      if (newState) {
-        gsap.to(lines[0], { rotation: 45, y: 3, duration: 0.3, ease, overwrite: "auto" });
-        gsap.to(lines[1], { rotation: -45, y: -3, duration: 0.3, ease, overwrite: "auto" });
-      } else {
-        gsap.to(lines[0], { rotation: 0, y: 0, duration: 0.3, ease, overwrite: "auto" });
-        gsap.to(lines[1], { rotation: 0, y: 0, duration: 0.3, ease, overwrite: "auto" });
-      }
-    }
 
     if (overlay && menu) {
       if (newState) {
@@ -471,35 +420,49 @@ const PillNav = ({
         tl.to(menu, { xPercent: 0, duration: 0.42, ease: "power3.out" }, 0);
 
         if (list) {
-          const links = list.querySelectorAll(".pill-mobile-link, .pill-mobile-sublink");
+          const links = list.querySelectorAll(
+            ".pill-mobile-link, .pill-mobile-sublink",
+          );
           if (links && links.length) {
             gsap.set(links, { opacity: 0, x: 24 });
-            tl.to(links, {
-              opacity: 1,
-              x: 0,
-              duration: 0.3,
-              stagger: 0.04,
-              ease: "power2.out",
-            }, 0.1);
+            tl.to(
+              links,
+              {
+                opacity: 1,
+                x: 0,
+                duration: 0.3,
+                stagger: 0.04,
+                ease: "power2.out",
+              },
+              0.1,
+            );
           }
         }
       } else {
         gsap.killTweensOf(overlay);
         gsap.killTweensOf(menu);
         const tl = gsap.timeline({ defaults: { overwrite: "auto" } });
-        tl.to(menu, {
-          xPercent: 100,
-          duration: 0.24,
-          ease: "power2.in"
-        }, 0);
-        tl.to(overlay, {
-          opacity: 0,
-          duration: 0.2,
-          ease: "power2.out",
-          onComplete: () => {
-            gsap.set(overlay, { visibility: "hidden" });
-          }
-        }, 0.04);
+        tl.to(
+          menu,
+          {
+            xPercent: 100,
+            duration: 0.24,
+            ease: "power2.in",
+          },
+          0,
+        );
+        tl.to(
+          overlay,
+          {
+            opacity: 0,
+            duration: 0.2,
+            ease: "power2.out",
+            onComplete: () => {
+              gsap.set(overlay, { visibility: "hidden" });
+            },
+          },
+          0.04,
+        );
       }
     }
 
@@ -521,7 +484,8 @@ const PillNav = ({
   const isItemActive = (item) => {
     if (!item?.href) return false;
     if (isItemCurrent(item)) return true;
-    if (item.href !== "/" && activeHref?.startsWith(`${item.href}/`)) return true;
+    if (item.href !== "/" && activeHref?.startsWith(`${item.href}/`))
+      return true;
     return item.children?.some((child) => isItemActive(child)) ?? false;
   };
 
@@ -557,25 +521,28 @@ const PillNav = ({
 
   const containerStyle = sticky
     ? {
-      position: 'fixed',
-      top: `${topOffset}px`,
-      left: '50%',
-      transform: 'translateX(-50%)',
-      zIndex: 'var(--z-nav)',
-      width: 'max-content'
-    }
+        position: "fixed",
+        top: `${topOffset}px`,
+        left: "50%",
+        transform: "translateX(-50%)",
+        zIndex: "var(--z-nav)",
+        width: "max-content",
+      }
     : {
-      position: 'static',
-      top: 'auto',
-      left: 'auto',
-      transform: 'none',
-      margin: '0 auto',
-      width: 'max-content',
-      marginTop: `${topOffset}px`
-    }
+        position: "static",
+        top: "auto",
+        left: "auto",
+        transform: "none",
+        margin: "0 auto",
+        width: "max-content",
+        marginTop: `${topOffset}px`,
+      };
 
   return (
-    <div className={`pill-nav-container${isMobileMenuOpen ? " menu-open" : ""}`} style={containerStyle}>
+    <div
+      className={`pill-nav-container${isMobileMenuOpen ? " menu-open" : ""}`}
+      style={containerStyle}
+    >
       <nav
         className={`pill-nav ${className}`}
         aria-label="Primary navigation"
@@ -588,9 +555,8 @@ const PillNav = ({
             {isRouterLink(logoHref ?? items?.[0]?.href) ? (
               <Link
                 className="pill-logo"
-                href={(logoHref ?? items[0].href)}
+                href={logoHref ?? items[0].href}
                 aria-label="Home - Navigate to homepage"
-                onMouseEnter={handleLogoEnter}
                 role="menuitem"
                 tabIndex={0}
                 ref={(el) => {
@@ -604,7 +570,6 @@ const PillNav = ({
                 className="pill-logo"
                 href={(logoHref ?? items?.[0]?.href) || "#"}
                 aria-label="Home - Navigate to homepage"
-                onMouseEnter={handleLogoEnter}
                 tabIndex={0}
                 ref={(el) => {
                   logoRef.current = el;
@@ -618,9 +583,7 @@ const PillNav = ({
 
         {/* Left Slot - Only render on desktop */}
         {!isMobile && leftSlot ? (
-          <div className="pill-left-slot">
-            {leftSlot}
-          </div>
+          <div className="pill-left-slot">{leftSlot}</div>
         ) : null}
 
         {/* Desktop Navigation - Only render on desktop */}
@@ -629,13 +592,19 @@ const PillNav = ({
             <ul className="pill-list" role="menubar">
               {desktopNavItems.map((item, i) => (
                 <li key={item.href || `item-${i}`} role="none">
-                  {typeof slotIndex === 'number' && i === slotIndex && slotItem ? (
+                  {typeof slotIndex === "number" &&
+                  i === slotIndex &&
+                  slotItem ? (
                     <>
-                      <div role="none" style={{ display: 'inline-block' }}>
+                      <div role="none" style={{ display: "inline-block" }}>
                         {slotItem}
                       </div>
                       {slotAfterNode ? (
-                        <div role="none" className="pill-selector-inline" style={{ display: 'inline-block' }}>
+                        <div
+                          role="none"
+                          className="pill-selector-inline"
+                          style={{ display: "inline-block" }}
+                        >
                           {slotAfterNode}
                         </div>
                       ) : null}
@@ -663,10 +632,14 @@ const PillNav = ({
                           aria-haspopup="menu"
                           aria-expanded={openDropdownHref === item.href}
                           aria-controls={`${submenuBaseId}-${i}`}
-                          style={isItemActive(item) ? {
-                            backgroundColor: getButtonColor(),
-                            color: '#ffffff'
-                          } : {}}
+                          style={
+                            isItemActive(item)
+                              ? {
+                                  backgroundColor: getButtonColor(),
+                                  color: "#ffffff",
+                                }
+                              : {}
+                          }
                         >
                           {renderPillLabel(item, i, true)}
                         </Link>
@@ -687,10 +660,14 @@ const PillNav = ({
                           aria-haspopup="menu"
                           aria-expanded={openDropdownHref === item.href}
                           aria-controls={`${submenuBaseId}-${i}`}
-                          style={isItemActive(item) ? {
-                            backgroundColor: getButtonColor(),
-                            color: '#ffffff'
-                          } : {}}
+                          style={
+                            isItemActive(item)
+                              ? {
+                                  backgroundColor: getButtonColor(),
+                                  color: "#ffffff",
+                                }
+                              : {}
+                          }
                         >
                           {renderPillLabel(item, i, true)}
                         </a>
@@ -705,10 +682,14 @@ const PillNav = ({
                         onMouseEnter={() => handleEnter(i)}
                         onMouseLeave={() => handleLeave(i)}
                         tabIndex={0}
-                        style={isItemActive(item) ? {
-                          backgroundColor: getButtonColor(),
-                          color: '#ffffff'
-                        } : {}}
+                        style={
+                          isItemActive(item)
+                            ? {
+                                backgroundColor: getButtonColor(),
+                                color: "#ffffff",
+                              }
+                            : {}
+                        }
                       >
                         {renderPillLabel(item, i)}
                       </Link>
@@ -722,10 +703,14 @@ const PillNav = ({
                         onMouseEnter={() => handleEnter(i)}
                         onMouseLeave={() => handleLeave(i)}
                         tabIndex={0}
-                        style={isItemActive(item) ? {
-                          backgroundColor: getButtonColor(),
-                          color: '#ffffff'
-                        } : {}}
+                        style={
+                          isItemActive(item)
+                            ? {
+                                backgroundColor: getButtonColor(),
+                                color: "#ffffff",
+                              }
+                            : {}
+                        }
                       >
                         {renderPillLabel(item, i)}
                       </a>
@@ -777,18 +762,14 @@ const PillNav = ({
                             >
                               {child.label}
                             </a>
-                          )
+                          ),
                         )}
                       </div>
                     ) : null}
                   </div>
                 </li>
               ))}
-              {rightListItem ? (
-                <li role="none">
-                  {rightListItem}
-                </li>
-              ) : null}
+              {rightListItem ? <li role="none">{rightListItem}</li> : null}
             </ul>
           </div>
         )}
@@ -800,100 +781,119 @@ const PillNav = ({
         {isMobile && (
           <div className="pill-nav-mobile">
             <button
-              className="pill-hamburger"
+              className={`pill-hamburger${isMobileMenuOpen ? " is-open" : ""}`}
               onClick={toggleMobileMenu}
+              type="button"
               aria-expanded={isMobileMenuOpen}
-              aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-label={
+                isMobileMenuOpen
+                  ? "Close navigation menu"
+                  : "Open navigation menu"
+              }
               aria-controls="mobile-navigation-menu"
               tabIndex={0}
               ref={hamburgerRef}
             >
-              <div className="hamburger-line" />
-              <div className="hamburger-line" />
+              <span className="pill-hamburger-logo">{logo}</span>
             </button>
 
-            {isMounted && createPortal(
-              <div
-                className={`pill-mobile-overlay${isMobileMenuOpen ? " is-open" : ""}`}
-                ref={mobileOverlayRef}
-                aria-hidden={!isMobileMenuOpen}
-                onClick={forceCloseMobileMenu}
-              >
+            {isMounted &&
+              createPortal(
                 <div
-                  className={`pill-mobile-menu${isMobileMenuOpen ? " is-open" : ""}`}
-                  ref={mobileMenuRef}
-                  id="mobile-navigation-menu"
-                  role="menu"
+                  className={`pill-mobile-overlay${isMobileMenuOpen ? " is-open" : ""}`}
+                  ref={mobileOverlayRef}
                   aria-hidden={!isMobileMenuOpen}
-                  style={cssVars}
-                  onClick={(event) => event.stopPropagation()}
+                  onClick={forceCloseMobileMenu}
                 >
-                  <ul className="pill-mobile-list" ref={mobileListRef}>
-                    {items.map((item, i) => (
-                      <li key={item.href || `mobile-item-${i}`} role="none" className={`pill-mobile-item${item.children?.length ? " has-children" : ""}`}>
-                        {isRouterLink(item.href) ? (
-                          <Link
-                            href={item.href}
-                            className={`pill-mobile-link${isItemActive(item) ? " is-active" : ""
+                  <div
+                    className={`pill-mobile-menu${isMobileMenuOpen ? " is-open" : ""}`}
+                    ref={mobileMenuRef}
+                    id="mobile-navigation-menu"
+                    role="menu"
+                    aria-hidden={!isMobileMenuOpen}
+                    style={cssVars}
+                    onClick={(event) => event.stopPropagation()}
+                  >
+                    <ul className="pill-mobile-list" ref={mobileListRef}>
+                      {items.map((item, i) => (
+                        <li
+                          key={item.href || `mobile-item-${i}`}
+                          role="none"
+                          className={`pill-mobile-item${item.children?.length ? " has-children" : ""}`}
+                        >
+                          {isRouterLink(item.href) ? (
+                            <Link
+                              href={item.href}
+                              className={`pill-mobile-link${
+                                isItemActive(item) ? " is-active" : ""
                               }`}
-                            aria-label={item.ariaLabel || item.label}
-                            aria-current={isItemCurrent(item) ? "page" : undefined}
-                            role="menuitem"
-                            tabIndex={0}
-                            onClick={forceCloseMobileMenu}
-                          >
-                            {item.label}
-                          </Link>
-                        ) : (
-                          <a
-                            href={item.href}
-                            className={`pill-mobile-link${isItemActive(item) ? " is-active" : ""
+                              aria-label={item.ariaLabel || item.label}
+                              aria-current={
+                                isItemCurrent(item) ? "page" : undefined
+                              }
+                              role="menuitem"
+                              tabIndex={0}
+                              onClick={forceCloseMobileMenu}
+                            >
+                              {item.label}
+                            </Link>
+                          ) : (
+                            <a
+                              href={item.href}
+                              className={`pill-mobile-link${
+                                isItemActive(item) ? " is-active" : ""
                               }`}
-                            aria-label={item.ariaLabel || item.label}
-                            aria-current={isItemCurrent(item) ? "page" : undefined}
-                            role="menuitem"
-                            tabIndex={0}
-                            onClick={forceCloseMobileMenu}
-                          >
-                            {item.label}
-                          </a>
-                        )}
-                        {item.children?.length ? (
-                          <div className="pill-mobile-submenu" role="group" aria-label={`${item.label} links`}>
-                            {item.children.map((child) =>
-                              isRouterLink(child.href) ? (
-                                <Link
-                                  key={child.href}
-                                  href={child.href}
-                                  className={`pill-mobile-sublink${isItemActive(child) ? " is-active" : ""}`}
-                                  role="menuitem"
-                                  tabIndex={0}
-                                  onClick={forceCloseMobileMenu}
-                                >
-                                  {child.label}
-                                </Link>
-                              ) : (
-                                <a
-                                  key={child.href}
-                                  href={child.href}
-                                  className={`pill-mobile-sublink${isItemActive(child) ? " is-active" : ""}`}
-                                  role="menuitem"
-                                  tabIndex={0}
-                                  onClick={forceCloseMobileMenu}
-                                >
-                                  {child.label}
-                                </a>
-                              )
-                            )}
-                          </div>
-                        ) : null}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>,
-              document.body
-            )}
+                              aria-label={item.ariaLabel || item.label}
+                              aria-current={
+                                isItemCurrent(item) ? "page" : undefined
+                              }
+                              role="menuitem"
+                              tabIndex={0}
+                              onClick={forceCloseMobileMenu}
+                            >
+                              {item.label}
+                            </a>
+                          )}
+                          {item.children?.length ? (
+                            <div
+                              className="pill-mobile-submenu"
+                              role="group"
+                              aria-label={`${item.label} links`}
+                            >
+                              {item.children.map((child) =>
+                                isRouterLink(child.href) ? (
+                                  <Link
+                                    key={child.href}
+                                    href={child.href}
+                                    className={`pill-mobile-sublink${isItemActive(child) ? " is-active" : ""}`}
+                                    role="menuitem"
+                                    tabIndex={0}
+                                    onClick={forceCloseMobileMenu}
+                                  >
+                                    {child.label}
+                                  </Link>
+                                ) : (
+                                  <a
+                                    key={child.href}
+                                    href={child.href}
+                                    className={`pill-mobile-sublink${isItemActive(child) ? " is-active" : ""}`}
+                                    role="menuitem"
+                                    tabIndex={0}
+                                    onClick={forceCloseMobileMenu}
+                                  >
+                                    {child.label}
+                                  </a>
+                                ),
+                              )}
+                            </div>
+                          ) : null}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>,
+                document.body,
+              )}
           </div>
         )}
       </nav>

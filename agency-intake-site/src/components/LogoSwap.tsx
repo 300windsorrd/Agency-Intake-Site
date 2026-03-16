@@ -1,31 +1,29 @@
-'use client'
+"use client";
 
-import Image from 'next/image'
+import Image from "next/image";
 
 const LogoSwap = () => {
   return (
-    <span className="logo-content" style={{ display: 'block', width: '100%', height: '100%' }}>
+    <span className="logo-content" aria-hidden="true">
       <Image
-        className="logo-img state-normal"
-        src="/favicon.png"
+        className="logo-img logo-img-primary"
+        src="/mainlogo.png"
         alt="Bite Sites logo"
         fill
-        sizes="46px"
+        sizes="(max-width: 768px) 156px, 180px"
         priority
       />
       <Image
-        className="logo-img state-hover"
-        src="/favicon.png"
+        className="logo-img logo-img-secondary"
+        src="/mainlogo2.png"
         alt=""
         fill
-        sizes="46px"
+        sizes="(max-width: 768px) 156px, 180px"
         priority
         aria-hidden="true"
       />
     </span>
-  )
-}
+  );
+};
 
-export default LogoSwap
-
-
+export default LogoSwap;
