@@ -135,19 +135,19 @@ export default function SimpleIntakeForm() {
 	}
 
 	const inputClassName =
-		'mt-2 w-full rounded-2xl border border-slate-700 bg-slate-950/80 px-4 py-3 text-slate-100 shadow-sm outline-none transition placeholder:text-slate-500 focus:border-primary/60 focus:ring-4 focus:ring-primary/20'
+		'mt-2 w-full rounded-2xl border border-slate-700 bg-slate-950/80 px-4 py-2.5 text-[0.98rem] text-slate-100 shadow-sm outline-none transition placeholder:text-slate-500 focus:border-primary/60 focus:ring-4 focus:ring-primary/20'
 
 	return (
-		<div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
-			<form onSubmit={handleSubmit(onSubmit)} className="rounded-[2rem] border border-slate-800 bg-slate-950/80 p-6 shadow-[0_30px_80px_-40px_rgba(2,6,23,0.9)] sm:p-8">
-				<div className="mb-8 flex items-start justify-between gap-6">
+		<div className="grid gap-5 lg:grid-cols-[1.1fr_0.85fr]">
+			<form onSubmit={handleSubmit(onSubmit)} className="rounded-[2rem] border border-slate-800 bg-slate-950/80 p-6 shadow-[0_30px_80px_-40px_rgba(2,6,23,0.9)] sm:p-[1.625rem]">
+				<div className="mb-7 flex items-start justify-between gap-6">
 					<div>
 						<p className="mb-2 inline-flex items-center gap-2 rounded-full bg-slate-900 px-3 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-sky-200">
 							<Sparkles className="h-3.5 w-3.5" />
 							Start Your Project
 						</p>
-						<h2 className="text-3xl font-bold text-slate-50">Tell us what you need.</h2>
-						<p className="mt-3 max-w-2xl text-base leading-7 text-slate-300">
+						<h2 className="text-[1.8rem] font-bold text-slate-50">Tell us what you need.</h2>
+						<p className="mt-3 max-w-xl text-[0.98rem] leading-7 text-slate-300">
 							Keep it short. We only ask for the details needed to route your project and follow up the way you prefer.
 						</p>
 					</div>
@@ -156,7 +156,7 @@ export default function SimpleIntakeForm() {
 					</div>
 				</div>
 
-				<div className="grid gap-6 md:grid-cols-2">
+				<div className="grid gap-5 md:grid-cols-2">
 					<div>
 						<label className="block text-sm font-medium text-slate-200">Name</label>
 						<input
@@ -179,7 +179,7 @@ export default function SimpleIntakeForm() {
 					</div>
 				</div>
 
-				<div className="mt-6 grid gap-6 md:grid-cols-2">
+				<div className="mt-5 grid gap-5 md:grid-cols-2">
 					<div>
 						<label className="block text-sm font-medium text-slate-200">Phone</label>
 						<input
@@ -205,7 +205,7 @@ export default function SimpleIntakeForm() {
 					</div>
 				</div>
 
-				<div className="mt-6 grid gap-6 md:grid-cols-2">
+				<div className="mt-5 grid gap-5 md:grid-cols-2">
 					<div>
 						<label className="block text-sm font-medium text-slate-200">Optional role in company</label>
 						<input
@@ -229,7 +229,7 @@ export default function SimpleIntakeForm() {
 					</div>
 				</div>
 
-				<div className="mt-6">
+				<div className="mt-5">
 					<label className="block text-sm font-medium text-slate-200">Optional urgency tag</label>
 					<select {...register('urgencyTag')} className={inputClassName}>
 						{urgencyOptions.map((option) => (
@@ -241,7 +241,7 @@ export default function SimpleIntakeForm() {
 					{errors.urgencyTag && <p className="mt-2 text-sm text-red-600">{errors.urgencyTag.message}</p>}
 				</div>
 
-				<div className="mt-8">
+				<div className="mt-7">
 					<div className="mb-3 flex items-center justify-between gap-3">
 						<label className="block text-sm font-medium text-slate-200">Services</label>
 						<span className="text-xs uppercase tracking-[0.18em] text-slate-500">Select all that apply</span>
@@ -252,7 +252,7 @@ export default function SimpleIntakeForm() {
 							return (
 								<label
 									key={option.value}
-									className={`group relative flex cursor-pointer flex-col rounded-2xl border p-4 transition ${
+									className={`group relative flex cursor-pointer flex-col rounded-2xl border p-3.5 transition ${
 										active
 											? 'border-primary/60 bg-slate-900 text-white shadow-lg'
 											: 'border-slate-800 bg-slate-900/60 text-slate-100 hover:border-slate-600 hover:bg-slate-900'
@@ -268,7 +268,7 @@ export default function SimpleIntakeForm() {
 									<span className={`mt-2 text-sm leading-6 ${active ? 'text-slate-200' : 'text-slate-300'}`}>
 										{option.description}
 									</span>
-									<span className={`mt-4 inline-flex items-center text-xs font-semibold uppercase tracking-[0.16em] ${
+									<span className={`mt-3 inline-flex items-center text-[11px] font-semibold uppercase tracking-[0.16em] ${
 										active ? 'text-emerald-300' : 'text-slate-500'
 									}`}>
 										{active ? 'Selected' : 'Available'}
@@ -280,10 +280,10 @@ export default function SimpleIntakeForm() {
 					{errors.services && <p className="mt-2 text-sm text-red-600">{errors.services.message}</p>}
 				</div>
 
-				<div className="mt-8">
+				<div className="mt-7">
 					<label className="block text-sm font-medium text-slate-200">Preferred contact method</label>
 					<div className="mt-3 grid gap-3 sm:grid-cols-2">
-						<label className={`flex cursor-pointer items-center gap-3 rounded-2xl border px-4 py-4 transition ${
+						<label className={`flex cursor-pointer items-center gap-3 rounded-2xl border px-4 py-3.5 transition ${
 							preferredContactMethod === 'email'
 								? 'border-primary/60 bg-slate-900 text-white'
 								: 'border-slate-800 bg-slate-900/60 text-slate-100 hover:border-slate-600 hover:bg-slate-900'
@@ -302,7 +302,7 @@ export default function SimpleIntakeForm() {
 								</p>
 							</div>
 						</label>
-						<label className={`flex cursor-pointer items-center gap-3 rounded-2xl border px-4 py-4 transition ${
+						<label className={`flex cursor-pointer items-center gap-3 rounded-2xl border px-4 py-3.5 transition ${
 							preferredContactMethod === 'phone'
 								? 'border-primary/60 bg-slate-900 text-white'
 								: 'border-slate-800 bg-slate-900/60 text-slate-100 hover:border-slate-600 hover:bg-slate-900'
@@ -324,11 +324,11 @@ export default function SimpleIntakeForm() {
 					</div>
 				</div>
 
-				<div className="mt-8">
+				<div className="mt-7">
 					<label className="block text-sm font-medium text-slate-200">Project details</label>
 					<textarea
 						{...register('projectDetails')}
-						rows={5}
+						rows={4}
 						className={`${inputClassName} resize-y`}
 						placeholder="Share the goal, timeline, current bottleneck, or anything else that helps us qualify the lead quickly."
 					/>
@@ -340,7 +340,7 @@ export default function SimpleIntakeForm() {
 				<motion.button
 					type="submit"
 					disabled={!isValid || isSubmitting}
-					className="mt-8 inline-flex w-full items-center justify-center rounded-2xl px-6 py-4 text-lg font-bold shadow-lg transition-all disabled:cursor-not-allowed disabled:opacity-50"
+					className="mt-7 inline-flex w-full items-center justify-center rounded-2xl px-6 py-3 text-[0.98rem] font-bold shadow-lg transition-all disabled:cursor-not-allowed disabled:opacity-50"
 					style={{
 						backgroundColor: buttonColor,
 						color: buttonTextColor
@@ -370,10 +370,10 @@ export default function SimpleIntakeForm() {
 				{message && <p className="mt-4 text-sm text-slate-300">{message}</p>}
 			</form>
 
-			<aside className="rounded-[2rem] border border-slate-800 bg-[radial-gradient(circle_at_top,_rgba(14,165,233,0.12),_rgba(2,6,23,0.96)_48%)] p-6 shadow-[0_25px_70px_-45px_rgba(2,6,23,0.9)] sm:p-8">
-				<div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-6 backdrop-blur">
+			<aside className="rounded-[2rem] border border-slate-800 bg-[radial-gradient(circle_at_top,_rgba(14,165,233,0.12),_rgba(2,6,23,0.96)_48%)] p-6 shadow-[0_25px_70px_-45px_rgba(2,6,23,0.9)] sm:p-[1.625rem]">
+				<div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-5 backdrop-blur">
 					<p className="text-sm font-semibold uppercase tracking-[0.22em] text-slate-400">What happens next</p>
-					<ul className="mt-6 space-y-4">
+					<ul className="mt-5 space-y-3">
 						{[
 							'We review the services you selected and match the request to the right workflow.',
 							'Project details help us qualify urgency, budget fit, and whether web, social, or automation should lead.',

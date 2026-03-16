@@ -1,7 +1,8 @@
 // Service Worker for Agency Intake Site
-const CACHE_NAME = 'agency-site-v1'
-const STATIC_CACHE = 'agency-static-v1'
-const DYNAMIC_CACHE = 'agency-dynamic-v1'
+// Keep the cache version in sync with deployment changes so older caches are evicted.
+const CACHE_VERSION = 'v2'
+const STATIC_CACHE = `agency-static-${CACHE_VERSION}`
+const DYNAMIC_CACHE = `agency-dynamic-${CACHE_VERSION}`
 
 // Files to cache immediately
 const STATIC_FILES = [
@@ -61,7 +62,13 @@ self.addEventListener('fetch', (event) => {
     return
   }
 
-  // Handle static assets
+  // Never cache Next.js build output. These files are content-hashed and change on deploy.
+  if (isNextAsset(url.pathname)) {
+    event.respondWith(fetch(request))
+    return
+  }
+
+  // Handle static assets from /public and similar stable paths.
   if (isStaticAsset(url.pathname)) {
     event.respondWith(handleStaticAsset(request))
     return
@@ -114,10 +121,6 @@ async function handleStaticAsset(request) {
 async function handleNavigation(request) {
   try {
     const response = await fetch(request)
-    if (response.status === 200) {
-      const cache = await caches.open(DYNAMIC_CACHE)
-      cache.put(request, response.clone())
-    }
     return response
   } catch (error) {
     const cachedResponse = await caches.match(request)
@@ -134,7 +137,7 @@ async function handleNavigation(request) {
 async function handleDefault(request) {
   try {
     const response = await fetch(request)
-    if (response.status === 200) {
+    if (response.status === 200 && shouldCacheRuntimeAsset(request.url)) {
       const cache = await caches.open(DYNAMIC_CACHE)
       cache.put(request, response.clone())
     }
@@ -145,14 +148,27 @@ async function handleDefault(request) {
   }
 }
 
+function isNextAsset(pathname) {
+  return pathname.startsWith('/_next/')
+}
+
 // Check if URL is a static asset
 function isStaticAsset(pathname) {
+  if (isNextAsset(pathname)) {
+    return false
+  }
+
   const staticExtensions = [
     '.js', '.css', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico',
     '.woff', '.woff2', '.ttf', '.eot', '.webp', '.avif'
   ]
   
   return staticExtensions.some(ext => pathname.endsWith(ext))
+}
+
+function shouldCacheRuntimeAsset(urlString) {
+  const url = new URL(urlString)
+  return !isNextAsset(url.pathname) && !url.pathname.endsWith('.html')
 }
 
 // Background sync for form submissions

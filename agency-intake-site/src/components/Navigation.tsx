@@ -69,14 +69,14 @@ const Navigation = ({ className = '' }: NavigationProps) => {
         rightSlot={
           <Link
             href="/start"
-            className="ml-3 inline-flex items-center rounded-full px-5 py-3 text-sm font-semibold text-white shadow-lg transition hover:brightness-110"
+            className="ml-2 inline-flex items-center rounded-full px-3.5 py-2 text-[0.8rem] font-semibold text-white shadow-lg transition hover:brightness-110 sm:text-[0.85rem]"
             style={{ backgroundColor: getButtonColor() }}
           >
             Start Your Project
           </Link>
         }
         sticky={isSticky}
-        topOffset={14}
+        topOffset={12}
       />
     </LayoutGroup>
   )

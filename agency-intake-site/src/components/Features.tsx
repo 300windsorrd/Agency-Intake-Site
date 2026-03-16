@@ -81,25 +81,25 @@ export default function Features() {
   )
 
   return (
-    <section className="bg-transparent py-20">
-      <div className="container mx-auto px-4">
+    <section className="bg-transparent py-16 lg:py-20">
+      <div className="container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-8"
+          className="mb-8 text-center lg:mb-9"
         >
-          <h2 className="mb-4 text-4xl font-bold text-slate-50">
+          <h2 className="mb-4 text-[1.95rem] font-bold text-slate-50 sm:text-[2.45rem]">
             Why Choose Our Web Design Services?
           </h2>
-          <p className="mx-auto max-w-3xl text-xl text-slate-300">
+          <p className="mx-auto max-w-2xl text-[0.98rem] leading-7 text-slate-300 lg:text-[1.05rem]">
             We combine creativity with technical expertise to deliver websites that not only look great 
             but also drive real business results.
           </p>
         </motion.div>
 
-        <div className="mb-10 flex items-center justify-center">
+        <div className="mb-8 flex items-center justify-center">
           <label htmlFor="features-layout" className="sr-only">Layout</label>
           <select
             id="features-layout"
@@ -116,7 +116,7 @@ export default function Features() {
         </div>
 
         {layout === 'grid' && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3 xl:gap-8">
             {features.map((feature, index) => (
               <motion.div
                 key={index}
@@ -126,13 +126,13 @@ export default function Features() {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 className="group transform rounded-xl border border-slate-800 bg-slate-950/70 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-slate-700 hover:bg-slate-900/80 hover:shadow-lg"
               >
-                <div className={`mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-slate-900 transition-colors group-hover:bg-primary/10`}>
-                  <feature.icon className={`w-6 h-6 ${feature.color}`} />
+                <div className={`mb-4 flex h-11 w-11 items-center justify-center rounded-lg bg-slate-900 transition-colors group-hover:bg-primary/10`}>
+                  <feature.icon className={`h-5 w-5 ${feature.color}`} />
                 </div>
-                <h3 className="mb-3 text-xl font-semibold text-slate-100">
+                <h3 className="mb-3 text-lg font-semibold text-slate-100">
                   {feature.title}
                 </h3>
-                <p className="leading-relaxed text-slate-300">
+                <p className="text-sm leading-7 text-slate-300">
                   {feature.description}
                 </p>
               </motion.div>
@@ -184,18 +184,18 @@ export default function Features() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.6 }}
-          className="text-center mt-16"
+          className="mt-14 text-center lg:mt-16"
         >
-          <div className="rounded-2xl border border-cyan-500/20 bg-[linear-gradient(135deg,_rgba(6,182,212,0.16),_rgba(15,23,42,0.96),_rgba(37,99,235,0.22))] p-8 text-slate-50">
-            <h3 className="text-2xl font-bold mb-4">
+          <div className="rounded-2xl border border-cyan-500/20 bg-[linear-gradient(135deg,_rgba(6,182,212,0.16),_rgba(15,23,42,0.96),_rgba(37,99,235,0.22))] p-6 text-slate-50 sm:p-7">
+            <h3 className="mb-4 text-lg font-bold sm:text-[1.7rem]">
               Ready to Transform Your Online Presence?
             </h3>
-            <p className="mb-6 text-lg text-slate-200">
+            <p className="mb-6 text-[0.98rem] leading-7 text-slate-200">
               Let's discuss your project and create something amazing together.
             </p>
             <a
               href="/start"
-              className="inline-flex items-center rounded-lg bg-primary px-8 py-3 font-semibold text-white transition-colors hover:bg-primary/90"
+              className="inline-flex items-center rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary/90"
             >
               Start Your Project
             </a>

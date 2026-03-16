@@ -2,33 +2,54 @@
 > agency-intake-site@0.1.0 dev
 > next dev
 
- ⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
- We detected multiple lockfiles and selected the directory of C:\Users\jensy\Documents\Websites\package-lock.json as the root directory.
- To silence this warning, set `outputFileTracingRoot` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
-   See https://nextjs.org/docs/app/api-reference/config/next-config-js/output#caveats for more information.
- Detected additional lockfiles: 
-   * C:\Users\jensy\Documents\Websites\agency-intake-site\package-lock.json
-
    ▲ Next.js 15.5.0
    - Local:        http://localhost:3000
    - Network:      http://10.5.0.2:3000
    - Environments: .env.local, .env
 
  ✓ Starting...
- ✓ Ready in 1969ms
- ○ Compiling /portfolio ...
-Browserslist: browsers data (caniuse-lite) is 7 months old. Please run:
-  npx update-browserslist-db@latest
-  Why you should do it regularly: https://github.com/browserslist/update-db#readme
- ✓ Compiled /portfolio in 6.6s (4307 modules)
- GET /portfolio 200 in 7995ms
- ✓ Compiled in 1795ms (2080 modules)
+ ✓ Ready in 1765ms
  ○ Compiling / ...
- ✓ Compiled / in 1353ms (4183 modules)
- ⚠ Fast Refresh had to perform a full reload due to a runtime error.
- GET / 200 in 2206ms
- GET / 200 in 75ms
- ○ Compiling /api/lead ...
- ✓ Compiled /api/lead in 1518ms (2457 modules)
- POST /api/lead 500 in 1781ms
-^C^C
+ ✓ Compiled / in 10.4s (3927 modules)
+ ✓ Compiled in 2.4s (1805 modules)
+ GET / 200 in 5836ms
+ GET / 200 in 460ms
+ GET / 200 in 122ms
+ ○ Compiling /portfolio ...
+ ✓ Compiled /portfolio in 3.5s (4571 modules)
+ GET /portfolio 200 in 3750ms
+ GET /portfolio 200 in 69ms
+ ○ Compiling /pricing ...
+ ✓ Compiled /pricing in 839ms (4586 modules)
+ GET /pricing 200 in 1086ms
+ GET /pricing 200 in 60ms
+ ✓ Compiled in 3.1s (4586 modules)
+ GET /pricing 200 in 178ms
+ GET / 200 in 64ms
+ ✓ Compiled in 3.1s (4599 modules)
+ GET / 200 in 181ms
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 3.3s (4926 modules)
+ GET /portfolio 500 in 3923ms
+ GET /portfolio 200 in 183ms
+ GET /portfolio 200 in 54ms
+ GET /portfolio 200 in 61ms
+ GET /portfolio 200 in 741ms
+ GET / 200 in 108ms
+ GET / 200 in 86ms
+ GET / 200 in 93ms
+ GET / 200 in 142ms
+ GET / 200 in 139ms
+ GET /pricing 200 in 277ms
+ GET / 200 in 118ms
+ GET / 200 in 121ms
+ GET / 200 in 138ms
+ ✓ Compiled in 3.7s (4833 modules)
+ ✓ Compiled in 1638ms (4833 modules)
+ ✓ Compiled in 1054ms (4833 modules)
+ ✓ Compiled in 1405ms (4833 modules)
+ ✓ Compiled in 1320ms (4833 modules)
+ ✓ Compiled in 1035ms (4833 modules)
+ ✓ Compiled in 1200ms (4833 modules)
+ ✓ Compiled in 1767ms (4833 modules)
+ ✓ Compiled in 1504ms (4846 modules)

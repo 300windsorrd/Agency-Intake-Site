@@ -73,7 +73,7 @@ export default function BackgroundSlider({
             </p>
           </div>
 
-          <div className="mx-auto flex max-w-2xl flex-wrap items-center justify-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-3 sm:p-4">
+          <div className="mx-auto grid max-w-2xl grid-cols-1 gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-3 sm:p-4 md:grid-cols-3">
             {labels.map((label, index) => {
               const isActive = index === clampedValue
               return (
@@ -82,7 +82,7 @@ export default function BackgroundSlider({
                   type="button"
                   aria-pressed={isActive}
                   onClick={() => onChange(index)}
-                  className="relative min-h-12 w-full overflow-hidden rounded-xl px-5 py-3 text-center text-sm font-semibold transition-all duration-300 sm:w-auto sm:min-w-[180px]"
+                  className="relative min-h-12 w-full overflow-hidden rounded-xl px-5 py-3 text-center text-sm font-semibold transition-all duration-300 md:min-w-0"
                   style={{
                     backgroundColor: isActive
                       ? 'rgba(255,255,255,0.04)'

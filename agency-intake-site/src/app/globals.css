@@ -52,7 +52,7 @@
 
   /* Ensure proper spacing for fixed navigation */
   body {
-    padding-top: 80px; /* Account for fixed navigation height + offset */
+    padding-top: 72px; /* Account for fixed navigation height + offset */
   }
 
   /* Ensure navigation is always accessible */
@@ -101,7 +101,7 @@
   }
   
   .container {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+    @apply mx-auto w-full max-w-[80rem] px-4 sm:px-6 lg:px-8 xl:px-9;
   }
 
 }
@@ -109,6 +109,7 @@
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
+  font-size: 14px;
 }
 
 /* Base themed surfaces */

@@ -113,7 +113,7 @@ export default function Hero() {
   }, [bgIndex, setCurrentBackground])
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 py-20 lg:py-32">
+    <section className="relative overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 py-20 lg:py-24">
       <TextCleaningStyles />
 
       {/* Dynamic Background */}
@@ -122,11 +122,11 @@ export default function Hero() {
         <IdleBackground component={SelectedBg} props={backgrounds[bgIndex].props as any} />
       </div>
       <div className="absolute inset-0 z-[1] bg-slate-950/50" aria-hidden="true" />
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.div initial={false} className="mb-8">
-            <h1 className={`text-4xl sm:text-5xl lg:text-6xl font-bold ${backgrounds[bgIndex].textColors.primary} mb-6 leading-tight`}>
-              Transform Your Business with
+      <div className="container relative z-10">
+        <div className="mx-auto max-w-3xl text-center">
+          <motion.div initial={false} className="mb-7 lg:mb-8">
+            <h1 className={`mb-5 text-[2.4rem] font-bold leading-[1.03] sm:text-[3.15rem] lg:text-[3.8rem] ${backgrounds[bgIndex].textColors.primary}`}>
+              Transform Your Business:
               <span className={`${backgrounds[bgIndex].textColors.accent} block`} ref={textRef}>
                 <TextType
                   key={backgrounds[bgIndex].key}
@@ -145,16 +145,16 @@ export default function Hero() {
                 Web Design
               </span>
             </h1>
-            <p className={`text-xl lg:text-2xl ${backgrounds[bgIndex].textColors.secondary} max-w-3xl mx-auto leading-relaxed`}>
+            <p className={`mx-auto max-w-xl text-[0.98rem] leading-7 lg:text-[1.05rem] lg:leading-7 ${backgrounds[bgIndex].textColors.secondary}`}>
               Get a custom website that converts visitors into customers. Modern, responsive designs
               that perfectly represent your brand and drive real business results.
             </p>
           </motion.div>
 
-          <motion.div initial={false} className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+          <motion.div initial={false} className="mb-10 flex flex-col justify-center gap-3 sm:flex-row lg:mb-12">
             <a
               href="/start"
-              className="inline-flex items-center justify-center px-8 py-4 font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
+              className="inline-flex items-center justify-center rounded-lg px-6 py-3 text-sm font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
               style={({
                 backgroundColor: getButtonColor(),
                 color: getButtonTextColor(),
@@ -163,11 +163,11 @@ export default function Hero() {
               } as React.CSSProperties)}
             >
               Start Your Project
-              <ArrowRight className="ml-2 w-5 h-5" />
+              <ArrowRight className="ml-2 h-[1.125rem] w-[1.125rem]" />
             </a>
             <a
               href="/pricing"
-              className="inline-flex items-center justify-center rounded-lg border border-white/15 bg-slate-950/70 px-8 py-4 font-semibold text-slate-100 transition-all duration-200 hover:border-white/25 hover:bg-slate-900/80"
+              className="inline-flex items-center justify-center rounded-lg border border-white/15 bg-slate-950/70 px-6 py-3 text-sm font-semibold text-slate-100 transition-all duration-200 hover:border-white/25 hover:bg-slate-900/80"
             >
               View Pricing
             </a>
@@ -178,7 +178,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.25 }}
-            className="mb-12"
+            className="mb-2 lg:mb-4"
           >
             <BackgroundSlider
               value={bgIndex}
@@ -195,8 +195,8 @@ export default function Hero() {
 
       {/* Background decoration */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none" aria-hidden="true">
-        <div className={`absolute top-20 left-10 w-72 h-72 ${backgrounds[bgIndex].textColors.accent}/10 rounded-full blur-3xl`}></div>
-        <div className={`absolute bottom-20 right-10 w-96 h-96 ${backgrounds[bgIndex].textColors.accent}/10 rounded-full blur-3xl`}></div>
+        <div className={`absolute left-10 top-20 h-64 w-64 ${backgrounds[bgIndex].textColors.accent}/10 rounded-full blur-3xl`}></div>
+        <div className={`absolute bottom-16 right-10 h-80 w-80 ${backgrounds[bgIndex].textColors.accent}/10 rounded-full blur-3xl`}></div>
       </div>
     </section>
   )

@@ -33,10 +33,10 @@
 /* Cleaned up legacy media queries */
 
 .pill-nav {
-  --nav-h: 46px;
-  --logo-compact-w: 92px;
-  --logo-expanded-w: 148px;
-  --pill-pad-x: 18px;
+  --nav-h: 38px;
+  --logo-compact-w: 76px;
+  --logo-expanded-w: 124px;
+  --pill-pad-x: 14px;
   --pill-gap: 3px;
   width: max-content;
   display: flex;
@@ -221,7 +221,7 @@
   border-radius: 9999px;
   box-sizing: border-box;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 13px;
   line-height: 0;
   text-transform: uppercase;
   letter-spacing: 0.2px;
@@ -359,10 +359,10 @@ button.pill {
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 16px;
+  padding: 10px 14px;
   border-radius: 16px;
   color: #e2e8f0;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
   text-decoration: none;
   background: rgba(15, 23, 42, 0.72);
@@ -487,7 +487,7 @@ button.pill {
 .pill-nav-mobile {
   display: none;
   position: fixed;
-  top: 10px;
+  top: 14px;
   left: 50%;
   transform: translateX(-50%);
   z-index: calc(var(--z-mobile-nav) + 2);
@@ -507,7 +507,7 @@ button.pill {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  padding: 6px 12px;
+  padding: 5px 10px;
   box-sizing: border-box;
   /* Ensure button is clickable */
   position: relative;
@@ -603,7 +603,7 @@ button.pill {
   color: var(--pill-text, #fff);
   background-color: var(--pill-bg, #fff);
   text-decoration: none;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
   border-radius: 9999px;
   transition: all 0.2s ease;
@@ -663,7 +663,7 @@ button.pill {
     padding: 0 1rem;
     box-sizing: border-box;
     position: fixed !important;
-    top: 10px !important;
+    top: 14px !important;
     z-index: calc(var(--z-mobile-nav) + 2) !important;
     pointer-events: none;
     /* Let clicks pass through container to body by default */
@@ -742,7 +742,7 @@ button.pill {
     max-width: calc(100vw - 20px);
     min-height: 0;
     z-index: calc(var(--z-mobile-nav) + 1);
-    padding: 20px 20px calc(env(safe-area-inset-bottom, 0px) + 28px);
+    padding: 18px 18px calc(env(safe-area-inset-bottom, 0px) + 24px);
     overflow-y: auto;
   }
 
@@ -763,8 +763,8 @@ button.pill {
   .pill-mobile-link {
     justify-content: flex-start;
     font-size: 1rem;
-    padding: 14px 18px;
-    min-height: 52px;
+    padding: 12px 16px;
+    min-height: 48px;
     border: 1px solid rgba(148, 163, 184, 0.14);
     background: rgba(30, 41, 59, 0.72);
     color: #f8fafc;
@@ -779,8 +779,8 @@ button.pill {
   }
 
   .pill-mobile-sublink {
-    min-height: 44px;
-    padding: 10px 14px;
+    min-height: 40px;
+    padding: 9px 13px;
     background: rgba(15, 23, 42, 0.88);
     border: 1px solid rgba(148, 163, 184, 0.12);
   }

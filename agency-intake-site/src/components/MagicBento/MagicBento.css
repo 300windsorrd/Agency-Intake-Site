@@ -23,11 +23,11 @@
 
 .card-grid {
   display: grid;
-  gap: 1.5em;
-  padding: 1em;
+  gap: 1.15em;
+  padding: 0.75em;
   max-width: 1200px;
   margin: 0 auto;
-  font-size: clamp(1rem, 0.9rem + 0.5vw, 1.5rem);
+  font-size: clamp(0.95rem, 0.88rem + 0.34vw, 1.2rem);
 }
 
 .card {
@@ -35,11 +35,11 @@
   flex-direction: column;
   justify-content: space-between;
   position: relative;
-  aspect-ratio: 1.2;
-  min-height: 200px;
+  aspect-ratio: 1.24;
+  min-height: 180px;
   width: 100%;
   max-width: 100%;
-  padding: 1.25em; /* keep spacing similar to grid */
+  padding: 1.1em; /* keep spacing similar to grid */
   border-radius: 20px;
   border: 1px solid var(--bento-border-color);
   background: var(--bento-bg);
@@ -76,8 +76,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2rem;
-  height: 2rem;
+  width: 1.85rem;
+  height: 1.85rem;
   border-radius: 0.5rem;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
@@ -89,7 +89,7 @@
 }
 
 .card__label {
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .card__title,
@@ -100,12 +100,12 @@
 
 .card__title {
   font-weight: 600;
-  font-size: 18px;
+  font-size: 17px;
   margin: 0 0 0.25em;
 }
 
 .card__description {
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.5;
   color: var(--bento-text-muted);
 }
@@ -138,7 +138,7 @@
 
   .card {
     width: 100%;
-    min-height: 180px;
+    min-height: 165px;
   }
 }
 
