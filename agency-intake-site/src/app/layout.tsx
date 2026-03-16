@@ -78,13 +78,19 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${inter.variable}`} suppressHydrationWarning data-scroll-behavior="smooth">
+    <html
+      lang="en"
+      className={`${inter.variable} dark`}
+      suppressHydrationWarning
+      data-scroll-behavior="smooth"
+      data-theme="dark"
+      style={{ colorScheme: 'dark' }}
+    >
       <head>
         <link rel="icon" href="/favicon.png" type="image/png" />
         <link rel="apple-touch-icon" href="/favicon.png" />
         <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)" />
-        <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+        <meta name="theme-color" content="#050816" />
         {/* Preconnects for font delivery to improve CLS */}
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
@@ -151,24 +157,6 @@ export default function RootLayout({
                 }
               ]
             })
-          }}
-        />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  var saved = localStorage.getItem('theme');
-                  var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                  var theme = saved || (prefersDark ? 'dark' : 'light');
-                  var root = document.documentElement;
-                  root.dataset.theme = theme;
-                  root.style.colorScheme = theme === 'dark' ? 'dark' : 'light';
-                  if (theme === 'dark') root.classList.add('dark');
-                  else root.classList.remove('dark');
-                } catch (e) {}
-              })();
-            `,
           }}
         />
       </head>

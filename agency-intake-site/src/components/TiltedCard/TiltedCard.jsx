@@ -144,34 +144,32 @@ export default function TiltedCard({
           scale,
         }}
       >
-        {videoSrc ? (
-          <motion.video
-            ref={videoRef}
-            src={videoSrc}
-            className="tilted-card-img object-cover"
-            style={{
-              width: imageWidth,
-              height: imageHeight,
-            }}
-            loop
-            muted
-            playsInline
-          />
-        ) : (
-          <Image
-            src={imageSrc}
-            alt={altText}
-            fill
-            className="tilted-card-img object-cover"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          />
-        )}
+        <div className="tilted-card-media">
+          {videoSrc ? (
+            <motion.video
+              ref={videoRef}
+              src={videoSrc}
+              className="tilted-card-img object-cover"
+              loop
+              muted
+              playsInline
+            />
+          ) : (
+            <Image
+              src={imageSrc}
+              alt={altText}
+              fill
+              className="tilted-card-img object-cover"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
+          )}
 
-        {displayOverlayContent && overlayContent && (
-          <motion.div className="tilted-card-overlay">
-            {overlayContent}
-          </motion.div>
-        )}
+          {displayOverlayContent && overlayContent && (
+            <motion.div className="tilted-card-overlay">
+              {overlayContent}
+            </motion.div>
+          )}
+        </div>
       </motion.div>
 
       {showTooltip && (

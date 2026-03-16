@@ -48,7 +48,6 @@ describe('Features component', () => {
 
     expect(screen.getByTestId('magic-bento')).toBeInTheDocument()
   })
-  })
 
   it('renders the call-to-action section', () => {
     render(<Features />)

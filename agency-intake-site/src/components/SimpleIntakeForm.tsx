@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { simpleIntakeSchema, type SimpleIntake } from '@/lib/simple-intake.schema'
-import { submitSimpleIntake } from '@/lib/supabase'
+import { submitSimpleIntake } from '@/lib/webhooks'
 import { motion } from 'framer-motion'
 import { useBackground } from '@/contexts/BackgroundContext'
 

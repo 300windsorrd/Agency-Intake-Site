@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 
 test.describe.skip('Intake E2E (legacy multi-step)', () => {
   test.beforeEach(async ({ page }) => {
-    await page.route('**/functions/v1/intake-submit', async (route) => {
+    await page.route('**/api/intake', async (route) => {
       const req = route.request()
       const method = req.method()
       const body = method === 'POST' ? await req.postDataJSON().catch(() => ({})) : {}
@@ -51,5 +51,4 @@ test.describe.skip('Intake E2E (legacy multi-step)', () => {
     await expect(page.getByText(/Your project has been submitted successfully/i)).toBeVisible()
   })
 })
-
 

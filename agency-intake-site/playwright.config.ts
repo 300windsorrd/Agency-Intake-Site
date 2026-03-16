@@ -8,8 +8,8 @@ export default defineConfig({
 		reuseExistingServer: !process.env.CI,
 		timeout: 120 * 1000,
 		env: {
-			NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL || 'http://localhost:54321',
-			NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'anon'
+			N8N_CONTACT_WEBHOOK_URL: process.env.N8N_CONTACT_WEBHOOK_URL || 'http://127.0.0.1:9999/webhook/contact',
+			N8N_INTAKE_WEBHOOK_URL: process.env.N8N_INTAKE_WEBHOOK_URL || 'http://127.0.0.1:9999/webhook/intake'
 		}
 	},
 	use: {

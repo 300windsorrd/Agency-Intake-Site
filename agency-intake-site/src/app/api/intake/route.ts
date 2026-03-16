@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { simpleIntakeSchema } from '@/lib/simple-intake.schema'
-import { buildSimpleIntakePayload } from '@/lib/webhooks'
+import { intakeSchema } from '@/lib/schema'
+import { buildIntakePayload } from '@/lib/webhooks'
 
 export const runtime = 'edge'
 
@@ -18,25 +18,25 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const contactWebhookUrl = process.env.N8N_CONTACT_WEBHOOK_URL?.trim() || process.env.N8N_WEBHOOK_URL?.trim() || process.env.WEBHOOK_URL?.trim()
+    const intakeWebhookUrl = process.env.N8N_INTAKE_WEBHOOK_URL?.trim() || process.env.N8N_WEBHOOK_URL?.trim() || process.env.WEBHOOK_URL?.trim()
 
-    if (!contactWebhookUrl) {
+    if (!intakeWebhookUrl) {
       return NextResponse.json(
-        { success: false, error: 'n8n contact webhook is not configured' },
+        { success: false, error: 'n8n intake webhook is not configured' },
         { status: 500 }
       )
     }
 
-    const validatedData = simpleIntakeSchema.parse({ ...intakeData, turnstileToken })
+    const validatedData = intakeSchema.parse(intakeData)
     const submissionId = crypto.randomUUID()
-    const response = await fetch(contactWebhookUrl, {
+    const response = await fetch(intakeWebhookUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         submissionId,
-        formType: 'contact',
+        formType: 'intake',
         submittedAt: new Date().toISOString(),
-        lead: buildSimpleIntakePayload(validatedData)
+        intake: buildIntakePayload(validatedData, turnstileToken)
       })
     })
 
@@ -57,29 +57,29 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         success: true,
-        id: result?.id || result?.submissionId || submissionId,
-        message: 'Lead submitted successfully'
+        id: result?.id || result?.submissionId || result?.intakeId || submissionId,
+        message: 'Intake submitted successfully'
       },
       { status: 201 }
     )
   } catch (error) {
-    console.error('Lead submission error:', error)
-    
+    console.error('Intake submission error:', error)
+
     if (error instanceof Error && error.name === 'ZodError') {
       return NextResponse.json(
-        { 
-          success: false, 
+        {
+          success: false,
           error: 'Validation failed',
-          details: error.message 
+          details: error.message
         },
         { status: 400 }
       )
     }
-    
+
     return NextResponse.json(
-      { 
-        success: false, 
-        error: 'Internal server error' 
+      {
+        success: false,
+        error: 'Internal server error'
       },
       { status: 500 }
     )

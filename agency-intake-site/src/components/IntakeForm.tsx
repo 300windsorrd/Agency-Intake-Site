@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronLeft, ChevronRight, Check } from 'lucide-react'
 import { intakeSchema, IntakeFormData } from '@/lib/schema'
 import { z } from 'zod'
-import { submitIntake } from '@/lib/supabase'
+import { submitIntake } from '@/lib/webhooks'
 import dynamic from 'next/dynamic'
 import { useBackground } from '@/contexts/BackgroundContext'
 

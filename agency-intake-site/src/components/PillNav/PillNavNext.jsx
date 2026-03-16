@@ -296,8 +296,7 @@ const PillNav = ({
       const isBackgroundButton = target.closest('[data-background-customization]') ||
         target.closest('.background-slider') ||
         target.closest('[data-background]') ||
-        target.closest('.style-selector') ||
-        target.closest('.theme-toggle');
+        target.closest('.style-selector');
 
       if (isBackgroundButton) {
         // Close the mobile menu when background customization is clicked

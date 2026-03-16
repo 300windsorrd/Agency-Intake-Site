@@ -1,4 +1,4 @@
-import { buildIntakePayload } from '@/lib/supabase'
+import { buildIntakePayload } from '@/lib/webhooks'
 import { IntakeFormData } from '@/lib/schema'
 
 function baseData(): IntakeFormData {

@@ -1,12 +1,11 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { useMemo, useEffect, useState } from 'react'
+import { useMemo } from 'react'
 import { useBackground } from '@/contexts/BackgroundContext'
 import GradientText from '@/TextAnimations/GradientText/GradientText'
 import '@/TextAnimations/GradientText/GradientText.css'
 import { Fredoka } from 'next/font/google'
-import ThemeToggle from './ThemeToggle'
 
 const fredoka = Fredoka({
   subsets: ['latin'],
@@ -40,20 +39,6 @@ export default function BackgroundSlider({
   const buttonColor = getButtonColor()
   const buttonTextColor = getButtonTextColor()
 
-  // Important: don't read from document during initial render to avoid SSR/CSR mismatch
-  const [isDark, setIsDark] = useState<boolean>(false)
-
-  useEffect(() => {
-    if (typeof document === 'undefined') return
-    const root = document.documentElement
-    const update = () => setIsDark((root.dataset.theme === 'dark') || root.classList.contains('dark'))
-
-    update()
-    const observer = new MutationObserver(() => update())
-    observer.observe(root, { attributes: true, attributeFilter: ['data-theme', 'class'] })
-    return () => observer.disconnect()
-  }, [])
-
   const clampedValue = useMemo(() => {
     const upper = Math.max(0, Math.min(max, value))
     return upper
@@ -64,7 +49,7 @@ export default function BackgroundSlider({
       <motion.div
         className="relative rounded-3xl backdrop-blur-xl border border-white/20 shadow-2xl overflow-hidden"
         style={{
-          backgroundColor: isDark ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.6)',
+          backgroundColor: 'rgba(255,255,255,0.6)',
         }}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -78,17 +63,12 @@ export default function BackgroundSlider({
           }}
         />
 
-        {/* Theme toggle in top-right */}
-        <div className="absolute right-4 top-4 z-10">
-          <ThemeToggle />
-        </div>
-
         <div className="relative p-6 sm:p-8">
           <div className="flex flex-col items-center justify-center mb-8">
             <div className={`${fredoka.className} text-2xl sm:text-3xl font-extrabold mb-2 text-center`}>
               <GradientText animationSpeed={6}>Customize Background</GradientText>
             </div>
-            <p className={`text-sm sm:text-base font-medium opacity-80 ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+            <p className="text-sm sm:text-base font-medium opacity-80 text-gray-600">
               Choose the perfect atmosphere
             </p>
           </div>
@@ -104,9 +84,9 @@ export default function BackgroundSlider({
                   className="relative group overflow-hidden rounded-xl p-3 text-sm font-semibold transition-all duration-300"
                   style={{
                     backgroundColor: isActive
-                      ? (isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)')
+                      ? 'rgba(0,0,0,0.05)'
                       : 'transparent',
-                    color: isDark ? '#fff' : '#1f2937'
+                    color: '#1f2937'
                   }}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
@@ -124,7 +104,7 @@ export default function BackgroundSlider({
 
                   {/* Border for inactive items */}
                   {!isActive && (
-                    <div className={`absolute inset-0 border-2 border-transparent group-hover:border-gray-300/50 rounded-xl transition-colors ${isDark ? 'group-hover:border-white/20' : ''}`} />
+                    <div className="absolute inset-0 border-2 border-transparent group-hover:border-gray-300/50 rounded-xl transition-colors" />
                   )}
 
                   <span className="relative z-10 flex items-center justify-center gap-2"

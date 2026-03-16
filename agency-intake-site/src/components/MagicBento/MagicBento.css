@@ -10,34 +10,15 @@
   --purple-glow: rgba(132, 0, 255, 0.2);
   --purple-border: rgba(132, 0, 255, 0.8);
   --border-color: #e5e7eb; /* gray-200 */
-  --background-dark: #ffffff; /* switch to light to match default grid */
-  color-scheme: light dark;
+  color-scheme: light;
 }
 
 /* Component-scoped tokens with sensible defaults */
 .bento-section {
-  /* Allow per-card overrides in light theme, but unify in dark */
   --bento-bg: var(--bento-bg-override, var(--bg-elev));
   --bento-text: var(--txt);
   --bento-text-muted: var(--txt-muted);
   --bento-border-color: var(--line);
-}
-
-/* Force black cards with white text in dark mode */
-:root[data-theme="dark"] .bento-section {
-  --bento-bg: #000000;
-  --bento-text: #ffffff;
-  --bento-text-muted: rgba(255, 255, 255, 0.75);
-  --bento-border-color: #2a2a2a;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) .bento-section {
-    --bento-bg: #000000;
-    --bento-text: #ffffff;
-    --bento-text-muted: rgba(255, 255, 255, 0.75);
-    --bento-border-color: #2a2a2a;
-  }
 }
 
 .card-grid {

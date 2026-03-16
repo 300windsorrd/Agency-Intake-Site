@@ -13,14 +13,9 @@
   /* Higher than desktop nav */
 }
 
-:root[data-theme="light"] {
+:root {
   --hamburger-bg: #000;
   --hamburger-fg: #fff;
-}
-
-:root[data-theme="dark"] {
-  --hamburger-bg: #fff;
-  --hamburger-fg: #000;
 }
 
 .pill-nav-container {
@@ -118,43 +113,6 @@
   transition: opacity var(--t-med, 220ms) var(--ease, cubic-bezier(.2, .6, .2, 1));
 }
 
-/* Theme filtering */
-:root[data-theme="dark"] .pill-logo .logo-img.is-dark {
-  display: block;
-}
-
-:root[data-theme="dark"] .pill-logo .logo-img.is-light {
-  display: none;
-}
-
-:root[data-theme="light"] .pill-logo .logo-img.is-dark {
-  display: none;
-}
-
-:root[data-theme="light"] .pill-logo .logo-img.is-light {
-  display: block;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) .pill-logo .logo-img.is-dark {
-    display: block;
-  }
-
-  :root:not([data-theme]) .pill-logo .logo-img.is-light {
-    display: none;
-  }
-}
-
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme]) .pill-logo .logo-img.is-dark {
-    display: none;
-  }
-
-  :root:not([data-theme]) .pill-logo .logo-img.is-light {
-    display: block;
-  }
-}
-
 /* Default to normal state visible */
 .pill-logo .logo-img.state-normal {
   opacity: 1;
@@ -191,7 +149,7 @@
   /* allow inline selector to overflow */
 }
 
-/* Left slot container for theme toggle */
+/* Left slot container */
 .pill-left-slot {
   display: inline-flex;
   align-items: center;

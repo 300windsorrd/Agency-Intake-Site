@@ -13,17 +13,33 @@ describe('api/intake POST', () => {
   const originalEnv = process.env
   beforeEach(() => {
     process.env = { ...originalEnv }
-    process.env.NEXT_PUBLIC_SUPABASE_URL = 'https://example.supabase.co'
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = 'anon'
+    process.env.N8N_INTAKE_WEBHOOK_URL = 'https://n8n.example.com/webhook/intake'
+    process.env.NODE_ENV = 'test'
     global.fetch = jest.fn().mockResolvedValue({
       ok: true,
-      json: async () => ({ ok: true, intakeId: 'id-1' })
+      json: async () => ({ id: 'id-1' })
     } as any)
   })
   afterAll(() => { process.env = originalEnv })
 
   it('validates turnstile token presence', async () => {
-    const req = { json: async () => ({}) }
+    process.env.NODE_ENV = 'production'
+    const req = {
+      json: async () => ({
+        business: {
+          name: 'Acme',
+          industry: 'Retail',
+          address: { country: 'US', state: 'CA', streetAddress: '1 Main', city: 'SF', zipCode: '94105' },
+          phone: '5551234567',
+          domain: 'acme.com',
+          socials: {}
+        },
+        goals: { conversions: ['calls'], pages: ['Home'] },
+        color: { brand: '#000000', mode: 'auto', palette: ['#000000'] },
+        fonts: { headings: 'inter', body: 'inter' },
+        templates: ['Style A']
+      })
+    }
     const res = await POST(req as any)
     const json = await (res as any).json()
     expect((res as any).status).toBe(400)

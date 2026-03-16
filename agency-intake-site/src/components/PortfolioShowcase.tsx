@@ -1,8 +1,8 @@
 'use client'
 
 import { useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
-import { ExternalLink, Layers, Zap, Layout, Code, CheckCircle } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { ExternalLink, Layers, Zap, CheckCircle } from 'lucide-react'
 import TiltedCard from '@/components/TiltedCard/TiltedCard'
 import { useBackground } from '@/contexts/BackgroundContext'
 
@@ -27,8 +27,8 @@ export default function PortfolioShowcase({ projects }: PortfolioShowcaseProps) 
     const buttonColor = getButtonColor()
 
     return (
-        <section className="py-24 bg-gray-50 dark:bg-gray-900 overflow-hidden relative">
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gray-100 via-gray-50 to-gray-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-900" />
+        <section className="py-24 bg-gray-50 overflow-hidden relative">
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gray-100 via-gray-50 to-gray-50" />
 
             <div className="container mx-auto px-4 md:px-6 relative z-10">
                 <div className="text-center mb-32">
@@ -39,7 +39,7 @@ export default function PortfolioShowcase({ projects }: PortfolioShowcaseProps) 
                         transition={{ duration: 0.5 }}
                         className="inline-block"
                     >
-                        <h2 className="text-5xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-600 to-gray-900 dark:from-white dark:via-gray-400 dark:to-white pb-2">
+                        <h2 className="text-5xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-600 to-gray-900 pb-2">
                             Featured Work
                         </h2>
                         <motion.div
@@ -59,7 +59,7 @@ export default function PortfolioShowcase({ projects }: PortfolioShowcaseProps) 
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.3 }}
-                        className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mt-8 font-light"
+                        className="text-xl md:text-2xl text-gray-600 max-w-2xl mx-auto mt-8 font-light"
                     >
                         A curated selection of digital experiences crafted with precision, passion, and purpose.
                     </motion.p>
@@ -94,17 +94,10 @@ export default function PortfolioShowcase({ projects }: PortfolioShowcaseProps) 
 function ProjectSection({ project, index }: { project: PortfolioProject; index: number }) {
     const isEven = index % 2 === 0
     const ref = useRef(null)
-    const { scrollYProgress } = useScroll({
-        target: ref,
-        offset: ["start end", "end start"]
-    })
 
     const { getButtonColor, getButtonTextColor } = useBackground()
     const buttonColor = getButtonColor()
     const buttonTextColor = getButtonTextColor()
-
-    // Parallax effect for the image
-    const y = useTransform(scrollYProgress, [0, 1], [0, 0]) // Currently disabled parallax, can enable if needed
 
     return (
         <motion.div
@@ -116,21 +109,21 @@ function ProjectSection({ project, index }: { project: PortfolioProject; index: 
             className={`flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} items-center gap-12 lg:gap-20`}
         >
             {/* Image Side */}
-            <div className="w-full lg:w-1/2 flex justify-center">
+            <div className="w-full lg:w-1/2 flex justify-center px-3 sm:px-4 lg:px-0">
                 <a
                     href={project.projectUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="relative block cursor-pointer"
+                    className="relative block w-full max-w-[600px] cursor-pointer"
                 >
                     <div
-                        className="absolute -inset-4 rounded-3xl blur-2xl opacity-50 transition-opacity duration-300 group-hover:opacity-75"
+                        className="absolute -inset-3 sm:-inset-4 rounded-3xl blur-2xl opacity-50 transition-opacity duration-300 group-hover:opacity-75"
                         style={{
                             background: `linear-gradient(to right, ${project.color}40, ${project.color}10)`,
                             // Optional: Mix in global color if desired, but project color seems better for the glow
                         }}
                     />
-                    {/* @ts-ignore - TiltedCard is JS */}
+                    {/* @ts-ignore - TiltedCard is a JS component without TS props */}
                     <TiltedCard
                         imageSrc={project.imageUrl || ''}
                         videoSrc={project.videoUrl}
@@ -139,7 +132,7 @@ function ProjectSection({ project, index }: { project: PortfolioProject; index: 
                         containerHeight="400px"
                         containerWidth="100%"
                         imageHeight="400px"
-                        imageWidth="600px"
+                        imageWidth="100%"
                         rotateAmplitude={10}
                         scaleOnHover={1.05}
                         showMobileWarning={false}
@@ -159,22 +152,22 @@ function ProjectSection({ project, index }: { project: PortfolioProject; index: 
             {/* Content Side */}
             <div className="w-full lg:w-1/2 space-y-8">
                 <div>
-                    <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-3">
+                    <h3 className="text-3xl font-bold text-gray-900 mb-4 flex items-center gap-3">
                         {project.title}
                         <div className={`h-2 w-2 rounded-full`} style={{ backgroundColor: project.color }} />
                     </h3>
-                    <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
+                    <p className="text-lg text-gray-600 leading-relaxed">
                         {project.description}
                     </p>
                 </div>
 
                 <div className="space-y-4">
-                    <h4 className="text-sm font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 flex items-center gap-2">
+                    <h4 className="text-sm font-semibold uppercase tracking-wider text-gray-500 flex items-center gap-2">
                         <Zap className="w-4 h-4" /> Key Features
                     </h4>
                     <ul className="grid grid-cols-1 gap-3">
                         {project.features.map((feature, idx) => (
-                            <li key={idx} className="flex items-start gap-3 text-gray-700 dark:text-gray-300">
+                            <li key={idx} className="flex items-start gap-3 text-gray-700">
                                 <CheckCircle className="w-5 h-5 mt-0.5 shrink-0" style={{ color: buttonColor }} />
                                 <span>{feature}</span>
                             </li>
@@ -183,14 +176,14 @@ function ProjectSection({ project, index }: { project: PortfolioProject; index: 
                 </div>
 
                 <div className="space-y-4">
-                    <h4 className="text-sm font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 flex items-center gap-2">
+                    <h4 className="text-sm font-semibold uppercase tracking-wider text-gray-500 flex items-center gap-2">
                         <Layers className="w-4 h-4" /> Tech Stack
                     </h4>
                     <div className="flex flex-wrap gap-2">
                         {project.techStack.map((tech, idx) => (
                             <span
                                 key={idx}
-                                className="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700"
+                                className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm font-medium border border-gray-200"
                             >
                                 {tech}
                             </span>
