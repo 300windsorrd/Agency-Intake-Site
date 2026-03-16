@@ -96,10 +96,13 @@ test.describe('Navigation Accessibility', () => {
       
       // Menu items should be accessible
       const menuItems = page.locator('.pill-mobile-link')
-      await expect(menuItems).toHaveCount(4) // Home, About, Pricing, Get Started
+      await expect(menuItems).toHaveCount(7) // Home, Services, Portfolio, Pricing, About, Consultation, Get Started
+
+      const serviceSubLinks = page.locator('.pill-mobile-sublink')
+      await expect(serviceSubLinks).toHaveCount(3)
       
       // Each item should have proper ARIA attributes
-      for (let i = 0; i < 4; i++) {
+      for (let i = 0; i < 7; i++) {
         const item = menuItems.nth(i)
         await expect(item).toHaveAttribute('aria-label')
       }

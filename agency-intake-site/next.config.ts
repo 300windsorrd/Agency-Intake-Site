@@ -1,3 +1,4 @@
+import path from "path";
 import type { NextConfig } from "next";
 
 // Enable static export for GitHub Pages
@@ -8,6 +9,7 @@ const nextConfig: NextConfig = {
   // Use default output so API routes work
   basePath,
   assetPrefix: basePath ? `${basePath}/` : '',
+  outputFileTracingRoot: path.resolve(process.cwd()),
   images: {
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [

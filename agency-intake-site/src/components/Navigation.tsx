@@ -6,6 +6,7 @@ import LogoSwap from './LogoSwap'
 import { usePathname } from 'next/navigation'
 import PillNav from './PillNav/PillNavNext'
 import { useBackground } from '@/contexts/BackgroundContext'
+import { serviceNavItems } from '@/content/services'
 import './Navigation.css'
 import { LayoutGroup } from 'framer-motion'
 
@@ -13,14 +14,23 @@ interface NavigationProps {
   className?: string
 }
 
-const navItems = [
+interface NavigationItem {
+  href: string
+  label: string
+  children?: NavigationItem[]
+}
+
+const navItems: NavigationItem[] = [
   { href: '/', label: 'Home' },
+  { href: '/services', label: 'Services', children: serviceNavItems },
   { href: '/portfolio', label: 'Portfolio' },
   { href: '/pricing', label: 'Pricing' },
+  { href: '/about', label: 'About' },
+  { href: '/consultation', label: 'Consultation' },
   { href: '/start', label: 'Get Started' }
 ]
 
-const desktopNavItems = navItems.filter((item) => item.href !== '/start')
+const desktopNavItems = navItems.filter((item) => item.href !== '/' && item.href !== '/start')
 
 const Navigation = ({ className = '' }: NavigationProps) => {
   const { getButtonColor, getNavigationTextColor } = useBackground()
@@ -44,14 +54,8 @@ const Navigation = ({ className = '' }: NavigationProps) => {
       <PillNav
         logo={<LogoSwap />}
         logoHref="/"
-        items={navItems.map(item => ({
-          href: item.href,
-          label: item.label
-        }))}
-        desktopItems={desktopNavItems.map(item => ({
-          href: item.href,
-          label: item.label
-        }))}
+        items={navItems}
+        desktopItems={desktopNavItems}
         activeHref={pathname}
         baseColor="#0f172a"
         pillColor={getButtonColor()}

@@ -3,9 +3,14 @@ import { IntakePayload } from './intake.schema'
 import type { SimpleIntake } from './simple-intake.schema'
 
 type SubmitResult = { success: boolean; id?: string; error?: string }
-
-const CONTACT_WEBHOOK_ENV_KEYS = ['N8N_CONTACT_WEBHOOK_URL', 'N8N_WEBHOOK_URL', 'WEBHOOK_URL'] as const
 const INTAKE_WEBHOOK_ENV_KEYS = ['N8N_INTAKE_WEBHOOK_URL', 'N8N_WEBHOOK_URL', 'WEBHOOK_URL'] as const
+type WebhookResponse = {
+  id?: string
+  submissionId?: string
+  intakeId?: string
+  error?: string
+  message?: string
+}
 
 function normalizeUrlOrUndefined(input?: string): string | undefined {
   if (!input) return undefined
@@ -54,10 +59,11 @@ async function postWebhook(url: string, payload: unknown): Promise<{ id?: string
     body: JSON.stringify(payload)
   })
 
-  let result: any = null
+  let result: WebhookResponse | null = null
   try {
     const text = await response.text()
-    result = text ? JSON.parse(text) : null
+    const parsed: unknown = text ? JSON.parse(text) : null
+    result = parsed && typeof parsed === 'object' ? (parsed as WebhookResponse) : null
   } catch {
     result = null
   }
@@ -72,15 +78,18 @@ async function postWebhook(url: string, payload: unknown): Promise<{ id?: string
 }
 
 export function buildIntakePayload(intake: IntakeFormData, turnstileToken: string): IntakePayload {
-  const goalMapping: Record<string, 'Calls' | 'Bookings' | 'Orders' | 'Lead Form' | 'Not Sure'> = {
+  const goalMapping: Record<IntakeFormData['goals']['conversions'][number], IntakePayload['goals'][number]> = {
     calls: 'Calls',
     bookings: 'Bookings',
     orders: 'Orders',
     lead_form: 'Lead Form',
-    not_sure: 'Not Sure'
+    not_sure: 'not_sure'
   }
 
-  const featureMapping: Record<string, string> = {
+  const featureMapping: Record<
+    Exclude<NonNullable<IntakeFormData['features']>[number], 'not_sure'>,
+    NonNullable<IntakePayload['features']>[number]
+  > = {
     booking: 'Booking',
     menu_catalog: 'Menu Catalog',
     gift_cards: 'Gift Cards',
@@ -92,8 +101,7 @@ export function buildIntakePayload(intake: IntakeFormData, turnstileToken: strin
     hours: 'Hours',
     contact_form: 'Contact Form',
     chat: 'Chat',
-    analytics: 'Analytics',
-    not_sure: 'Not Sure'
+    analytics: 'Analytics'
   }
 
   const selectedDomain = normalizeUrlOrUndefined(intake.business.domain)
@@ -121,7 +129,7 @@ export function buildIntakePayload(intake: IntakeFormData, turnstileToken: strin
       const mapped = (intake.goals.conversions || [])
         .map((goal) => goalMapping[goal])
         .filter((goal): goal is NonNullable<typeof goal> => Boolean(goal))
-      return mapped.length ? mapped : (['Not Sure'] as any)
+      return mapped.length ? mapped : (['not_sure'] as IntakePayload['goals'])
     })(),
     pages,
     color: {
@@ -136,7 +144,7 @@ export function buildIntakePayload(intake: IntakeFormData, turnstileToken: strin
           mono: 'Monochrome',
           'mono-tints': 'Monochrome Tints'
         }
-        const harmony = (intake as any)?.color?.harmony as keyof typeof map | undefined
+        const harmony = intake.color?.harmony
         return (harmony && map[harmony]) || 'Monochrome'
       })(),
       palette: intake.color.palette || ['#000000']
@@ -151,7 +159,7 @@ export function buildIntakePayload(intake: IntakeFormData, turnstileToken: strin
     features: (intake.features || [])
       .filter((feature) => feature !== 'not_sure')
       .map((feature) => featureMapping[feature])
-      .filter((feature): feature is NonNullable<typeof feature> => Boolean(feature)) as unknown as IntakePayload['features'],
+      .filter((feature): feature is NonNullable<typeof feature> => Boolean(feature)),
     timeline: intake.admin?.timeline?.replace(/_/g, ' ').replace(/\b\w/g, (letter) => letter.toUpperCase()) || '3-4 weeks',
     plan: intake.admin?.plan
       ? intake.admin.plan.charAt(0).toUpperCase() + intake.admin.plan.slice(1)
@@ -182,7 +190,7 @@ export function buildSimpleIntakePayload(intake: SimpleIntake) {
     ai_automation: 'AI Automation'
   }[service])
 
-  const mapUrgencyTag = (urgencyTag: NonNullable<SimpleIntake['urgencyTag']>) => ({
+  const mapUrgencyTag = (urgencyTag: Exclude<SimpleIntake['urgencyTag'], '' | undefined>) => ({
     asap: 'ASAP',
     '2_4_weeks': '2-4 Weeks',
     '1_2_months': '1-2 Months',

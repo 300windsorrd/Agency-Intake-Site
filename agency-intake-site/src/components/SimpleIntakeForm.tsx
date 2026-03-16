@@ -98,14 +98,15 @@ export default function SimpleIntakeForm() {
 		setIsSubmitting(true)
 		setMessage(null)
 		let token = tokenRef.current
+		const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
 
 		if (!token && process.env.NODE_ENV !== 'production') token = 'placeholder-token'
-		if (!token && typeof window !== 'undefined' && (window as any).turnstile) {
+		if (!token && typeof window !== 'undefined' && window.turnstile && siteKey) {
 			await new Promise<void>((resolve) => {
 				const container = document.getElementById('turnstile-container')
 				if (!container) return resolve()
-				;(window as any).turnstile.render('#turnstile-container', {
-					sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
+				window.turnstile?.render('#turnstile-container', {
+					sitekey: siteKey,
 					callback: (issuedToken: string) => {
 						tokenRef.current = issuedToken
 						resolve()
