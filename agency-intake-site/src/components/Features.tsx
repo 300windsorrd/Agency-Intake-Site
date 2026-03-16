@@ -55,7 +55,7 @@ export default function Features() {
   const bentoItems = useMemo(
     () =>
       features.map((f, i) => ({
-        color: '#ffffff',
+        color: '#081120',
         title: f.title,
         description: f.description,
         label: 'Feature',
@@ -75,13 +75,13 @@ export default function Features() {
         handle: '',
         borderColor: palette[i % palette.length],
         gradient: `linear-gradient(165deg, ${palette[i % palette.length]}, #000)`,
-        url: '#start-project'
+        url: '/start'
       })),
     []
   )
 
   return (
-    <section className="py-20 bg-white">
+    <section className="bg-transparent py-20">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -90,10 +90,10 @@ export default function Features() {
           transition={{ duration: 0.6 }}
           className="text-center mb-8"
         >
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="mb-4 text-4xl font-bold text-slate-50">
             Why Choose Our Web Design Services?
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="mx-auto max-w-3xl text-xl text-slate-300">
             We combine creativity with technical expertise to deliver websites that not only look great 
             but also drive real business results.
           </p>
@@ -124,15 +124,15 @@ export default function Features() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="group p-6 bg-gray-50 rounded-xl hover:bg-white hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
+                className="group transform rounded-xl border border-slate-800 bg-slate-950/70 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-slate-700 hover:bg-slate-900/80 hover:shadow-lg"
               >
-                <div className={`w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-4 group-hover:bg-primary/10 transition-colors`}>
+                <div className={`mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-slate-900 transition-colors group-hover:bg-primary/10`}>
                   <feature.icon className={`w-6 h-6 ${feature.color}`} />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                <h3 className="mb-3 text-xl font-semibold text-slate-100">
                   {feature.title}
                 </h3>
-                <p className="text-gray-600 leading-relaxed">
+                <p className="leading-relaxed text-slate-300">
                   {feature.description}
                 </p>
               </motion.div>
@@ -160,12 +160,12 @@ export default function Features() {
             <ScrollStack onStackComplete={() => {}}>
               {features.map((f, i) => (
                 <ScrollStackItem key={i}>
-                  <div className="p-6 bg-white rounded-xl shadow-sm border border-gray-200">
-                    <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mb-4">
+                  <div className="rounded-xl border border-slate-800 bg-slate-950/70 p-6 shadow-sm">
+                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-slate-900">
                       <f.icon className={`w-6 h-6 ${f.color}`} />
                     </div>
-                    <div className="text-xl font-semibold text-gray-900 mb-2">{f.title}</div>
-                    <p className="text-gray-600 leading-relaxed">{f.description}</p>
+                    <div className="mb-2 text-xl font-semibold text-slate-100">{f.title}</div>
+                    <p className="leading-relaxed text-slate-300">{f.description}</p>
                   </div>
                 </ScrollStackItem>
               ))}
@@ -186,16 +186,16 @@ export default function Features() {
           transition={{ duration: 0.6, delay: 0.6 }}
           className="text-center mt-16"
         >
-          <div className="bg-gradient-to-r from-amber-200 via-emerald-200 to-sky-200 p-8 rounded-2xl text-slate-900">
+          <div className="rounded-2xl border border-cyan-500/20 bg-[linear-gradient(135deg,_rgba(6,182,212,0.16),_rgba(15,23,42,0.96),_rgba(37,99,235,0.22))] p-8 text-slate-50">
             <h3 className="text-2xl font-bold mb-4">
               Ready to Transform Your Online Presence?
             </h3>
-            <p className="text-lg mb-6 opacity-90">
+            <p className="mb-6 text-lg text-slate-200">
               Let's discuss your project and create something amazing together.
             </p>
             <a
-              href="#start-project"
-              className="inline-flex items-center px-8 py-3 bg-slate-900 text-white font-semibold rounded-lg hover:bg-slate-800 transition-colors"
+              href="/start"
+              className="inline-flex items-center rounded-lg bg-primary px-8 py-3 font-semibold text-white transition-colors hover:bg-primary/90"
             >
               Start Your Project
             </a>

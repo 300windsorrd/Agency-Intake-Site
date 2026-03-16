@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useMemo } from 'react'
 import { useBackground } from '@/contexts/BackgroundContext'
 import GradientText from '@/TextAnimations/GradientText/GradientText'
@@ -32,7 +32,7 @@ export default function BackgroundSlider({
   onChange,
   max,
   labels,
-  textColors
+  textColors: _textColors
 }: BackgroundSliderProps) {
   const { getButtonColor, getButtonTextColor } = useBackground()
 
@@ -45,11 +45,11 @@ export default function BackgroundSlider({
   }, [value, max])
 
   return (
-    <div className="w-full max-w-sm sm:max-w-2xl lg:max-w-4xl xl:max-w-7xl mx-auto px-4">
+    <div className="mx-auto w-full max-w-3xl px-4">
       <motion.div
-        className="relative rounded-3xl backdrop-blur-xl border border-white/20 shadow-2xl overflow-hidden"
+        className="relative overflow-hidden rounded-3xl border border-white/10 shadow-2xl backdrop-blur-xl"
         style={{
-          backgroundColor: 'rgba(255,255,255,0.6)',
+          backgroundColor: 'rgba(2,6,23,0.78)',
         }}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -63,30 +63,31 @@ export default function BackgroundSlider({
           }}
         />
 
-        <div className="relative p-6 sm:p-8">
-          <div className="flex flex-col items-center justify-center mb-8">
-            <div className={`${fredoka.className} text-2xl sm:text-3xl font-extrabold mb-2 text-center`}>
+        <div className="relative px-5 py-6 sm:px-8 sm:py-8">
+          <div className="mb-8 flex flex-col items-center justify-center text-center">
+            <div className={`${fredoka.className} mb-2 text-2xl font-extrabold sm:text-3xl`}>
               <GradientText animationSpeed={6}>Customize Background</GradientText>
             </div>
-            <p className="text-sm sm:text-base font-medium opacity-80 text-gray-600">
+            <p className="max-w-md text-sm font-medium text-slate-400 sm:text-base">
               Choose the perfect atmosphere
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3">
+          <div className="mx-auto flex max-w-2xl flex-wrap items-center justify-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-3 sm:p-4">
             {labels.map((label, index) => {
               const isActive = index === clampedValue
               return (
                 <motion.button
                   key={index}
                   type="button"
+                  aria-pressed={isActive}
                   onClick={() => onChange(index)}
-                  className="relative group overflow-hidden rounded-xl p-3 text-sm font-semibold transition-all duration-300"
+                  className="relative min-h-12 w-full overflow-hidden rounded-xl px-5 py-3 text-center text-sm font-semibold transition-all duration-300 sm:w-auto sm:min-w-[180px]"
                   style={{
                     backgroundColor: isActive
-                      ? 'rgba(0,0,0,0.05)'
+                      ? 'rgba(255,255,255,0.04)'
                       : 'transparent',
-                    color: '#1f2937'
+                    color: '#e2e8f0'
                   }}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
@@ -104,10 +105,11 @@ export default function BackgroundSlider({
 
                   {/* Border for inactive items */}
                   {!isActive && (
-                    <div className="absolute inset-0 border-2 border-transparent group-hover:border-gray-300/50 rounded-xl transition-colors" />
+                    <div className="absolute inset-0 rounded-xl border border-white/0 transition-colors group-hover:border-white/10" />
                   )}
 
-                  <span className="relative z-10 flex items-center justify-center gap-2"
+                  <span
+                    className="relative z-10 flex items-center justify-center gap-2"
                     style={{ color: isActive ? buttonTextColor : 'inherit' }}
                   >
                     {label}

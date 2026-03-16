@@ -105,14 +105,14 @@ export default function PricingPage() {
     <div className="min-h-screen">
       {discount.enabled && <DiscountBanner config={discount} />}
       {/* Hero */}
-      <section className="relative py-16 md:py-24 bg-gradient-to-br from-neutral to-white overflow-hidden">
-        <div className="absolute -top-24 -right-24 w-96 h-96 bg-primary/10 rounded-full blur-3xl" aria-hidden="true"></div>
-        <div className="absolute -bottom-24 -left-24 w-[28rem] h-[28rem] bg-accent/10 rounded-full blur-3xl" aria-hidden="true"></div>
+      <section className="relative overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 py-16 md:py-24">
+        <div className="absolute -top-24 -right-24 h-96 w-96 rounded-full bg-primary/15 blur-3xl" aria-hidden="true"></div>
+        <div className="absolute -bottom-24 -left-24 h-[28rem] w-[28rem] rounded-full bg-cyan-500/10 blur-3xl" aria-hidden="true"></div>
         <div className="container">
           <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-8">
             <div className="max-w-3xl">
-              <h1 className="pricing-hero-title text-4xl md:text-5xl font-bold text-gray-900 leading-tight mb-4">Pricing that Pays for Itself</h1>
-              <p className="pricing-hero-subtext text-lg md:text-xl text-gray-700 text-balance">
+              <h1 className="pricing-hero-title mb-4 text-4xl font-bold leading-tight text-slate-50 md:text-5xl">Pricing that Pays for Itself</h1>
+              <p className="pricing-hero-subtext text-balance text-lg text-slate-300 md:text-xl">
                 We invest where it moves the needle: performance, UX, SEO, and analytics. The result is a website that looks incredible, ranks better, and converts more — backed by credible research.
               </p>
               <div className="mt-8 flex flex-col sm:flex-row gap-3">
@@ -137,11 +137,11 @@ export default function PricingPage() {
       </section>
 
       {/* Value pillars with inline sources */}
-      <section id="value" className="py-12 md:py-16 bg-gray-50">
+      <section id="value" className="bg-slate-950/40 py-12 md:py-16">
         <div className="container">
           <div className="mb-10 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">Where Your Investment Delivers Returns</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">Each pillar below maps to measurable outcomes. Explore the source material right beside the claim.</p>
+            <h2 className="mb-3 text-3xl font-bold text-slate-50 md:text-4xl">Where Your Investment Delivers Returns</h2>
+            <p className="mx-auto max-w-2xl text-lg text-slate-300">Each pillar below maps to measurable outcomes. Explore the source material right beside the claim.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {sections.map((item, idx) => {
@@ -152,13 +152,13 @@ export default function PricingPage() {
                     <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
                       <Icon className="w-5 h-5" />
                     </div>
-                    <h3 className="text-xl font-semibold text-gray-900">{item.title}</h3>
+                    <h3 className="text-xl font-semibold text-slate-100">{item.title}</h3>
                   </div>
-                  <p className="text-gray-700 mb-4 flex-1">{item.copy}</p>
+                  <p className="mb-4 flex-1 text-slate-300">{item.copy}</p>
                   {item.sources && item.sources.length > 0 && (
                     <div className="flex flex-wrap gap-2">
                       {item.sources.map((s, i) => (
-                        <a key={i} href={s.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center px-3 py-2 rounded-md border border-gray-200 text-gray-700 hover:bg-gray-50 transition-colors">
+                        <a key={i} href={s.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center rounded-md border border-slate-700 px-3 py-2 text-slate-200 transition-colors hover:bg-slate-800/80">
                           <ExternalLink className="w-4 h-4 mr-2" />
                           {s.label}
                         </a>
@@ -173,18 +173,18 @@ export default function PricingPage() {
       </section>
 
       {/* Plans */}
-      <section id="plans" className="py-16 bg-white">
+      <section id="plans" className="bg-transparent py-16">
         <div className="container">
           <Pricing />
         </div>
       </section>
 
       {/* Closing CTA */}
-      <section className="py-16 bg-gray-50">
+      <section className="bg-slate-950/40 py-16">
         <div className="container">
-          <div className="max-w-4xl mx-auto text-center bg-white rounded-2xl shadow-sm p-8 md:p-12">
-            <h3 className="text-3xl font-bold text-gray-900 mb-4">Ready to turn traffic into revenue?</h3>
-            <p className="text-lg text-gray-600 mb-6">Let’s build a site that looks world‑class and performs like it. We’ll align scope to outcomes and make the value obvious.</p>
+          <div className="mx-auto max-w-4xl rounded-2xl border border-slate-800 bg-slate-950/80 p-8 text-center shadow-[0_30px_70px_-45px_rgba(15,23,42,0.9)] md:p-12">
+            <h3 className="mb-4 text-3xl font-bold text-slate-50">Ready to turn traffic into revenue?</h3>
+            <p className="mb-6 text-lg text-slate-300">Let’s build a site that looks world‑class and performs like it. We’ll align scope to outcomes and make the value obvious.</p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link href="/start" className="btn-primary">
                 Start a Project

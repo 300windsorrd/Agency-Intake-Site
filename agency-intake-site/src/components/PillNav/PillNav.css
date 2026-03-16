@@ -109,7 +109,7 @@
   position: absolute;
   inset: 0;
   opacity: 0;
-  display: none;
+  display: block;
   transition: opacity var(--t-med, 220ms) var(--ease, cubic-bezier(.2, .6, .2, 1));
 }
 

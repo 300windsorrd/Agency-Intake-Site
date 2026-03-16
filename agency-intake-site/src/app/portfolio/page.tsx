@@ -1,4 +1,5 @@
 import PortfolioShowcase, { PortfolioProject } from '@/components/PortfolioShowcase'
+import StartProjectCTA from '@/components/StartProjectCTA'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -56,8 +57,13 @@ const mockProjects: PortfolioProject[] = [
 
 export default function PortfolioPage() {
     return (
-        <main className="min-h-screen bg-white">
+        <main className="min-h-screen bg-transparent">
             <PortfolioShowcase projects={mockProjects} />
+            <StartProjectCTA
+                className="bg-transparent"
+                title="Seen enough to know the direction?"
+                description="Use the same shared project form to tell us which services you need and what kind of project you want to launch next."
+            />
         </main>
     )
 }

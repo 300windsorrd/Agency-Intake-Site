@@ -88,24 +88,24 @@ export default function LayoutPicker({ current, onPick }: LayoutPickerProps) {
 						<motion.div
 							key="lp-exp"
 							layoutId="lp-container"
-							className="relative w-full max-w-4xl rounded-3xl backdrop-blur-xl border border-white/20 shadow-2xl overflow-hidden p-6 sm:p-8"
+							className="relative w-full max-w-4xl overflow-hidden rounded-3xl border border-white/10 p-6 shadow-2xl backdrop-blur-xl sm:p-8"
 							style={{
-								backgroundColor: 'rgba(255,255,255,0.85)',
+								backgroundColor: 'rgba(2,6,23,0.82)',
 							}}
 						>
 							{/* Close button zone (click outside logic is usually handled by parent overlays, but here we just have a close button for clarity) */}
 							<button
 								onClick={(e) => { e.stopPropagation(); setExpanded(false); }}
-								className="absolute top-4 right-4 p-2 rounded-full hover:bg-black/5 transition-colors"
+								className="absolute right-4 top-4 rounded-full p-2 transition-colors hover:bg-slate-800/80"
 							>
-								<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-black/50"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/50"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
 							</button>
 
 							<div className="flex flex-col items-center justify-center mb-8">
 								<h3 className={`${fredoka.className} text-2xl sm:text-3xl font-extrabold mb-2 text-center`}>
 									<GradientText animationSpeed={6}>Choose Your Layout</GradientText>
 								</h3>
-								<p className="text-sm sm:text-base font-medium opacity-70 text-gray-600">
+								<p className="text-sm font-medium text-slate-400 sm:text-base">
 									Select how your content is presented
 								</p>
 							</div>
@@ -118,8 +118,8 @@ export default function LayoutPicker({ current, onPick }: LayoutPickerProps) {
 										<motion.button
 											key={opt.value}
 											onClick={() => handlePick(opt.value)}
-											className={`relative group flex flex-col items-center p-4 rounded-2xl border-2 transition-all duration-300 ${isActive ? 'border-transparent shadow-lg' : 'border-transparent hover:border-gray-200 hover:bg-black/5'}`}
-											style={isActive ? { backgroundColor: 'white' } : {}}
+											className={`relative group flex flex-col items-center rounded-2xl border-2 p-4 transition-all duration-300 ${isActive ? 'border-transparent shadow-lg' : 'border-transparent hover:border-slate-700 hover:bg-slate-900/80'}`}
+											style={isActive ? { backgroundColor: 'rgba(15,23,42,0.96)' } : {}}
 											whileHover={{ y: -4 }}
 											whileTap={{ scale: 0.98 }}
 										>
@@ -134,16 +134,16 @@ export default function LayoutPicker({ current, onPick }: LayoutPickerProps) {
 											)}
 
 											<div
-												className={`mb-3 p-3 rounded-full transition-colors duration-300 ${isActive ? 'text-white' : 'text-gray-500 group-hover:text-gray-900'}`}
-												style={isActive ? { backgroundColor: buttonColor } : { backgroundColor: 'rgba(0,0,0,0.05)' }}
+												className={`mb-3 rounded-full p-3 transition-colors duration-300 ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-slate-100'}`}
+												style={isActive ? { backgroundColor: buttonColor } : { backgroundColor: 'rgba(255,255,255,0.06)' }}
 											>
 												<Icon className="w-6 h-6" />
 											</div>
 
-											<span className="text-base font-bold mb-1 text-gray-900">
+											<span className="mb-1 text-base font-bold text-slate-100">
 												{opt.label}
 											</span>
-											<span className="text-xs text-center text-gray-500">
+											<span className="text-center text-xs text-slate-400">
 												{opt.description}
 											</span>
 

@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
+import Link from 'next/link'
 import LogoSwap from './LogoSwap'
 import { usePathname } from 'next/navigation'
 import PillNav from './PillNav/PillNavNext'
@@ -12,20 +13,21 @@ interface NavigationProps {
   className?: string
 }
 
+const navItems = [
+  { href: '/', label: 'Home' },
+  { href: '/portfolio', label: 'Portfolio' },
+  { href: '/pricing', label: 'Pricing' },
+  { href: '/start', label: 'Get Started' }
+]
+
+const desktopNavItems = navItems.filter((item) => item.href !== '/start')
+
 const Navigation = ({ className = '' }: NavigationProps) => {
   const { getButtonColor, getNavigationTextColor } = useBackground()
   const pathname = usePathname()
 
   // Navigation should always be sticky for better accessibility and UX
   const isSticky = true
-
-  // Navigation items
-  const navItems = [
-    { href: '/', label: 'Home' },
-    { href: '/portfolio', label: 'Portfolio' },
-    { href: '/pricing', label: 'Pricing' },
-    { href: '/start', label: 'Get Started' }
-  ]
 
   // Always add body padding for fixed navigation to prevent content overlap
   useEffect(() => {
@@ -40,23 +42,35 @@ const Navigation = ({ className = '' }: NavigationProps) => {
   return (
     <LayoutGroup id="nav-customize">
       <PillNav
-        logo={(<LogoSwap />) as unknown as string}
+        logo={<LogoSwap />}
         logoHref="/"
         items={navItems.map(item => ({
           href: item.href,
           label: item.label
         }))}
+        desktopItems={desktopNavItems.map(item => ({
+          href: item.href,
+          label: item.label
+        }))}
         activeHref={pathname}
-        baseColor="#ffffff"
+        baseColor="#0f172a"
         pillColor={getButtonColor()}
         pillTextColor={getNavigationTextColor()}
-        hoveredPillTextColor="#1f2937"
+        hoveredPillTextColor="#e2e8f0"
         className={className}
         onMobileMenuClick={() => { }}
         slotItem={null}
         slotIndex={undefined}
         leftSlot={null}
-        rightSlot={null}
+        rightSlot={
+          <Link
+            href="/start"
+            className="ml-3 inline-flex items-center rounded-full px-5 py-3 text-sm font-semibold text-white shadow-lg transition hover:brightness-110"
+            style={{ backgroundColor: getButtonColor() }}
+          >
+            Start Your Project
+          </Link>
+        }
         sticky={isSticky}
         topOffset={14}
       />

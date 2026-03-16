@@ -27,8 +27,8 @@ export default function PortfolioShowcase({ projects }: PortfolioShowcaseProps) 
     const buttonColor = getButtonColor()
 
     return (
-        <section className="py-24 bg-gray-50 overflow-hidden relative">
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gray-100 via-gray-50 to-gray-50" />
+        <section className="relative overflow-hidden bg-slate-950/50 py-24">
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(30,41,59,0.95),_rgba(2,6,23,0.98)_65%)]" />
 
             <div className="container mx-auto px-4 md:px-6 relative z-10">
                 <div className="text-center mb-32">
@@ -39,7 +39,7 @@ export default function PortfolioShowcase({ projects }: PortfolioShowcaseProps) 
                         transition={{ duration: 0.5 }}
                         className="inline-block"
                     >
-                        <h2 className="text-5xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-600 to-gray-900 pb-2">
+                        <h2 className="mb-6 bg-gradient-to-r from-slate-50 via-slate-300 to-slate-50 bg-clip-text pb-2 text-5xl font-bold text-transparent md:text-7xl">
                             Featured Work
                         </h2>
                         <motion.div
@@ -59,7 +59,7 @@ export default function PortfolioShowcase({ projects }: PortfolioShowcaseProps) 
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.3 }}
-                        className="text-xl md:text-2xl text-gray-600 max-w-2xl mx-auto mt-8 font-light"
+                        className="mx-auto mt-8 max-w-2xl text-xl font-light text-slate-300 md:text-2xl"
                     >
                         A curated selection of digital experiences crafted with precision, passion, and purpose.
                     </motion.p>
@@ -152,22 +152,22 @@ function ProjectSection({ project, index }: { project: PortfolioProject; index: 
             {/* Content Side */}
             <div className="w-full lg:w-1/2 space-y-8">
                 <div>
-                    <h3 className="text-3xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+                    <h3 className="mb-4 flex items-center gap-3 text-3xl font-bold text-slate-50">
                         {project.title}
                         <div className={`h-2 w-2 rounded-full`} style={{ backgroundColor: project.color }} />
                     </h3>
-                    <p className="text-lg text-gray-600 leading-relaxed">
+                    <p className="text-lg leading-relaxed text-slate-300">
                         {project.description}
                     </p>
                 </div>
 
                 <div className="space-y-4">
-                    <h4 className="text-sm font-semibold uppercase tracking-wider text-gray-500 flex items-center gap-2">
+                    <h4 className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-slate-400">
                         <Zap className="w-4 h-4" /> Key Features
                     </h4>
                     <ul className="grid grid-cols-1 gap-3">
                         {project.features.map((feature, idx) => (
-                            <li key={idx} className="flex items-start gap-3 text-gray-700">
+                            <li key={idx} className="flex items-start gap-3 text-slate-300">
                                 <CheckCircle className="w-5 h-5 mt-0.5 shrink-0" style={{ color: buttonColor }} />
                                 <span>{feature}</span>
                             </li>
@@ -176,14 +176,14 @@ function ProjectSection({ project, index }: { project: PortfolioProject; index: 
                 </div>
 
                 <div className="space-y-4">
-                    <h4 className="text-sm font-semibold uppercase tracking-wider text-gray-500 flex items-center gap-2">
+                    <h4 className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-slate-400">
                         <Layers className="w-4 h-4" /> Tech Stack
                     </h4>
                     <div className="flex flex-wrap gap-2">
                         {project.techStack.map((tech, idx) => (
                             <span
                                 key={idx}
-                                className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm font-medium border border-gray-200"
+                                className="rounded-full border border-slate-700 bg-slate-900 px-3 py-1 text-sm font-medium text-slate-200"
                             >
                                 {tech}
                             </span>

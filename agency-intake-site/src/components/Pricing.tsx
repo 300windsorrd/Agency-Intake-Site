@@ -20,7 +20,7 @@ const plans = [
       'Basic analytics setup'
     ],
     popular: false,
-    color: 'border-gray-200'
+    color: 'border-slate-800'
   },
   {
     name: 'Basic',
@@ -37,7 +37,7 @@ const plans = [
       'Basic analytics setup'
     ],
     popular: false,
-    color: 'border-gray-200'
+    color: 'border-slate-800'
   },
   {
     name: 'Standard',
@@ -77,7 +77,7 @@ const plans = [
       'Training & documentation'
     ],
     popular: false,
-    color: 'border-gray-200'
+    color: 'border-slate-800'
   }
 ]
 
@@ -85,7 +85,7 @@ export default function Pricing() {
   const { getButtonColor, getButtonTextColor } = useBackground()
 
   return (
-    <section id="pricing" className="py-20 bg-white">
+    <section id="pricing" className="bg-transparent py-20">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -94,17 +94,17 @@ export default function Pricing() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="mb-4 text-4xl font-bold text-slate-50">
             Transparent Pricing
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="mx-auto max-w-3xl text-xl text-slate-300">
             Choose the plan that best fits your business needs and budget.
             All plans include custom design, mobile optimization, and ongoing support.
           </p>
           <div className="mt-6">
             <a
               href="/pricing"
-              className="inline-flex items-center justify-center px-6 py-3 border-2 border-gray-300 text-gray-800 font-semibold rounded-lg hover:border-gray-400 transition-all duration-200"
+              className="inline-flex items-center justify-center rounded-lg border border-slate-700 bg-slate-950/70 px-6 py-3 font-semibold text-slate-100 transition-all duration-200 hover:border-slate-500 hover:bg-slate-900/80"
             >
               Why is this valuable?
             </a>
@@ -119,13 +119,13 @@ export default function Pricing() {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="mt-8 mb-12 md:mb-16 max-w-6xl mx-auto"
         >
-          <div className="relative p-6 md:p-8 rounded-2xl border-2 border-gray-200 bg-white shadow-lg hover:shadow-xl transition-all duration-300">
+          <div className="relative rounded-2xl border border-slate-800 bg-slate-950/80 p-6 shadow-lg transition-all duration-300 hover:border-slate-700 hover:shadow-xl md:p-8">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-6">
-              <h3 className="text-xl md:text-2xl font-bold text-gray-900 whitespace-nowrap">Free Consultation:</h3>
+              <h3 className="whitespace-nowrap text-xl font-bold text-slate-50 md:text-2xl">Free Consultation:</h3>
               <ul className="flex flex-wrap items-center gap-x-6 gap-y-3">
-                <li className="inline-flex items-center text-gray-700"><Check className="w-5 h-5 text-green-500 mr-2" /> A.I Automation</li>
-                <li className="inline-flex items-center text-gray-700"><Check className="w-5 h-5 text-green-500 mr-2" /> Web Development</li>
-                <li className="inline-flex items-center text-gray-700"><Check className="w-5 h-5 text-green-500 mr-2" /> Social Media Management</li>
+                <li className="inline-flex items-center text-slate-300"><Check className="mr-2 h-5 w-5 text-green-400" /> A.I Automation</li>
+                <li className="inline-flex items-center text-slate-300"><Check className="mr-2 h-5 w-5 text-green-400" /> Web Development</li>
+                <li className="inline-flex items-center text-slate-300"><Check className="mr-2 h-5 w-5 text-green-400" /> Social Media Management</li>
               </ul>
               <a
                 href="https://calendar.app.google/bKKKvGWBSgvV8rodA"
@@ -153,9 +153,9 @@ export default function Pricing() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              className={`relative p-8 rounded-2xl border-2 ${plan.color} ${plan.popular
-                  ? 'bg-primary/5 shadow-xl scale-105'
-                  : 'bg-white shadow-lg hover:shadow-xl'
+              className={`relative rounded-2xl border-2 p-8 ${plan.color} ${plan.popular
+                  ? 'scale-105 bg-primary/10 shadow-xl'
+                  : 'bg-slate-950/80 shadow-lg hover:shadow-xl'
                 } transition-all duration-300`}
             >
               {plan.popular && (
@@ -169,26 +169,26 @@ export default function Pricing() {
               )}
 
               <div className="text-center mb-8">
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">{plan.name}</h3>
+                <h3 className="mb-2 text-2xl font-bold text-slate-50">{plan.name}</h3>
                 <div className="mb-4">
-                  <span className="text-4xl font-bold text-gray-900">{plan.price}</span>
-                  <span className="text-gray-600">/project</span>
+                  <span className="text-4xl font-bold text-slate-50">{plan.price}</span>
+                  <span className="text-slate-400">/project</span>
                 </div>
-                <p className="text-gray-600">{plan.description}</p>
+                <p className="text-slate-300">{plan.description}</p>
               </div>
 
               <ul className="space-y-4 mb-8">
                 {plan.features.map((feature, featureIndex) => (
                   <li key={featureIndex} className="flex items-start">
-                    <Check className="w-5 h-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-700">{feature}</span>
+                    <Check className="mr-3 mt-0.5 h-5 w-5 flex-shrink-0 text-green-400" />
+                    <span className="text-slate-300">{feature}</span>
                   </li>
                 ))}
               </ul>
 
               <div className="text-center">
                 <a
-                  href="#start-project"
+                  href="/start"
                   className="inline-block w-full py-3 px-6 rounded-lg font-semibold transition-colors"
                   style={({
                     backgroundColor: getButtonColor(),
@@ -211,11 +211,11 @@ export default function Pricing() {
           transition={{ duration: 0.6, delay: 0.6 }}
           className="text-center mt-16"
         >
-          <div className="bg-gray-50 rounded-2xl p-8 max-w-4xl mx-auto">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">
+          <div className="mx-auto max-w-4xl rounded-2xl border border-slate-800 bg-slate-950/80 p-8">
+            <h3 className="mb-4 text-2xl font-bold text-slate-50">
               Need Something Custom?
             </h3>
-            <p className="text-lg text-gray-600 mb-6">
+            <p className="mb-6 text-lg text-slate-300">
               Every business is unique. If you need a custom solution that doesn't fit our standard plans,
               let's discuss your specific requirements and create a tailored proposal.
             </p>

@@ -40,6 +40,13 @@ function getWebhookUrl(keys: readonly string[]): string | undefined {
   return undefined
 }
 
+function formatDateSent(date: Date): string {
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+  const year = date.getFullYear()
+  return `${month}-${day}-${year}`
+}
+
 async function postWebhook(url: string, payload: unknown): Promise<{ id?: string }> {
   const response = await fetch(url, {
     method: 'POST',
@@ -161,23 +168,32 @@ export function buildIntakePayload(intake: IntakeFormData, turnstileToken: strin
 }
 
 export function buildSimpleIntakePayload(intake: SimpleIntake) {
-  const mapRole = (role: SimpleIntake['role']) => ({
-    owner: 'Owner',
-    manager: 'Manager',
-    employee: 'Employee',
-    investor: 'Investor',
-    other: 'Other'
-  }[role])
+  const mapBusinessSize = (businessSize: SimpleIntake['businessSize']) => ({
+    solo: 'Solo / Freelancer',
+    small: '2-10 employees',
+    growing: '11-50 employees',
+    established: '51-200 employees',
+    enterprise: '200+ employees'
+  }[businessSize])
 
-  const mapUrgency = (urgency: SimpleIntake['urgency']) => (urgency === 'soon' ? 'Soon' : 'No Rush')
+  const mapService = (service: SimpleIntake['services'][number]) => ({
+    web_development: 'Web Development',
+    social_media_management: 'Social Media Management',
+    ai_automation: 'AI Automation'
+  }[service])
+
+  const mapContactMethod = (preferredContactMethod: SimpleIntake['preferredContactMethod']) =>
+    preferredContactMethod === 'phone' ? 'Phone' : 'Email'
 
   return {
     name: intake.name,
-    company: intake.company,
-    role: mapRole(intake.role),
     email: intake.email,
-    phone: intake.phone,
-    urgency: mapUrgency(intake.urgency),
+    phone: intake.phone || undefined,
+    businessSize: mapBusinessSize(intake.businessSize),
+    services: intake.services.map(mapService),
+    projectDetails: intake.projectDetails || undefined,
+    preferredContactMethod: mapContactMethod(intake.preferredContactMethod),
+    dateSent: formatDateSent(new Date()),
     turnstileToken: intake.turnstileToken
   }
 }

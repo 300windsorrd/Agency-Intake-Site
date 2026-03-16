@@ -13,9 +13,6 @@ import { useTextMonitor } from '@/hooks/useTextMonitor'
 
 // Lazy-load heavy animated backgrounds to reduce initial JS and improve LCP
 const Orb = dynamic(() => import('@/Backgrounds/Orb/Orb.jsx'), { ssr: false })
-const Galaxy = dynamic(() => import('@/Backgrounds/Galaxy/Galaxy.jsx'), { ssr: false })
-const LiquidChrome = dynamic(() => import('@/Backgrounds/LiquidChrome/LiquidChrome.jsx'), { ssr: false })
-const Threads = dynamic(() => import('@/Backgrounds/Threads/Threads.jsx'), { ssr: false })
 const Prism = dynamic(() => import('@/Backgrounds/Prism/Prism.jsx'), { ssr: false })
 const DarkVeil = dynamic(() => import('@/Backgrounds/DarkVeil/DarkVeil.jsx'), { ssr: false })
 
@@ -47,64 +44,9 @@ export default function Hero() {
       Component: Orb,
       props: {},
       textColors: {
-        primary: 'text-gray-900',
-        secondary: 'text-gray-700',
-        accent: 'text-blue-600'
-      }
-    },
-    {
-      key: 'galaxy',
-      label: 'Galaxy',
-      word: 'Revolutionary',
-      Component: Galaxy,
-      props: {
-        mouseInteraction: true,
-        mouseRepulsion: true,
-        density: 1.3,
-        glowIntensity: 0.3,
-        saturation: 0.0,
-        hueShift: 140,
-        twinkleIntensity: 0.3,
-        rotationSpeed: 0.1,
-        repulsionStrength: 1,
-        autoCenterRepulsion: 0,
-        starSpeed: 0.5,
-        speed: 1.0,
-        transparent: false,
-      },
-      textColors: {
-        primary: 'text-white',
-        secondary: 'text-gray-300',
-        accent: 'text-gray-300'
-      }
-    },
-    {
-      key: 'liquid',
-      label: 'Liquid Chrome',
-      word: 'Game-Changing',
-      Component: LiquidChrome,
-      props: {},
-      textColors: {
-        primary: 'text-black',
-        secondary: 'text-gray-800',
-        accent: 'text-blue-600'
-      }
-    },
-    {
-      key: 'threads',
-      label: 'Threads',
-      word: 'Customizable',
-      Component: Threads,
-      props: {
-        color: [0.2, 0.45, 1],
-        amplitude: 2,
-        distance: 0.5,
-        className: 'w-full h-[220vh] -translate-y-[40vh] md:h-full md:translate-y-0'
-      },
-      textColors: {
-        primary: 'text-gray-900',
-        secondary: 'text-gray-700',
-        accent: 'text-blue-600'
+        primary: 'text-slate-50',
+        secondary: 'text-slate-200',
+        accent: 'text-cyan-300'
       }
     },
     {
@@ -124,10 +66,10 @@ export default function Hero() {
         colorFrequency: 1,
       },
       textColors: {
-        primary: 'text-black',
-        secondary: 'text-gray-800',
-        accent: 'text-cyan-700',
-        slider: 'text-gray-800'
+        primary: 'text-slate-50',
+        secondary: 'text-slate-200',
+        accent: 'text-cyan-300',
+        slider: 'text-slate-200'
       }
     },
     {
@@ -145,15 +87,14 @@ export default function Hero() {
       },
       textColors: {
         primary: 'text-white',
-        secondary: 'text-gray-200',
+        secondary: 'text-slate-200',
         accent: 'text-indigo-300',
-        slider: 'text-gray-300'
+        slider: 'text-slate-200'
       }
     },
   ]
-  const [bgIndex, setBgIndex] = useState(5)
+  const [bgIndex, setBgIndex] = useState(backgrounds.length - 1)
   const SelectedBg = backgrounds[bgIndex].Component
-  const isWhitePricing = ['galaxy', 'liquid', 'prism', 'darkveil'].includes(backgrounds[bgIndex].key)
 
   // Use the text monitoring hook to prevent periods
   useTextMonitor([bgIndex], textRef)
@@ -172,7 +113,7 @@ export default function Hero() {
   }, [bgIndex, setCurrentBackground])
 
   return (
-    <section className="relative py-20 lg:py-32 overflow-hidden bg-gradient-to-br from-gray-50 to-white">
+    <section className="relative overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 py-20 lg:py-32">
       <TextCleaningStyles />
 
       {/* Dynamic Background */}
@@ -180,6 +121,7 @@ export default function Hero() {
         {/* Defer mounting animated background until idle to improve LCP */}
         <IdleBackground component={SelectedBg} props={backgrounds[bgIndex].props as any} />
       </div>
+      <div className="absolute inset-0 z-[1] bg-slate-950/50" aria-hidden="true" />
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div initial={false} className="mb-8">
@@ -211,7 +153,7 @@ export default function Hero() {
 
           <motion.div initial={false} className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <a
-              href="#start-project"
+              href="/start"
               className="inline-flex items-center justify-center px-8 py-4 font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
               style={({
                 backgroundColor: getButtonColor(),
@@ -225,10 +167,7 @@ export default function Hero() {
             </a>
             <a
               href="/pricing"
-              className={`inline-flex items-center justify-center px-8 py-4 font-semibold rounded-lg transition-all duration-200 ${isWhitePricing
-                  ? 'bg-white text-black border border-gray-200 hover:bg-white/90 shadow-sm'
-                  : 'border-2 border-gray-300 text-gray-700 hover:border-gray-400 hover:bg-gray-50'
-                }`}
+              className="inline-flex items-center justify-center rounded-lg border border-white/15 bg-slate-950/70 px-8 py-4 font-semibold text-slate-100 transition-all duration-200 hover:border-white/25 hover:bg-slate-900/80"
             >
               View Pricing
             </a>

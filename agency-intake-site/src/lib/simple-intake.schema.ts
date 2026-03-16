@@ -1,27 +1,36 @@
 import { z } from "zod";
 
+const phoneSchema = z.string().trim().refine((phone) => {
+	if (!phone) return true;
+	const digitsOnly = phone.replace(/\D/g, "");
+	return digitsOnly.length >= 10;
+}, "Phone number must be at least 10 digits").refine((phone) => {
+	if (!phone) return true;
+	return /^[\d\s()+.-]+$/.test(phone);
+}, "Phone number contains invalid characters");
+
 export const simpleIntakeSchema = z.object({
 	name: z.string().min(2, "Name is required"),
-	company: z.string().min(2, "Company is required"),
-	role: z.enum(["owner", "manager", "employee", "investor", "other"]),
 	email: z.string()
 		.min(1, "Email is required")
-		.refine((email) => email.includes('@'), "Email must contain @ symbol")
-		.refine((email) => email.includes('.'), "Email must contain a domain (.)")
-		.refine((email) => email.indexOf('@') < email.lastIndexOf('.'), "Invalid email format"),
-	phone: z.string()
-		.min(1, "Phone number is required")
-		.refine((phone) => {
-			// Remove all non-digit characters and check if it's at least 10 digits
-			const digitsOnly = phone.replace(/\D/g, '');
-			return digitsOnly.length >= 10;
-		}, "Phone number must be at least 10 digits")
-		.refine((phone) => {
-			// Check if it contains only valid phone characters
-			return /^[\d\s\(\)\-\+\.\-]+$/.test(phone);
-		}, "Phone number contains invalid characters"),
-	urgency: z.enum(["soon", "no_rush"]),
+		.refine((email) => email.includes("@"), "Email must contain @ symbol")
+		.refine((email) => email.includes("."), "Email must contain a domain (.)")
+		.refine((email) => email.indexOf("@") < email.lastIndexOf("."), "Invalid email format"),
+	phone: phoneSchema.optional().or(z.literal("")),
+	businessSize: z.enum(["solo", "small", "growing", "established", "enterprise"]),
+	services: z.array(z.enum(["web_development", "social_media_management", "ai_automation"]))
+		.min(1, "Select at least one service"),
+	projectDetails: z.string().max(1200, "Project details must be 1200 characters or less").optional().or(z.literal("")),
+	preferredContactMethod: z.enum(["email", "phone"]),
 	turnstileToken: z.string().optional()
+}).superRefine((data, ctx) => {
+	if (data.preferredContactMethod === "phone" && !data.phone?.trim()) {
+		ctx.addIssue({
+			code: z.ZodIssueCode.custom,
+			path: ["phone"],
+			message: "Phone number is required if you prefer a phone call"
+		});
+	}
 });
 
 export type SimpleIntake = z.infer<typeof simpleIntakeSchema>;

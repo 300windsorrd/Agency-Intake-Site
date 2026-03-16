@@ -18,9 +18,10 @@ import "./PillNav.css";
 
 /**
  * @typedef {Object} PillNavProps
- * @property {string} logo
+ * @property {import('react').ReactNode | string} logo
  * @property {string} [logoAlt]
  * @property {PillNavItem[]} items
+ * @property {PillNavItem[]} [desktopItems]
  * @property {string} activeHref
  * @property {string} [className]
  * @property {string} [ease]
@@ -46,6 +47,7 @@ const PillNav = ({
   logo,
   logoAlt = "Logo",
   items,
+  desktopItems,
   activeHref,
   className = "",
   ease = "power3.easeOut",
@@ -66,6 +68,7 @@ const PillNav = ({
   topOffset = 14,
 }) => {
   const { getButtonColor } = useBackground();
+  const desktopNavItems = desktopItems ?? items;
   const resolvedPillTextColor = pillTextColor ?? baseColor;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -182,7 +185,7 @@ const PillNav = ({
     }
 
     return () => window.removeEventListener("resize", onResize);
-  }, [items, ease, initialLoadAnimation]);
+  }, [desktopNavItems, ease, initialLoadAnimation]);
 
   useEffect(() => {
     setIsMounted(true);
@@ -535,7 +538,7 @@ const PillNav = ({
         {!isMobile && (
           <div className="pill-nav-items desktop-only" ref={navItemsRef}>
             <ul className="pill-list" role="menubar">
-              {items.map((item, i) => (
+              {desktopNavItems.map((item, i) => (
                 <li key={item.href || `item-${i}`} role="none">
                   {typeof slotIndex === 'number' && i === slotIndex && slotItem ? (
                     <>
