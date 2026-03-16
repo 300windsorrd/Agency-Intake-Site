@@ -35,6 +35,14 @@ const serviceOptions = [
 	}
 ] as const
 
+const urgencyOptions = [
+	{ value: '', label: 'No urgency selected' },
+	{ value: 'asap', label: 'ASAP' },
+	{ value: '2_4_weeks', label: '2-4 weeks' },
+	{ value: '1_2_months', label: '1-2 months' },
+	{ value: 'flexible', label: 'Flexible' }
+] as const
+
 export default function SimpleIntakeForm() {
 	const [isSubmitting, setIsSubmitting] = useState(false)
 	const [message, setMessage] = useState<string | null>(null)
@@ -47,8 +55,11 @@ export default function SimpleIntakeForm() {
 		name: '',
 		email: '',
 		phone: '',
+		businessName: '',
+		roleInCompany: '',
 		businessSize: 'small',
 		services: ['web_development'],
+		urgencyTag: '',
 		projectDetails: '',
 		preferredContactMethod: 'email'
 	}), [])
@@ -183,6 +194,28 @@ export default function SimpleIntakeForm() {
 					</div>
 
 					<div>
+						<label className="block text-sm font-medium text-slate-200">Optional Business / Company Name</label>
+						<input
+							{...register('businessName')}
+							className={inputClassName}
+							placeholder="Acme Co."
+						/>
+						{errors.businessName && <p className="mt-2 text-sm text-red-600">{errors.businessName.message}</p>}
+					</div>
+				</div>
+
+				<div className="mt-6 grid gap-6 md:grid-cols-2">
+					<div>
+						<label className="block text-sm font-medium text-slate-200">Optional role in company</label>
+						<input
+							{...register('roleInCompany')}
+							className={inputClassName}
+							placeholder="Founder"
+						/>
+						{errors.roleInCompany && <p className="mt-2 text-sm text-red-600">{errors.roleInCompany.message}</p>}
+					</div>
+
+					<div>
 						<label className="block text-sm font-medium text-slate-200">Business size</label>
 						<select {...register('businessSize')} className={inputClassName}>
 							{businessSizeOptions.map((option) => (
@@ -193,6 +226,18 @@ export default function SimpleIntakeForm() {
 						</select>
 						{errors.businessSize && <p className="mt-2 text-sm text-red-600">{errors.businessSize.message}</p>}
 					</div>
+				</div>
+
+				<div className="mt-6">
+					<label className="block text-sm font-medium text-slate-200">Optional urgency tag</label>
+					<select {...register('urgencyTag')} className={inputClassName}>
+						{urgencyOptions.map((option) => (
+							<option key={option.value || 'none'} value={option.value}>
+								{option.label}
+							</option>
+						))}
+					</select>
+					{errors.urgencyTag && <p className="mt-2 text-sm text-red-600">{errors.urgencyTag.message}</p>}
 				</div>
 
 				<div className="mt-8">

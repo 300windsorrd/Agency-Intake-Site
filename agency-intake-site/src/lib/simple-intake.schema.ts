@@ -17,9 +17,12 @@ export const simpleIntakeSchema = z.object({
 		.refine((email) => email.includes("."), "Email must contain a domain (.)")
 		.refine((email) => email.indexOf("@") < email.lastIndexOf("."), "Invalid email format"),
 	phone: phoneSchema.optional().or(z.literal("")),
+	businessName: z.string().max(120, "Business / Company name must be 120 characters or less").optional().or(z.literal("")),
+	roleInCompany: z.string().max(120, "Role in company must be 120 characters or less").optional().or(z.literal("")),
 	businessSize: z.enum(["solo", "small", "growing", "established", "enterprise"]),
 	services: z.array(z.enum(["web_development", "social_media_management", "ai_automation"]))
 		.min(1, "Select at least one service"),
+	urgencyTag: z.enum(["asap", "2_4_weeks", "1_2_months", "flexible"]).optional().or(z.literal("")),
 	projectDetails: z.string().max(1200, "Project details must be 1200 characters or less").optional().or(z.literal("")),
 	preferredContactMethod: z.enum(["email", "phone"]),
 	turnstileToken: z.string().optional()

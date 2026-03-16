@@ -182,6 +182,13 @@ export function buildSimpleIntakePayload(intake: SimpleIntake) {
     ai_automation: 'AI Automation'
   }[service])
 
+  const mapUrgencyTag = (urgencyTag: NonNullable<SimpleIntake['urgencyTag']>) => ({
+    asap: 'ASAP',
+    '2_4_weeks': '2-4 Weeks',
+    '1_2_months': '1-2 Months',
+    flexible: 'Flexible'
+  }[urgencyTag])
+
   const mapContactMethod = (preferredContactMethod: SimpleIntake['preferredContactMethod']) =>
     preferredContactMethod === 'phone' ? 'Phone' : 'Email'
 
@@ -189,8 +196,11 @@ export function buildSimpleIntakePayload(intake: SimpleIntake) {
     name: intake.name,
     email: intake.email,
     phone: intake.phone || undefined,
+    businessName: intake.businessName || undefined,
+    roleInCompany: intake.roleInCompany || undefined,
     businessSize: mapBusinessSize(intake.businessSize),
     services: intake.services.map(mapService),
+    urgencyTag: intake.urgencyTag ? mapUrgencyTag(intake.urgencyTag) : undefined,
     projectDetails: intake.projectDetails || undefined,
     preferredContactMethod: mapContactMethod(intake.preferredContactMethod),
     dateSent: formatDateSent(new Date()),

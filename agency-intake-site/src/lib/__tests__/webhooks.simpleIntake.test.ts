@@ -9,8 +9,11 @@ describe('simple intake lead flow', () => {
       name: 'Jane Doe',
       email: 'jane@example.com',
       phone: '(555) 123-4567',
+      businessName: 'Acme Co',
+      roleInCompany: 'Founder',
       businessSize: 'growing',
       services: ['web_development', 'ai_automation'],
+      urgencyTag: '2_4_weeks',
       projectDetails: 'We need a new site and lead routing automation.',
       preferredContactMethod: 'phone',
       turnstileToken: 'tok'
@@ -20,8 +23,11 @@ describe('simple intake lead flow', () => {
       name: 'Jane Doe',
       email: 'jane@example.com',
       phone: '(555) 123-4567',
+      businessName: 'Acme Co',
+      roleInCompany: 'Founder',
       businessSize: '11-50 employees',
       services: ['Web Development', 'AI Automation'],
+      urgencyTag: '2-4 Weeks',
       projectDetails: 'We need a new site and lead routing automation.',
       preferredContactMethod: 'Phone',
       dateSent: '03-15-2026',
@@ -36,8 +42,11 @@ describe('simple intake lead flow', () => {
       name: 'Jane Doe',
       email: 'jane@example.com',
       phone: '',
+      businessName: '',
+      roleInCompany: '',
       businessSize: 'small',
       services: ['web_development'],
+      urgencyTag: '',
       projectDetails: '',
       preferredContactMethod: 'phone'
     })
@@ -53,8 +62,11 @@ describe('simple intake lead flow', () => {
       name: 'Jane Doe',
       email: 'jane@example.com',
       phone: '',
+      businessName: '',
+      roleInCompany: '',
       businessSize: 'small',
       services: ['social_media_management'],
+      urgencyTag: '',
       projectDetails: '',
       preferredContactMethod: 'email'
     })
